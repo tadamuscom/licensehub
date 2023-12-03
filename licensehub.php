@@ -17,6 +17,7 @@ use LicenseHub\Includes\Controller\Core\Deactivation;
  * Author URI:        https://sorinmarta.com
  */
 
+define( 'LCHB_VERSION', '1.0.0' );
 define( 'LCHB_URL', plugin_dir_url( __FILE__ ) );
 
  if( ! defined( 'LCHB_SLUG' ) ){
@@ -55,6 +56,10 @@ if( ! defined( 'LCHB_ABSTRACT' ) ){
      define( 'LCHB_MODEL', LCHB_INC . '/models' );
  }
 
+if( ! defined( 'LCHB_PAGE' ) ){
+	define( 'LCHB_PAGE', LCHB_URL . 'includes/pages' );
+}
+
  if( ! defined( 'LCHB_ASSET' ) ){
      define( 'LCHB_ASSET', LCHB_URL . '/assets' );
  }
@@ -66,6 +71,10 @@ if( ! defined( 'LCHB_ABSTRACT' ) ){
  if( ! defined( 'LCHB_JS' ) ){
      define( 'LCHB_JS', LCHB_ASSET . '/js' );
  }
+
+if( ! defined( 'LCHB_IMG' ) ){
+	define( 'LCHB_IMG', LCHB_ASSET . '/img' );
+}
 
  if( ! defined( 'LCHB_DB_PREFIX' ) ){
      define( 'LCHB_DB_PREFIX', 'lchb' );

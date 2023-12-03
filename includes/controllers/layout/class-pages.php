@@ -3,6 +3,7 @@
 namespace LicenseHub\Includes\Controller\Layout;
 
 use LicenseHub\Includes\Lib\View;
+use LicenseHub\Includes\Model\Product;
 
 if( ! class_exists( 'Pages' ) ){
 	class Pages{
@@ -27,7 +28,7 @@ if( ! class_exists( 'Pages' ) ){
 		 * @return void
 		 */
 		public function dashboard_callback() : void {
-			new View( 'pages/dashboard' );
+			// Not yet
 		}
 
 		/**
@@ -38,7 +39,7 @@ if( ! class_exists( 'Pages' ) ){
 		 * @return void
 		 */
 		public function settings_callback() : void {
-			new View( 'pages/settings' );
+			// Not yet
 		}
 
 		/**
@@ -49,7 +50,25 @@ if( ! class_exists( 'Pages' ) ){
 		 * @return void
 		 */
 		public function products_callback() : void {
-			new View( 'pages/products' );
+			wp_enqueue_style( 'lchb-admin-page', LCHB_CSS . '/admin/main.css', array(), LCHB_VERSION );
+			wp_enqueue_script( 'lchb-products-page', LCHB_PAGE . '/products/build/index.js', array(
+				'wp-i18n',
+				'wp-element',
+				'wp-api-fetch'
+			), LCHB_VERSION );
+
+			$product_instance = new Product();
+			$products = $product_instance->get_all();
+			$fields = $product_instance->get_fields();
+
+			wp_localize_script( 'lchb-products-page', 'lchb_products', [
+				'logo'                  => LCHB_IMG . '/tadamus-logo.png',
+				'nonce'                 => wp_create_nonce( 'lchb_products' ),
+				'products'              => $products,
+				'fields'                => $fields
+			] );
+
+			echo '<div id="products-root"></div>';
 		}
 
 		/**
@@ -60,7 +79,7 @@ if( ! class_exists( 'Pages' ) ){
 		 * @return void
 		 */
 		public function license_keys_callback() : void {
-			new View( 'pages/license_keys' );
+			// Not yet
 		}
 
 		/**
@@ -71,7 +90,7 @@ if( ! class_exists( 'Pages' ) ){
 		 * @return void
 		 */
 		public function api_keys_callback() : void {
-			new View( 'pages/api_keys' );
+			// Not yet
 		}
 	}
 
