@@ -2,17 +2,12 @@ import React from 'react';
 import TableColumn from "./TableColumn";
 
 function TableRow(props ) {
-    const columns = [];
-
-    if( props.columns && props.columns.length > 0 ){
-        props.columns.forEach( ( element, index ) => {
-            columns.push( <TableColumn data={ element } key={ index } /> );
-        } );
-    }
-
     return (
         <tr>
-            { columns }
+            <TableColumn data={ props.columns.id } />
+            <TableColumn data={ props.columns.name } />
+            <TableColumn data={ props.columns.status } />
+            <TableColumn data={ props.columns.created_at } />
         </tr>
     );
 }

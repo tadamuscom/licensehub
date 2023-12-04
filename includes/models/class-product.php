@@ -52,7 +52,6 @@ if( ! class_exists( 'Product' ) ) {
                     status varchar(255) DEFAULT 'inactive',
                     user_id mediumint(9) NOT NULL,
                     created_at datetime NOT NULL,
-                    expires_at datetime NOT NULL,
                     PRIMARY KEY  (id)
                 " );
 			}

@@ -99,7 +99,7 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @return void
 		 */
-		public function create_product( WP_REST_Request $request ): void {
+		public function create_product( WP_REST_Request $request ) : void {
 			if( ! $this->auth( $request ) ){
 				wp_send_json_error( $this->error_text );
 				return;

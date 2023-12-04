@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
+import HeadingTwo from "./typography/HeadingTwo";
 
 function ProductTable( props ) {
-    const products = [];
+    const [ products, setProducts ] = useState( [] );
+
+    const preProducts = [];
     const fields = [];
 
     lchb_products.fields.forEach( ( element, index ) => {
@@ -11,12 +14,17 @@ function ProductTable( props ) {
     } );
 
     lchb_products.products.forEach( ( element, index ) => {
-        products.push( <TableRow columns={ element } key={ index } /> );
+        preProducts.push( <TableRow columns={ element } key={ index } /> );
     } );
+
+    setProducts( preProducts );
 
     return (
         <div>
-            <table className='tada-table'>
+            <HeadingTwo label='Products' />
+            <table className='tada-table' style={{
+                marginTop: '10px'
+            }}>
                 <thead>
                     <tr>
                         { fields }
