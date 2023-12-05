@@ -2,14 +2,14 @@ import React from "react";
 import Header from "./components/layout/Header";
 import Table from "./components/Table";
 import LinkButton from "./components/LinkButton";
-import NewProduct from "./components/NewProduct";
+import NewLicenseKey from "./components/NewLicenseKey";
 import HeadingTwo from "./components/typography/HeadingTwo";
 
 function App( props ) {
     const newOnClick = ( event ) => {
         event.preventDefault();
 
-        const newProduct = document.getElementById( 'tada-new-product' );
+        const newProduct = document.getElementById( 'tada-new-license-key' );
 
         event.target.style.display = 'none';
         newProduct.style.display = 'inherit';
@@ -18,11 +18,11 @@ function App( props ) {
 
     return (
         <div>
-            <Header pageTitle='Products' />
-            <LinkButton click={ newOnClick } label='Add Product' />
-            <NewProduct />
-            <HeadingTwo label='Products' />
-            <Table headers={ lchb_products.fields } rows={ lchb_products.products } />
+            <Header pageTitle='License Keys' />
+            <LinkButton click={ newOnClick } label='Add License Key' />
+            <NewLicenseKey />
+            <HeadingTwo label='License Keys' />
+            <Table headers={ lchb_license_keys.fields } rows={ lchb_license_keys.keys } />
         </div>
     );
 }

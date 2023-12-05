@@ -3,7 +3,9 @@
 namespace LicenseHub\Includes\Controller;
 
 use FluentCrm\Framework\Database\Orm\DateTime;
+use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
+use WP_REST_Request;
 
 if( ! class_exists( 'Internal_API' ) ) {
 	class Internal_API {
@@ -21,13 +23,26 @@ if( ! class_exists( 'Internal_API' ) ) {
 		 * @return void
 		 */
 		public function api_routes() : void {
-			// Save general settings
+			// Add new product
 			register_rest_route(
 				$this->namespace,
 				'/new-product',
 				array(
 					'methods' => 'POST',
 					'callback' => array($this, 'add_new_product'),
+					'permission_callback' => function () {
+						return current_user_can('manage_options');
+					},
+				)
+			);
+
+			// Add new license key
+			register_rest_route(
+				$this->namespace,
+				'/new-license-key',
+				array(
+					'methods' => 'POST',
+					'callback' => array($this, 'add_new_license_key'),
 					'permission_callback' => function () {
 						return current_user_can('manage_options');
 					},
@@ -40,11 +55,11 @@ if( ! class_exists( 'Internal_API' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param \WP_REST_Request $request
+		 * @param WP_REST_Request $request
 		 *
 		 * @return void
 		 */
-		public function add_new_product( \WP_REST_Request $request ) : void {
+		public function add_new_product( WP_REST_Request $request ) : void {
 			$params = $request->get_params();
 
 			if( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_products' ) ){
@@ -64,8 +79,60 @@ if( ! class_exists( 'Internal_API' ) ) {
 				$product->save();
 
 				wp_send_json_success( array(
-					'message' => __( 'The product was saved!', 'licensehub' ),
-					'product' => $product
+					'message' => __( 'The product was saved!', 'licensehub' )
+				) );
+			}
+		}
+
+		/**
+		 * Add a new license key
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return void
+		 * @throws \Exception
+		 */
+		public function add_new_license_key( WP_REST_Request $request ) : void {
+			$params = $request->get_params();
+
+			if( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_license_keys' ) ){
+				if( empty( $params[ 'user' ] ) ){
+					wp_send_json_error( array(
+						'message' => __( 'User cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				if( empty( $params[ 'product' ] ) ){
+					wp_send_json_error( array(
+						'message' => __( 'Product cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				if( empty( $params[ 'expires_at' ] ) ){
+					wp_send_json_error( array(
+						'message' => __( 'Expiry date cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				$key = new License_Key();
+				$key->generate();
+				$key->status = License_Key::$ACTIVE_STATUS;
+				$key->user_id = (int) sanitize_text_field( $params[ 'user' ] );
+				$key->product_id = (int) sanitize_text_field( $params[ 'product' ] );
+				$key->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
+				$key->expires_at = ( DateTime::createFromFormat( 'Y-m-d', $params[ 'expires_at' ] )->format( LCHB_TIME_FORMAT ) );
+				$key->save();
+
+				wp_send_json_success( array(
+					'message' => __( 'The license key was saved!', 'licensehub' )
 				) );
 			}
 		}

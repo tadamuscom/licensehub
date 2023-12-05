@@ -88,18 +88,26 @@ p{
     margin: 5px 0;
 }
 
-.tada-form-group input[type="text"]:focus,
 .tada-form-group input[type="password"]:focus,
+.tada-form-group input[type="password"]:hover,
+.tada-form-group input[type="text"]:focus,
 .tada-form-group input[type="text"]:hover,
-.tada-form-group input[type="password"]:hover
+.tada-form-group input[type="date"]:focus,
+.tada-form-group input[type="date"]:hover,
+.tada-form-group select:hover,
+.tada-form-group select:focus
 {
     outline: none;
     box-shadow: none;
     background-color: #b5b5b5;
+    color:#000;
+    border-color:#000;
 }
 
 .tada-form-group input[type="text"],
-.tada-form-group input[type="password"]{
+.tada-form-group input[type="password"],
+.tada-form-group input[type="date"],
+.tada-form-group select{
     width: 300px;
     margin-top:8px;
     background-color: #ECECEC;
@@ -240,6 +248,27 @@ p{
     font-size: 16px;
 }
 
+.tada-table{
+    margin-top:15px;
+}
+
+.tada-table td, .tada-table th{
+    padding: 5px 10px;
+}
+
 .tada-table th{
     text-transform: uppercase;
+}
+
+.tada-table td:first-child, .tada-table th:first-child{
+    border-left: none;
+}
+
+.tada-table td:last-child, .tada-table th:last-child{
+    border-right: 1px solid #000;
+}
+
+.tada-table td, .tada-table th{
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
 }

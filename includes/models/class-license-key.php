@@ -39,12 +39,12 @@ if( ! class_exists( 'License_Key' ) ) {
 
         protected string $table = 'license_keys';
         protected array $fields = array(
-            'license_key'           => array( 'required', 'string', 'unique' ),
-            'status'                => array( 'required', 'string' ),
-            'user_id'               => array( 'required', 'integer' ),
-            'product_id'            => array( 'required', 'integer' ),
-            'created_at'            => array( 'required', 'date' ),
-            'expires_at'            => array( 'required', 'date' )
+            'license_key' => array( 'required', 'string', 'unique' ),
+            'status'      => array( 'required', 'string' ),
+            'user_id'     => array( 'required', 'integer' ),
+            'product_id'  => array( 'required', 'integer' ),
+            'created_at'  => array( 'required', 'date' ),
+            'expires_at'  => array( 'required', 'date' )
         );
 
         public function init() : void {

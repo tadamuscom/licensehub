@@ -17,7 +17,7 @@ if( ! class_exists( 'API_Key' ) ) {
 		protected array $fields = array(
 			'api_key'           => array( 'required', 'string', 'unique' ),
 			'status'            => array( 'required', 'string' ),
-			'user_id'           => array( 'required', 'numberic' ),
+			'user_id'           => array( 'required', 'numeric' ),
 			'created_at'        => array( 'required', 'date' ),
 			'expires_at'        => array( 'required', 'date' )
 		);
