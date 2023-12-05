@@ -3,6 +3,7 @@
 namespace LicenseHub\Includes\Controller;
 
 use FluentCrm\Framework\Database\Orm\DateTime;
+use LicenseHub\Includes\Model\API_Key;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
 use WP_REST_Request;
@@ -43,6 +44,19 @@ if( ! class_exists( 'Internal_API' ) ) {
 				array(
 					'methods' => 'POST',
 					'callback' => array($this, 'add_new_license_key'),
+					'permission_callback' => function () {
+						return current_user_can('manage_options');
+					},
+				)
+			);
+
+			// Add new API key
+			register_rest_route(
+				$this->namespace,
+				'/new-api-key',
+				array(
+					'methods' => 'POST',
+					'callback' => array($this, 'add_new_api_key'),
 					'permission_callback' => function () {
 						return current_user_can('manage_options');
 					},
@@ -127,6 +141,50 @@ if( ! class_exists( 'Internal_API' ) ) {
 				$key->status = License_Key::$ACTIVE_STATUS;
 				$key->user_id = (int) sanitize_text_field( $params[ 'user' ] );
 				$key->product_id = (int) sanitize_text_field( $params[ 'product' ] );
+				$key->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
+				$key->expires_at = ( DateTime::createFromFormat( 'Y-m-d', $params[ 'expires_at' ] )->format( LCHB_TIME_FORMAT ) );
+				$key->save();
+
+				wp_send_json_success( array(
+					'message' => __( 'The license key was saved!', 'licensehub' )
+				) );
+			}
+		}
+
+		/**
+		 * Add a new API key
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return void
+		 * @throws \Exception
+		 */
+		public function add_new_api_key( WP_REST_Request $request ) : void {
+			$params = $request->get_params();
+
+			if( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_api_keys' ) ){
+				if( empty( $params[ 'user' ] ) ){
+					wp_send_json_error( array(
+						'message' => __( 'User cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				if( empty( $params[ 'expires_at' ] ) ){
+					wp_send_json_error( array(
+						'message' => __( 'Expiry date cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				$key = new API_Key();
+				$key->generate();
+				$key->status = License_Key::$ACTIVE_STATUS;
+				$key->user_id = (int) sanitize_text_field( $params[ 'user' ] );
 				$key->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
 				$key->expires_at = ( DateTime::createFromFormat( 'Y-m-d', $params[ 'expires_at' ] )->format( LCHB_TIME_FORMAT ) );
 				$key->save();

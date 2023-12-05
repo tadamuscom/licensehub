@@ -2,6 +2,7 @@
 
 namespace LicenseHub\Includes\Controller\Layout;
 
+use LicenseHub\Includes\Model\API_Key;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
 
@@ -91,7 +92,28 @@ if( ! class_exists( 'Pages' ) ){
 		 * @return void
 		 */
 		public function api_keys_callback() : void {
-			// Not yet
+			wp_enqueue_style( 'lchb-admin-page', LCHB_CSS . '/admin/main.css', array(), LCHB_VERSION );
+			wp_enqueue_script( 'lchb-api-keys-page', LCHB_PAGE . '/api_keys/build/index.js', array(
+				'wp-i18n',
+				'wp-element',
+				'wp-api-fetch'
+			), LCHB_VERSION );
+
+			$users = get_users();
+
+			$api_keys_instance = new API_Key();
+			$keys = $api_keys_instance->get_all();
+			$fields = $api_keys_instance->get_fields();
+
+			wp_localize_script( 'lchb-api-keys-page', 'lchb_api_keys', [
+				'logo'                  => LCHB_IMG . '/tadamus-logo.png',
+				'nonce'                 => wp_create_nonce( 'lchb_api_keys' ),
+				'keys'                  => $keys,
+				'users'                 => $users,
+				'fields'                => $fields
+			] );
+
+			echo '<div id="api-keys-root"></div>';
 		}
 	}
 

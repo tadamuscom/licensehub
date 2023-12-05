@@ -62,6 +62,7 @@ if( ! class_exists( 'API' ) ){
 		 * @param WP_REST_Request $request
 		 *
 		 * @return void
+		 * @throws \Exception
 		 */
 		public function create_license( WP_REST_Request $request ) : void {
 			if( ! $this->auth( $request ) ){
@@ -74,7 +75,7 @@ if( ! class_exists( 'API' ) ){
 
 				$license = new License_Key();
 				$license->generate();
-				$license->product_id = $product_id;
+				$license->product_id = (int) sanitize_text_field( $product_id );
 				$license->user_id = $this->user->ID;
 				$license->status = License_Key::$ACTIVE_STATUS;
 				$license->save();
@@ -107,7 +108,7 @@ if( ! class_exists( 'API' ) ){
 
 			if( $this->validate_new_product( $request ) ) {
 				$product = new Product();
-				$product->name = $request->get_param( 'name' );
+				$product->name = sanitize_text_field( $request->get_param( 'name' ) );
 				$product->status = Product::$ACTIVE_STATUS;
 				$product->user_id = $this->user->ID;
 				$product->save();
