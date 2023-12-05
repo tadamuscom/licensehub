@@ -4,20 +4,19 @@ import TableRow from "./TableRow";
 import HeadingTwo from "./typography/HeadingTwo";
 
 function ProductTable( props ) {
-    const [ products, setProducts ] = useState( [] );
-
     const preProducts = [];
-    const fields = [];
-
-    lchb_products.fields.forEach( ( element, index ) => {
-        fields.push( <TableHeader content={ element } key={ index } /> );
-    } );
+    const preFields = [];
 
     lchb_products.products.forEach( ( element, index ) => {
         preProducts.push( <TableRow columns={ element } key={ index } /> );
     } );
 
-    setProducts( preProducts );
+    lchb_products.fields.forEach( ( element, index ) => {
+        preFields.push( <TableHeader content={ element } key={ index } /> );
+    } );
+
+    const [ products, setProducts ] = useState( preProducts );
+    const [ fields, setFields ] = useState( preFields );
 
     return (
         <div>

@@ -57,10 +57,7 @@ function NewProduct( props ) {
 
             if( result.success ){
                 status.style.color = 'green';
-
-                console.log( lchb_products.products );
-
-                lchb_products.products.push( result.data.product );
+                window.location.reload();
             }else{
                 status.style.color = 'red';
                 status.innerText = status.innerText + ' ❌'
