@@ -41,6 +41,7 @@ if( ! class_exists( 'Product' ) ) {
 			'name'          => array( 'required', 'string' ),
 			'status'        => array( 'required', 'string' ),
 			'user_id'       => array( 'required', 'integer' ),
+			'meta'          => array( 'serialized' ),
 			'created_at'    => array( 'required', 'date' ),
 		);
 
@@ -49,6 +50,7 @@ if( ! class_exists( 'Product' ) ) {
 				$this->create_table( $this->generate_table_name( $this->table ), "
                     id mediumint(9) NOT NULL AUTO_INCREMENT,
                     name varchar(255) NOT NULL,
+                    meta TEXT,
                     status varchar(255) DEFAULT 'inactive',
                     user_id mediumint(9) NOT NULL,
                     created_at datetime NOT NULL,

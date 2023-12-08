@@ -18,6 +18,7 @@ function NewProduct( props ) {
 
         const formData = new FormData( e.target );
         const name = formData.get( 'lchb-name' );
+        const stripeID = formData.get( 'lchb-stripe-id' );
 
         let go = true;
 
@@ -26,6 +27,23 @@ function NewProduct( props ) {
 
             go = false;
         }
+
+        const data = {
+            nonce: lchb_products.nonce,
+            name: name
+        };
+
+        if( stripeID ){
+            if( stripeID.length < 1 ){
+                triggerError( 'lchb-stripe-id', 'Stripe ID cannot be empty' );
+
+                go = false;
+            }
+
+            data.stripe_id = stripeID;
+        }
+
+        console.log(data);
 
         const status = document.getElementById( 'tada-status' );
 
@@ -46,10 +64,7 @@ function NewProduct( props ) {
         wp.apiFetch( {
             path: '/tadamus/lchb/v1/new-product',
             method: 'POST',
-            data:{
-                nonce: lchb_products.nonce,
-                name: name
-            }
+            data: data
         } ).then( ( result ) => {
             btn.value = 'Save Product';
             btn.disabled = false;
@@ -67,6 +82,31 @@ function NewProduct( props ) {
                 status.classList.remove( 'tada-hidden' );
             }
         } );
+    }
+
+    if( lchb_products.stripe === 'true' ){
+        return (
+            <div style={{
+                marginBottom: '15px',
+                display: 'none'
+            }} id='tada-new-product'>
+                <HeadingTwo label="New Product" />
+                <form onSubmit={ submit } id='tada-add-product-form'>
+                    <FormGroup>
+                        <Label htmlFor='lchb-name' label='Name' />
+                        <SingleTextInput id='lchb-name' name='lchb-name' value='' />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor='lchb-stripe-id' label='Stripe Product ID' />
+                        <SingleTextInput id='lchb-stripe-id' name='lchb-stripe-id' value='' />
+                    </FormGroup>
+                    <FormGroup extraClass="tada-form-submit">
+                        <Button label='Save Product' />
+                        <p id='tada-status' className='tada-hidden'></p>
+                    </FormGroup>
+                </form>
+            </div>
+        );
     }
 
     return (

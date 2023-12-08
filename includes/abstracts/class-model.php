@@ -77,7 +77,7 @@ if( ! class_exists( 'Model' ) ){
 	     *
 	     * @return $this|false
 	     */
-        public function load_by_id( $id ) {
+        public function load_by_id( $id ) : bool|static {
             global $wpdb;
 
             $object = $wpdb->get_results( 'SELECT * FROM ' . $this->generate_table_name() . ' WHERE id=' . $id . ';' );
@@ -103,7 +103,7 @@ if( ! class_exists( 'Model' ) ){
 	     * @return $this|false
 	     * @throws Exception
 	     */
-	    public function load_by_field( string $field, $value, $failsafe = true ) {
+	    public function load_by_field( string $field, $value, $failsafe = true ) : bool|static {
 			$property = $this->fields[$field];
 
 			if( $failsafe ){
@@ -147,7 +147,13 @@ if( ! class_exists( 'Model' ) ){
 		public function get_all() : array {
 			global $wpdb;
 
-			return $wpdb->get_results( 'SELECT * FROM ' . $this->generate_table_name() . ';' );
+			$results = $wpdb->get_results( 'SELECT * FROM ' . $this->generate_table_name() . ';' );
+
+			foreach( $results as $result ){
+				unset( $result->meta );
+			}
+
+			return $results;
 		}
 
 	    /**
@@ -157,11 +163,17 @@ if( ! class_exists( 'Model' ) ){
 	     *
 	     * @return array|string[]
 	     */
-	    public function get_fields() : array {
+	    public function get_fields( $meta = false ) : array {
 		    if( isset( $this->fields ) ){
 			    $returnable = array();
 
 			    foreach( $this->fields as $key => $field ){
+					if( ! $meta ){
+						if( $key === 'meta' ){
+							continue;
+						}
+					}
+
 				    $returnable[] = $key;
 			    }
 
@@ -323,6 +335,10 @@ if( ! class_exists( 'Model' ) ){
 			}
 
             foreach( $fields as $field ){
+				if( $field === 'meta' ){
+					continue;
+				}
+
 				if( is_object( $object[0] ) ){
 					$this->{$field} = $object[0]->{$field};
 				}
@@ -338,7 +354,7 @@ if( ! class_exists( 'Model' ) ){
 	     */
         private function array_format() : array {
             $returnable = array();
-            $fields = $this->get_fields();
+            $fields = $this->get_fields( true );
 
             foreach( $fields as $field ){
 				if( $field === 0 || $field === 'id' ){

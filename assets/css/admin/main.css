@@ -228,7 +228,7 @@ p{
     transition-duration: 150ms;
 }
 
-.tada-button:disabled{
+.tada-button:disabled, .tada-disabled{
     background-color: #1e3d8f;
     color: #fff;
 }

@@ -94,6 +94,9 @@ if( ! class_exists( 'Validator' ) ){
                 case 'required':
                     $this->required( $this->model->{$this->field} );
                     return;
+	            case 'serialized':
+		            $this->serialized( $this->model->{$this->field} );
+		            return;
                 case 'string':
                     $this->string( $this->model->{$this->field} );
                     return;
@@ -141,8 +144,22 @@ if( ! class_exists( 'Validator' ) ){
             if( ! is_string( $value ) ){
                 $this->trigger_error( 'must be a string' );
             }
-
         }
+
+	    /**
+	     * Check if the field is a serialized string
+	     *
+	     * @since 1.0.0
+	     *
+	     * @param $value
+	     *
+	     * @return void
+	     */
+	    private function serialized( $value ) : void {
+		    if( ! empty( $value ) && ! unserialize( $value ) ){
+			    $this->trigger_error( 'must be a serialized object as a string' );
+		    }
+	    }
 
 	    /**
 	     * Check if the field is an integer

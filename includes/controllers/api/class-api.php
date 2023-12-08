@@ -99,6 +99,8 @@ if( ! class_exists( 'API' ) ){
 		 * @param WP_REST_Request $request
 		 *
 		 * @return void
+		 * @throws \Exception
+		 *
 		 */
 		public function create_product( WP_REST_Request $request ) : void {
 			if( ! $this->auth( $request ) ){
@@ -132,6 +134,8 @@ if( ! class_exists( 'API' ) ){
 		 * @param WP_REST_Request $request
 		 *
 		 * @return void
+		 * @throws \Exception
+		 *
 		 */
 		public function retrieve_product( WP_REST_Request $request ) : void {
 			if( ! $this->auth( $request ) ){
@@ -201,6 +205,8 @@ if( ! class_exists( 'API' ) ){
 		 * @param WP_REST_Request $request
 		 *
 		 * @return bool
+		 * @throws \Exception
+		 *
 		 */
 		private function auth( WP_REST_Request $request ) : bool {
 			$key = $request->get_header( 'LCHB-API-KEY' );
@@ -221,7 +227,6 @@ if( ! class_exists( 'API' ) ){
 
 			$this->key = $load;
 			$this->user = $this->key->user();
-
 
 			return true;
 		}

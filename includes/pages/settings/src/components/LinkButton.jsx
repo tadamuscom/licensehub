@@ -6,7 +6,7 @@ function LinkButton( props ) {
             marginTop: '20px',
             marginBottom: '20px'
         } }>
-            <a onClick={ props.click } className={ 'tada-button ' + props.extraClass } disabled={ props.disabled }> { props.label } </a>
+            <a onClick={ props.click } className='tada-button'> { props.label } </a>
         </div>
     );
 }

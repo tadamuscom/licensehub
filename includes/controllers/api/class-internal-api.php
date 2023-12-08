@@ -62,6 +62,19 @@ if( ! class_exists( 'Internal_API' ) ) {
 					},
 				)
 			);
+
+			// Save settings
+			register_rest_route(
+				$this->namespace,
+				'/general-settings',
+				array(
+					'methods' => 'POST',
+					'callback' => array($this, 'save_settings'),
+					'permission_callback' => function () {
+						return current_user_can('manage_options');
+					},
+				)
+			);
 		}
 
 		/**
@@ -90,6 +103,21 @@ if( ! class_exists( 'Internal_API' ) ) {
 				$product->status = Product::$ACTIVE_STATUS;
 				$product->user_id = get_current_user_id();
 				$product->created_at = (new DateTime())->format( LCHB_TIME_FORMAT );
+
+				if( isset( $params['stripe_id'] ) ){
+					if( empty( $params[ 'stripe_id' ] ) ){
+						wp_send_json_error( array(
+							'message' => __( 'Stripe ID cannot be empty', 'licensehub' )
+						) );
+
+						return;
+					}
+
+					$product->meta = serialize( array(
+						'stripe_id' => $params[ 'stripe_id' ]
+					) );
+				}
+
 				$product->save();
 
 				wp_send_json_success( array(
@@ -191,6 +219,52 @@ if( ! class_exists( 'Internal_API' ) ) {
 
 				wp_send_json_success( array(
 					'message' => __( 'The license key was saved!', 'licensehub' )
+				) );
+			}
+		}
+
+		/**
+		 * Save the settings
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return void
+		 * @throws \Exception
+		 */
+		public function save_settings( WP_REST_Request $request ) : void {
+			$params = $request->get_params();
+
+			if( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_settings' ) ){
+				$stripe = $params['stripe_integration'];
+
+				if( $stripe === 'on' ){
+					if( empty( $params[ 'stripe_public_key' ] ) ){
+						wp_send_json_error( array(
+							'message' => __( 'Public Key cannot be empty', 'licensehub' )
+						) );
+
+						return;
+					}
+
+					if( empty( $params[ 'stripe_private_key' ] ) ){
+						wp_send_json_error( array(
+							'message' => __( 'Private Key cannot be empty', 'licensehub' )
+						) );
+
+						return;
+					}
+
+					lchb_add_or_update_option( 'lchb_stripe_integration', 'true' );
+					lchb_add_or_update_option( 'lchb_stripe_public_key', sanitize_text_field( $params['stripe_public_key'] ) );
+					lchb_add_or_update_option( 'lchb_stripe_private_key', sanitize_text_field( $params['stripe_private_key'] ) );
+				}else{
+					lchb_add_or_update_option( 'lchb_stripe_integration', 'false' );
+				}
+
+				wp_send_json_success( array(
+					'message' => __( 'Settings Saved!', 'licensehub' )
 				) );
 			}
 		}

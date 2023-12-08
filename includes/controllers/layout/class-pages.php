@@ -17,6 +17,7 @@ if( ! class_exists( 'Pages' ) ){
 			add_menu_page( 'License Hub', 'License Hub', 'manage_options', 'license-hub', array( $this, 'products_callback' ), 'dashicons-media-spreadsheet' );
 			add_submenu_page( 'license-hub', 'License Hub - License Keys', 'License Keys', 'manage_options', 'license-hub-license-keys', array( $this, 'license_keys_callback' ) );
 			add_submenu_page( 'license-hub', 'License Hub - API Keys', 'API Keys', 'manage_options', 'license-hub-api-keys', array( $this, 'api_keys_callback' ) );
+			add_submenu_page( 'license-hub', 'License Hub - Settings', 'Settings', 'manage_options', 'license-hub-settings', array( $this, 'settings_callback' ) );
 		}
 
 		/**
@@ -42,7 +43,8 @@ if( ! class_exists( 'Pages' ) ){
 				'logo'                  => LCHB_IMG . '/tadamus-logo.png',
 				'nonce'                 => wp_create_nonce( 'lchb_products' ),
 				'products'              => $products,
-				'fields'                => $fields
+				'fields'                => $fields,
+				'stripe'                => get_option( 'lchb_stripe_integration' )
 			] );
 
 			echo '<div id="products-root"></div>';
@@ -114,6 +116,32 @@ if( ! class_exists( 'Pages' ) ){
 			] );
 
 			echo '<div id="api-keys-root"></div>';
+		}
+
+		/**
+		 * Render the settings page
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return void
+		 */
+		public function settings_callback() : void {
+			wp_enqueue_style( 'lchb-admin-page', LCHB_CSS . '/admin/main.css', array(), LCHB_VERSION );
+			wp_enqueue_script( 'lchb-settings-page', LCHB_PAGE . '/settings/build/index.js', array(
+				'wp-i18n',
+				'wp-element',
+				'wp-api-fetch'
+			), LCHB_VERSION );
+
+			wp_localize_script( 'lchb-settings-page', 'lchb_settings', [
+				'logo'                  => LCHB_IMG . '/tadamus-logo.png',
+				'nonce'                 => wp_create_nonce( 'lchb_settings' ),
+				'stripe_integration'    => get_option( 'lchb_stripe_integration' ),
+				'stripe_public_key'     => get_option( 'lchb_stripe_public_key' ),
+				'stripe_private_key'    => get_option( 'lchb_stripe_private_key' )
+			] );
+
+			echo '<div id="settings-root"></div>';
 		}
 	}
 
