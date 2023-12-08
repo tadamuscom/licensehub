@@ -10,13 +10,15 @@ if( ! class_exists( 'Validator' ) ){
         private string $field;
         private string $error;
         private array $options;
+		private bool $edit;
         private bool $returnable;
 
-        public function __construct( $model, $field, $options )
+        public function __construct( $model, $field, $options, $edit = false )
         {
             $this->model = $model;
             $this->field = $field;
             $this->options = $options;
+			$this->edit = $edit;
 			$this->returnable = true;
 
             $this->validate();
@@ -77,7 +79,6 @@ if( ! class_exists( 'Validator' ) ){
         private function trigger_error( $contents ) : void {
             $this->returnable = false;
             $this->error = __( $this->field . ' ' . $contents, LCHB_SLUG );
-
         }
 
 	    /**
@@ -125,7 +126,7 @@ if( ! class_exists( 'Validator' ) ){
 	     * @return void
 	     */
         private function required( $value ) : void {
-            if(empty( $value ) ){
+            if( empty( $value ) ){
                 $this->trigger_error( 'is required' );
             }
 
@@ -171,7 +172,7 @@ if( ! class_exists( 'Validator' ) ){
 	     * @return void
 	     */
         private function integer( $value ) : void {
-            if( ! is_integer( $value ) ){
+            if( ! is_integer( (int) $value ) ){
                 $this->trigger_error( 'must be a integer' );
             }
 
@@ -218,15 +219,17 @@ if( ! class_exists( 'Validator' ) ){
 	     * @return void
 	     */
         private function unique( $value ) : void {
-            global $wpdb;
+			if( ! $this->edit ) {
+				global $wpdb;
 
-			if( is_string( $value ) ){
-				$value = '"' . $value . '"';
+				if ( is_string( $value ) ) {
+					$value = '"' . $value . '"';
+				}
+
+				if ( $wpdb->get_row( 'SELECT * FROM ' . $this->model->generate_table_name() . ' WHERE ' . $this->field . '=' . $value ) ) {
+					$this->trigger_error( 'must be unique' );
+				}
 			}
-
-            if( $wpdb->get_row( 'SELECT * FROM '. $this->model->generate_table_name() .' WHERE ' . $this->field . '=' . $value ) ){
-                $this->trigger_error( 'must be unique' );
-            }
         }
     }
 }

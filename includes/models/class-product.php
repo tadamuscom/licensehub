@@ -36,7 +36,7 @@ if( ! class_exists( 'Product' ) ) {
 			return $returnable;
 		}
 
-		protected string $table = 'products';
+		public string $table = 'products';
 		protected array $fields = array(
 			'name'          => array( 'required', 'string' ),
 			'status'        => array( 'required', 'string' ),
@@ -77,6 +77,12 @@ if( ! class_exists( 'Product' ) ) {
 			}
 
 			return get_user_by( 'id', $this->user_id );
+		}
+
+		public function save() {
+
+
+			return parent::save();
 		}
 	}
 }

@@ -2,7 +2,8 @@
 
 namespace LicenseHub\Includes\Controller;
 
-use FluentCrm\Framework\Database\Orm\DateTime;
+use \DateTime;
+use LicenseHub\Includes\Controller\Integration\Stripe\Stripe;
 use LicenseHub\Includes\Model\API_Key;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
@@ -111,6 +112,12 @@ if( ! class_exists( 'Internal_API' ) ) {
 						) );
 
 						return;
+					}
+
+					if( Stripe::product_id_exists( $params['stripe_id'] ) ){
+						wp_send_json_error( array(
+							'message' => __( 'That Stripe product already has an integration', 'licensehub' )
+						) );
 					}
 
 					$product->meta = serialize( array(

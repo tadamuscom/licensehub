@@ -43,8 +43,6 @@ function NewProduct( props ) {
             data.stripe_id = stripeID;
         }
 
-        console.log(data);
-
         const status = document.getElementById( 'tada-status' );
 
         if( ! go ) {
@@ -52,7 +50,7 @@ function NewProduct( props ) {
             btn.disabled = false;
 
             status.style.color = 'red';
-            status.innerText = 'Please fix the errors above ❌';
+            status.innerText = 'Please fix the errors above';
 
             if( status.classList.contains( 'tada-hidden' ) ){
                 status.classList.remove( 'tada-hidden' );
@@ -68,9 +66,10 @@ function NewProduct( props ) {
         } ).then( ( result ) => {
             btn.value = 'Save Product';
             btn.disabled = false;
-            status.innerText = result.data.message + ' ✅';
+            status.innerText = result.data.message
 
             if( result.success ){
+                status.innerText = status.innerText + ' ✅';
                 status.style.color = 'green';
                 window.location.reload();
             }else{

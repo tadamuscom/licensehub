@@ -32,6 +32,10 @@ define( 'LCHB_URL', plugin_dir_url( __FILE__ ) );
      define( 'LCHB_INC', LCHB_PATH . '/includes' );
  }
 
+if( ! defined( 'LCHB_VENDOR' ) ){
+	define( 'LCHB_VENDOR', LCHB_PATH . '/vendor' );
+}
+
  if( ! defined( 'LCHB_LIB' ) ){
      define( 'LCHB_LIB', LCHB_INC . '/lib' );
  }

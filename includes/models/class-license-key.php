@@ -18,24 +18,67 @@ if( ! class_exists( 'License_Key' ) ) {
 	     *
 	     * @since 1.0.0
 	     *
-	     * @param int $product_id
+	     * @param int         $product_id
+	     * @param bool|string $status
 	     *
 	     * @return array
+	     *
 	     */
-	    public static function license_list_by_product_id( int $product_id ) : array {
+	    public static function get_all_by_product_id( int $product_id, bool|string $status = false ) : array {
 			global $wpdb;
+
+			if( $status && ! in_array( $status, array( self::$ACTIVE_STATUS, self::$INACTIVE_STATUS ) ) ){
+				return array();
+			}
 
 		    $returnable = array();
 			$table = ( new self() )->generate_table_name();
 
-			$results = $wpdb->get_results( 'SELECT id FROM ' . $table . ' WHERE product_id = ' . $product_id . ';' );
+			if( $status ){
+				$results = $wpdb->get_results( 'SELECT id FROM ' . $table . ' WHERE product_id = ' . $product_id . ' AND status = "'. $status .'";' );
+			}else{
+				$results = $wpdb->get_results( 'SELECT id FROM ' . $table . ' WHERE product_id = ' . $product_id . ';' );
+			}
 
 		    foreach( $results as $result ){
-			    $returnable[] = $result->id;
+			    $returnable[] = new self( $result->id );
 		    }
 
 		    return $returnable;
 	    }
+
+	    /**
+	     * Return all license keys of a given user
+	     *
+	     * @since 1.0.0
+	     *
+	     * @param int         $user_id
+	     * @param bool|string $status
+	     *
+	     * @return array
+	     */
+		public static function get_all_by_user_id( int $user_id, bool|string $status = false ) : array {
+			global $wpdb;
+
+			if( $status && ! in_array( $status, array( self::$ACTIVE_STATUS, self::$INACTIVE_STATUS ) ) ){
+				return array();
+			}
+
+			$returnable = array();
+			$table = ( new self() )->generate_table_name();
+
+			if( $status ){
+				$results = $wpdb->get_results( 'SELECT id FROM ' . $table . ' WHERE user_id = ' . $user_id . ' AND status = "'. $status .'";' );
+			}else{
+				$results = $wpdb->get_results( 'SELECT id FROM ' . $table . ' WHERE user_id = ' . $user_id . ';' );
+			}
+
+			foreach( $results as $result ){
+				$returnable[] = new self( $result->id );
+			}
+
+			return $returnable;
+		}
 
         protected string $table = 'license_keys';
         protected array $fields = array(

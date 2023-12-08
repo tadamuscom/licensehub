@@ -2,6 +2,8 @@
 
 namespace LicenseHub\Includes\Helper;
 
+use WP_User;
+
 if( ! class_exists( 'Helper' ) ){
 	class Helper{
 
@@ -79,5 +81,24 @@ if( ! class_exists( 'Helper' ) ){
 
 	        return add_user_meta( $user_id, $tag, $value );
 	    }
+
+		/**
+		 * Return a user object if the user exists or create one if it doesn't exist
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $email
+		 *
+		 * @return WP_User
+		 */
+		static function get_or_create_user_by_email( string $email ) : WP_User {
+			$user = get_user_by( 'email', $email );
+
+			if( ! $user ){
+				return get_user_by( 'id', wp_create_user( $email, uniqid(), $email ) );
+			}
+
+			return $user;
+		}
 	}
 }

@@ -17,6 +17,8 @@ if( ! class_exists( 'Loader' ) ) {
 		 *
 		 */
 		public function __construct() {
+			require_once LCHB_VENDOR . '/autoload.php';
+
 			$this->require_child_files_once( LCHB_LIB );
 			$this->require_child_files_once( LCHB_HELPER );
 			$this->require_child_files_once( LCHB_ABSTRACT );

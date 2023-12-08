@@ -192,24 +192,28 @@ if( ! class_exists( 'Model' ) ){
 	     *
 	     * @return $this|void
 	     */
-        public function save() {
-            if( $this->validation() ){
-                global $wpdb;
+        public function save(){
+	        global $wpdb;
 
-                $data = $this->array_format();
+	        $data = $this->array_format();
 
-                if( empty( $this->id ) || ! $this->exists( $this->id ) ) {
-					$wpdb->insert( $this->generate_table_name(), $data );
-                }else{
-                    $wpdb->update( $this->generate_table_name(), $data, ['id' => $this->id] );
-                }
-
-                $this->object_format( array( $this->load_by_id( $wpdb->insert_id ) ) );
-
-                return $this;
-            }else{
-                wp_die( $this->error );
+	        if( empty( $this->id ) || ! $this->exists( $this->id ) ) {
+		        if( $this->validation() ) {
+			        $wpdb->insert( $this->generate_table_name(), $data );
+		        }else {
+			        wp_die( $this->error );
+		        }
+			}else {
+		        if( $this->validation( true ) ) {
+			        $wpdb->update( $this->generate_table_name(), $data, ['id' => $this->id] );
+		        }else {
+			        wp_die( $this->error );
+		        }
             }
+
+	        $this->object_format( array( $this->load_by_id( $wpdb->insert_id ) ) );
+
+	        return $this;
         }
 
 	    /**
@@ -294,9 +298,11 @@ if( ! class_exists( 'Model' ) ){
 	     *
 	     * @since 1.0.0
 	     *
+	     * @param bool $edit
+	     *
 	     * @return bool
 	     */
-        private function validation() : bool {
+        private function validation( bool $edit = false ) : bool {
             foreach( $this->fields as $field => $options ){
 				if( $field === 'id' ){
 					continue;
@@ -306,7 +312,11 @@ if( ! class_exists( 'Model' ) ){
 					$options = array();
 				}
 
-                $validator = new Validator( $this ,$field, $options );
+				if( $edit ){
+					$validator = new Validator( $this ,$field, $options, true );
+				}else{
+					$validator = new Validator( $this ,$field, $options );
+				}
 
                 if( ! $validator->result() ){
                     $this->error = $validator->get_error();
