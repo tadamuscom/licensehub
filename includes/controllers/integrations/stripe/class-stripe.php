@@ -130,6 +130,15 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' )
 			$key->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
 			$key->expires_at = $expires_at;
 			$key->save();
+
+			/**
+			 * Allow for code to be executed after a key was generated
+			 *
+			 * @param WP_User $user
+			 * @param Product $product
+			 * @param License_Key $key
+			 */
+			do_action( 'lchb-license-key-generated', $user, $product, $key );
 		}
 	}
 

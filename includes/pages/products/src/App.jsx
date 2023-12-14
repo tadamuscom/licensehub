@@ -16,8 +16,6 @@ function App( props ) {
 
     }
 
-    console.log( lchb_products );
-
     return (
         <div>
             <Header pageTitle='Products' />

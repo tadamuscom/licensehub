@@ -5,6 +5,8 @@ import SingleTextInput from "./form/SingleTextInput";
 import HeadingTwo from "./typography/HeadingTwo";
 import Button from "./form/Button";
 import {resetForm, triggerError} from "../helpers/formHelper";
+import Stripe from "./Stripe";
+import FluentCRM from "./FluentCRM";
 
 function NewProduct( props ) {
     const submit = ( e ) => {
@@ -19,6 +21,8 @@ function NewProduct( props ) {
         const formData = new FormData( e.target );
         const name = formData.get( 'lchb-name' );
         const stripeID = formData.get( 'lchb-stripe-id' );
+        const fluentCRMLists = formData.get( 'lchb-fluentcrm-lists' );
+        const fluentCRMTags = formData.get( 'lchb-fluentcrm-tags' );
 
         let go = true;
 
@@ -41,6 +45,14 @@ function NewProduct( props ) {
             }
 
             data.stripe_id = stripeID;
+        }
+
+        if( fluentCRMLists ){
+            data.fluentcrm_lists = fluentCRMLists;
+        }
+
+        if( fluentCRMTags ){
+            data.fluentcrm_tags = fluentCRMTags;
         }
 
         const status = document.getElementById( 'tada-status' );
@@ -83,31 +95,6 @@ function NewProduct( props ) {
         } );
     }
 
-    if( lchb_products.stripe === 'true' ){
-        return (
-            <div style={{
-                marginBottom: '15px',
-                display: 'none'
-            }} id='tada-new-product'>
-                <HeadingTwo label="New Product" />
-                <form onSubmit={ submit } id='tada-add-product-form'>
-                    <FormGroup>
-                        <Label htmlFor='lchb-name' label='Name' />
-                        <SingleTextInput id='lchb-name' name='lchb-name' value='' />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label htmlFor='lchb-stripe-id' label='Stripe Product ID' />
-                        <SingleTextInput id='lchb-stripe-id' name='lchb-stripe-id' value='' />
-                    </FormGroup>
-                    <FormGroup extraClass="tada-form-submit">
-                        <Button label='Save Product' />
-                        <p id='tada-status' className='tada-hidden'></p>
-                    </FormGroup>
-                </form>
-            </div>
-        );
-    }
-
     return (
         <div style={{
             marginBottom: '15px',
@@ -119,6 +106,8 @@ function NewProduct( props ) {
                     <Label htmlFor='lchb-name' label='Name' />
                     <SingleTextInput id='lchb-name' name='lchb-name' value='' />
                 </FormGroup>
+                <Stripe />
+                <FluentCRM />
                 <FormGroup extraClass="tada-form-submit">
                     <Button label='Save Product' />
                     <p id='tada-status' className='tada-hidden'></p>

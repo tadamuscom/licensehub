@@ -105,6 +105,8 @@ if( ! class_exists( 'Internal_API' ) ) {
 				$product->user_id = get_current_user_id();
 				$product->created_at = (new DateTime())->format( LCHB_TIME_FORMAT );
 
+				$meta = array();
+
 				if( isset( $params['stripe_id'] ) ){
 					if( empty( $params[ 'stripe_id' ] ) ){
 						wp_send_json_error( array(
@@ -120,10 +122,30 @@ if( ! class_exists( 'Internal_API' ) ) {
 						) );
 					}
 
-					$product->meta = serialize( array(
-						'stripe_id' => $params[ 'stripe_id' ]
-					) );
+					$meta['stripe_id'] = $params[ 'stripe_id' ];
 				}
+
+				if( isset( $params['fluentcrm_lists'] ) ){
+					if( str_contains( $params['fluentcrm_lists'], ',' ) ){
+						$lists = explode( ',', $params['fluentcrm_lists'] );
+
+						$meta[ 'fluentcrm_lists' ] = $lists;
+					}else{
+						$meta[ 'fluentcrm_lists' ] = $params['fluentcrm_lists'];
+					}
+				}
+
+				if( isset( $params['fluentcrm_tags'] ) ){
+					if( str_contains( $params['fluentcrm_tags'], ',' ) ){
+						$tags = explode( ',', $params['fluentcrm_tags'] );
+
+						$meta[ 'fluentcrm_tags' ] = $tags;
+					}else{
+						$meta[ 'fluentcrm_tags' ] = $params['fluentcrm_tags'];
+					}
+				}
+
+				$product->meta = serialize($meta);
 
 				$product->save();
 
@@ -268,6 +290,12 @@ if( ! class_exists( 'Internal_API' ) ) {
 					lchb_add_or_update_option( 'lchb_stripe_private_key', sanitize_text_field( $params['stripe_private_key'] ) );
 				}else{
 					lchb_add_or_update_option( 'lchb_stripe_integration', 'false' );
+				}
+
+				if( $params['fluentcrm_integration'] === 'on' ){
+					lchb_add_or_update_option( 'lchb-fluentcrm-integration', 'true' );
+				}else{
+					lchb_add_or_update_option( 'lchb-fluentcrm-integration', 'false' );
 				}
 
 				wp_send_json_success( array(

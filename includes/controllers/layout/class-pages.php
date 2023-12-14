@@ -2,6 +2,7 @@
 
 namespace LicenseHub\Includes\Controller\Layout;
 
+use LicenseHub\Includes\Controller\Integration\FluentCRM\FluentCRM;
 use LicenseHub\Includes\Model\API_Key;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
@@ -39,12 +40,19 @@ if( ! class_exists( 'Pages' ) ){
 			$products = $product_instance->get_all();
 			$fields = $product_instance->get_fields();
 
+			$fluent = 'false';
+
+			if( FluentCRM::is_active() ){
+				$fluent = 'true';
+			}
+
 			wp_localize_script( 'lchb-products-page', 'lchb_products', [
 				'logo'                  => LCHB_IMG . '/tadamus-logo.png',
 				'nonce'                 => wp_create_nonce( 'lchb_products' ),
 				'products'              => $products,
 				'fields'                => $fields,
-				'stripe'                => get_option( 'lchb_stripe_integration' )
+				'stripe'                => get_option( 'lchb_stripe_integration' ),
+				'fluentcrm_integration' => $fluent
 			] );
 
 			echo '<div id="products-root"></div>';
@@ -133,12 +141,19 @@ if( ! class_exists( 'Pages' ) ){
 				'wp-api-fetch'
 			), LCHB_VERSION );
 
+			$fluent = 'false';
+
+			if( FluentCRM::is_active() ){
+				$fluent = 'true';
+			}
+
 			wp_localize_script( 'lchb-settings-page', 'lchb_settings', [
 				'logo'                  => LCHB_IMG . '/tadamus-logo.png',
 				'nonce'                 => wp_create_nonce( 'lchb_settings' ),
 				'stripe_integration'    => get_option( 'lchb_stripe_integration' ),
 				'stripe_public_key'     => get_option( 'lchb_stripe_public_key' ),
-				'stripe_private_key'    => get_option( 'lchb_stripe_private_key' )
+				'stripe_private_key'    => get_option( 'lchb_stripe_private_key' ),
+				'fluentcrm_integration' => $fluent
 			] );
 
 			echo '<div id="settings-root"></div>';

@@ -24,6 +24,7 @@ function App( props ) {
         const stripeIntegration = formData.get( 'tada-stripe-integration' );
         const stripePublicKey = formData.get( 'tada-public-key' );
         const stripePrivateKey = formData.get( 'tada-private-key' );
+        const fluentCRMIntegration = formData.get( 'tada-fluentcrm-integration' );
 
         let go = true;
 
@@ -64,7 +65,8 @@ function App( props ) {
                 nonce: lchb_settings.nonce,
                 stripe_integration: stripeIntegration,
                 stripe_public_key: stripePublicKey,
-                stripe_private_key: stripePrivateKey
+                stripe_private_key: stripePrivateKey,
+                fluentcrm_integration: fluentCRMIntegration
             }
         } ).then( ( result ) => {
             btn.value = 'Save Settings';

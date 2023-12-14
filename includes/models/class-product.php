@@ -79,10 +79,27 @@ if( ! class_exists( 'Product' ) ) {
 			return get_user_by( 'id', $this->user_id );
 		}
 
-		public function save() {
+		/**
+		 * Retrieve a meta value from the model
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $meta_name
+		 *
+		 * @return mixed
+		 */
+		public function get_meta( string $meta_name ) : mixed {
+			global $wpdb;
 
+			$object = $wpdb->get_row( 'SELECT * FROM ' . $this->generate_table_name() . ' WHERE id=' . $this->id );
 
-			return parent::save();
+			$meta = unserialize( $object->meta );
+
+			if( isset( $meta[ $meta_name ] ) ){
+				return $meta[ $meta_name ];
+			}
+
+			return false;
 		}
 	}
 }
