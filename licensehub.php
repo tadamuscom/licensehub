@@ -10,14 +10,14 @@ use LicenseHub\Includes\Controller\Core\Deactivation;
  * Plugin Name:       License Hub
  * Plugin URI:        https://tadamus.com/products/licensehub
  * Description:       A lightweight plugin that allows you to create, manage and maintain software licenses for your plugins
- * Version:           1.0.2
+ * Version:           1.0.3
  * Requires at least: 5.2
  * Requires PHP:      8.0
  * Author:            Tadamus
  * Author URI:        https://sorinmarta.com
  */
 
-define( 'LCHB_VERSION', '1.0.2' );
+define( 'LCHB_VERSION', '1.0.3' );
 define( 'LCHB_URL', plugin_dir_url( __FILE__ ) );
 
  if( ! defined( 'LCHB_SLUG' ) ){
