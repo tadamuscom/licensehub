@@ -141,6 +141,12 @@ if( ! class_exists( 'Pages' ) ){
 				'wp-api-fetch'
 			), LCHB_VERSION );
 
+			$fluent_installed = 'false';
+
+			if( FluentCRM::is_installed() ){
+				$fluent_installed = 'true';
+			}
+
 			$fluent = 'false';
 
 			if( FluentCRM::is_active() ){
@@ -153,6 +159,7 @@ if( ! class_exists( 'Pages' ) ){
 				'stripe_integration'    => get_option( 'lchb_stripe_integration' ),
 				'stripe_public_key'     => get_option( 'lchb_stripe_public_key' ),
 				'stripe_private_key'    => get_option( 'lchb_stripe_private_key' ),
+				'fluentcrm_installed'   => $fluent_installed,
 				'fluentcrm_integration' => $fluent
 			] );
 
