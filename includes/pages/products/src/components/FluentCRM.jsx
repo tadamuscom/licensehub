@@ -5,7 +5,8 @@ import FormGroup from "./form/FormGroup";
 import HelperText from "./form/HelperText";
 
 function FluentCrm(props) {
-    if( lchb_products.fluentcrm_installed === 'true' ){
+    console.log('active')
+    if( lchb_products.fluentcrm_integration === 'true' ){
         return (
             <>
                 <FormGroup>
