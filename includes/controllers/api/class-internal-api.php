@@ -76,6 +76,45 @@ if( ! class_exists( 'Internal_API' ) ) {
 					},
 				)
 			);
+
+			// Delete Product
+			register_rest_route(
+				$this->namespace,
+				'/delete-product',
+				array(
+					'methods' => 'POST',
+					'callback' => array($this, 'delete_product'),
+					'permission_callback' => function () {
+						return current_user_can('manage_options');
+					},
+				)
+			);
+
+			// Delete License Key
+			register_rest_route(
+				$this->namespace,
+				'/delete-license-key',
+				array(
+					'methods' => 'POST',
+					'callback' => array($this, 'delete_license_key'),
+					'permission_callback' => function () {
+						return current_user_can('manage_options');
+					},
+				)
+			);
+
+			// Delete API Key
+			register_rest_route(
+				$this->namespace,
+				'/delete-api-key',
+				array(
+					'methods' => 'POST',
+					'callback' => array($this, 'delete_api_key'),
+					'permission_callback' => function () {
+						return current_user_can('manage_options');
+					},
+				)
+			);
 		}
 
 		/**
@@ -105,7 +144,9 @@ if( ! class_exists( 'Internal_API' ) ) {
 				$product->user_id = get_current_user_id();
 				$product->created_at = (new DateTime())->format( LCHB_TIME_FORMAT );
 
-				$meta = array();
+				$meta = array(
+					'download_link' => $params['download_link']
+				);
 
 				if( isset( $params['stripe_id'] ) ){
 					if( empty( $params[ 'stripe_id' ] ) ){
@@ -300,6 +341,96 @@ if( ! class_exists( 'Internal_API' ) ) {
 
 				wp_send_json_success( array(
 					'message' => __( 'Settings Saved!', 'licensehub' )
+				) );
+			}
+		}
+
+		/**
+		 * Delete a product
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return void
+		 */
+		public function delete_product( WP_REST_Request $request ) : void {
+			$params = $request->get_params();
+
+			if( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_products' ) ){
+				if( empty( $params[ 'id' ] ) ){
+					wp_send_json_error( array(
+						'message' => __( 'ID cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				$product = new Product( $params['id'] );
+				$product->destroy();
+
+				wp_send_json_success( array(
+					'message' => __( 'Product Deleted!', 'licensehub' )
+				) );
+			}
+		}
+
+		/**
+		 * Delete a license key
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return void
+		 */
+		public function delete_license_key( WP_REST_Request $request ) : void {
+			$params = $request->get_params();
+
+			if( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_license_keys' ) ){
+				if( empty( $params[ 'id' ] ) ){
+					wp_send_json_error( array(
+						'message' => __( 'ID cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				$license_key = new License_Key( $params['id'] );
+				$license_key->destroy();
+
+				wp_send_json_success( array(
+					'message' => __( 'License Key Deleted!', 'licensehub' )
+				) );
+			}
+		}
+
+		/**
+		 * Delete an api key
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param WP_REST_Request $request
+		 *
+		 * @return void
+		 */
+		public function delete_api_key( WP_REST_Request $request ) : void {
+			$params = $request->get_params();
+
+			if( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_api_keys' ) ){
+				if( empty( $params[ 'id' ] ) ){
+					wp_send_json_error( array(
+						'message' => __( 'ID cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				$api_key = new API_Key( $params['id'] );
+				$api_key->destroy();
+
+				wp_send_json_success( array(
+					'message' => __( 'API Key Deleted!', 'licensehub' )
 				) );
 			}
 		}

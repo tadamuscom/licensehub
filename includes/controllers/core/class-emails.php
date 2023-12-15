@@ -31,8 +31,10 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Core\Emails' ) ){
             $message .= '<p>Thanks for purchasing ' . $product->name . '!</p>';
             $message .= '<p>Here you have your license key:</p>';
             $message .= '<p>' . $key->license_key . '</p>';
+            $message .= '<p>You can download the files here:</p>';
+            $message .= '<p><a href="' . $product->get_meta( 'download_link' ) . '">' . $product->get_meta( 'download_link' ) . '</a></p>';
             $message .= '<p>If you have any questions or issues, please don\'t hesitate to reach out via the following email address</p>';
-            $message .= '<p>hello@tadamus.com</p>';
+            $message .= '<p><a href="mailto:hello@tadamus.com">hello@tadamus.com</a></p>';
             $message .= '<p>Thanks!</p>';
 
             wp_mail( $to, $subject, $message );

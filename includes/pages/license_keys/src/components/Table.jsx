@@ -20,18 +20,16 @@ function Table( props ) {
     const [ headers, setHeaders ] = useState( preHeaders );
 
     return (
-        <div>
-            <table className='tada-table'>
-                <thead>
-                    <tr>
-                        { headers }
-                    </tr>
-                </thead>
-                <tbody>
-                    { rows }
-                </tbody>
-            </table>
-        </div>
+        <table className='tada-table'>
+            <thead>
+                <tr>
+                    { headers }
+                </tr>
+            </thead>
+            <tbody>
+                { rows }
+            </tbody>
+        </table>
     );
 }
 

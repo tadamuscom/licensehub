@@ -102,7 +102,6 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' )
 							$this->generate_key( $user, $product, $expires_at );
 						}
 					}
-
 					wp_send_json_success();
 				}
 			}

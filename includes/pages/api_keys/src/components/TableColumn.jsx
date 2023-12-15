@@ -2,7 +2,7 @@ import React from 'react';
 
 function TableColumn( props ) {
     return (
-        <td>
+        <td column={ props.column }>
             { props.data }
         </td>
     );

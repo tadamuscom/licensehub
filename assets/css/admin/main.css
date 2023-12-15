@@ -272,3 +272,52 @@ p{
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
 }
+
+.tada-action-icon{
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.tada-loader {
+    border: 4px solid #E89D2D;
+    border-top: 4px solid #18B295;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.tada-delete-btn{
+    background:transparent;
+    border: 2px solid red;
+    font-family: Poppins, serif;
+    color: red;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.tada-delete-btn:hover{
+    background-color: red;
+    color: #fff;
+}
+
+.tada-edit-btn{
+    background:transparent;
+    border: 2px solid orange;
+    font-family: Poppins, serif;
+    color: orange;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.tada-edit-btn:hover{
+    background-color: orange;
+    color: #fff;
+}

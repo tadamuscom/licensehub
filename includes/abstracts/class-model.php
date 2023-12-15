@@ -217,6 +217,19 @@ if( ! class_exists( 'Model' ) ){
         }
 
 	    /**
+	     * Delete the instance from the database
+	     *
+	     * @since 1.0.0
+	     *
+	     * @return void
+	     */
+	    public function destroy() : void {
+		    global $wpdb;
+
+		    $wpdb->delete( $this->generate_table_name(), array( 'id' => $this->id ) );
+	    }
+
+	    /**
 	     * Check if the table exists
 	     *
 	     * @since 1.0.0

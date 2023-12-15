@@ -23,6 +23,7 @@ function NewProduct( props ) {
         const stripeID = formData.get( 'lchb-stripe-id' );
         const fluentCRMLists = formData.get( 'lchb-fluentcrm-lists' );
         const fluentCRMTags = formData.get( 'lchb-fluentcrm-tags' );
+        const downloadLink = formData.get( 'lchb-download-link' );
 
         let go = true;
 
@@ -32,9 +33,16 @@ function NewProduct( props ) {
             go = false;
         }
 
+        if( downloadLink.length < 1 ){
+            triggerError( 'lchb-download-link', 'Download link cannot be empty' );
+
+            go = false;
+        }
+
         const data = {
             nonce: lchb_products.nonce,
-            name: name
+            name: name,
+            download_link: downloadLink
         };
 
         if( stripeID ){
@@ -108,6 +116,10 @@ function NewProduct( props ) {
                 </FormGroup>
                 <Stripe />
                 <FluentCRM />
+                <FormGroup>
+                    <Label htmlFor='lchb-download-link' label='Download Link' />
+                    <SingleTextInput id='lchb-download-link' name='lchb-download-link' value='' />
+                </FormGroup>
                 <FormGroup extraClass="tada-form-submit">
                     <Button label='Save Product' />
                     <p id='tada-status' className='tada-hidden'></p>
