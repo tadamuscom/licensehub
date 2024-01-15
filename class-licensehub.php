@@ -16,7 +16,7 @@ use LicenseHub\Includes\Controller\Core\Deactivation;
  * Plugin URI:        https://tadamus.com/products/licensehub
  * Description:       A lightweight plugin that allows you to create, manage and maintain software licenses for your plugins
  * Version:           1.0.3
- * Requires at least: 5.2
+ * Requires at least: 6.2
  * Requires PHP:      8.0
  * Author:            Tadamus
  * Author URI:        https://sorinmarta.com
@@ -136,8 +136,8 @@ if ( ! class_exists( 'LicenseHub' ) ) {
 		private function check_wp_version(): void {
 			global $wp_version;
 
-			if ( $wp_version < 5.2 ) {
-				wp_die( esc_attr__( 'WordPress version cannot be lower than 5.2', 'licensehub' ) );
+			if ( $wp_version < 6.2 ) {
+				wp_die( esc_attr__( 'WordPress version cannot be lower than 6.2', 'licensehub' ) );
 			}
 		}
 

@@ -38,7 +38,7 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' 
 
 			$product = new Product();
 
-			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s WHERE meta LIKE %s;', $product->generate_table_name( $product->table ), '%' . $product_id . '%' ) );
+			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE meta LIKE %s;', $product->generate_table_name( $product->table ), '%' . $product_id . '%' ) );
 
 			if ( empty( $results ) ) {
 				return false;

@@ -279,7 +279,7 @@ if ( ! class_exists( 'Validator' ) ) {
 					$value = '"' . $value . '"';
 				}
 
-				if ( $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %s WHERE %s=%s;', $this->model->generate_table_name(), $this->field, $value ) ) ) {
+				if ( $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE %s=%s;', $this->model->generate_table_name(), $this->field, $value ) ) ) {
 					$this->trigger_error( 'must be unique' );
 				}
 			}

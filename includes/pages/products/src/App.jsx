@@ -13,7 +13,6 @@ function App( props ) {
 
         event.target.style.display = 'none';
         newProduct.style.display = 'inherit';
-
     }
 
     return (

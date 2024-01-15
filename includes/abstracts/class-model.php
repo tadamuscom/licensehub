@@ -92,7 +92,7 @@ if ( ! class_exists( 'Model' ) ) {
 		public function exists( mixed $id ): bool {
 			global $wpdb;
 
-			if ( $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %s WHERE id=%s;', $this->generate_table_name( $this->table ), $id ) ) ) {
+			if ( $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id=%s;', $this->generate_table_name( $this->table ), $id ) ) ) {
 					return true;
 			}
 
@@ -111,7 +111,7 @@ if ( ! class_exists( 'Model' ) ) {
 		public function load_by_id( mixed $id ): bool|static {
 			global $wpdb;
 
-			$object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s WHERE id=%s;', $this->generate_table_name(), $id ) );
+			$object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE id=%s;', $this->generate_table_name(), $id ) );
 
 			if ( $object ) {
 				$this->object_format( $object );
@@ -157,7 +157,7 @@ if ( ! class_exists( 'Model' ) ) {
 
 			global $wpdb;
 
-			$object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s WHERE %s = %s;', $this->generate_table_name(), $field, $value ) );
+			$object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE %s = %s;', $this->generate_table_name(), $field, $value ) );
 
 			if ( $object ) {
 				$this->object_format( $object );
@@ -178,7 +178,7 @@ if ( ! class_exists( 'Model' ) ) {
 		public function get_all(): array {
 			global $wpdb;
 
-			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s;', $this->generate_table_name() ) );
+			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i;', $this->generate_table_name() ) );
 
 			foreach ( $results as $result ) {
 				unset( $result->meta );

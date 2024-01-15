@@ -168,7 +168,7 @@ if ( ! class_exists( 'Product' ) ) {
 		public function get_meta( string $meta_name ): mixed {
 			global $wpdb;
 
-			$object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %s WHERE id = %s', $this->generate_table_name(), $this->id ) );
+			$object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %s', $this->generate_table_name(), $this->id ) );
 
 			$meta = unserialize( $object->meta );
 
