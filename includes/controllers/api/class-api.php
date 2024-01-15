@@ -1,4 +1,9 @@
 <?php
+/**
+ * Holds the API class
+ *
+ * @package licensehub
+ */
 
 namespace LicenseHub\Includes\Controller;
 
@@ -7,12 +12,39 @@ use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
 use WP_REST_Request;
 
-if( ! class_exists( 'API' ) ){
-	class API{
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+if ( ! class_exists( 'API' ) ) {
+	/**
+	 * Handles the external API methods
+	 */
+	class API {
+		/**
+		 * The name of the error
+		 *
+		 * @var string
+		 */
 		private string $error_text;
+
+		/**
+		 * The user
+		 *
+		 * @var mixed|bool
+		 */
 		private mixed $user = false;
+
+		/**
+		 * The API key
+		 *
+		 * @var mixed|bool
+		 */
 		private mixed $key = false;
 
+		/**
+		 * Construct the class
+		 */
 		public function __construct() {
 			add_action( 'rest_api_init', array( $this, 'init_endpoints' ) );
 		}
@@ -24,7 +56,7 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @return void
 		 */
-		public function init_endpoints() : void {
+		public function init_endpoints(): void {
 			$this->license_endpoints();
 			$this->product_endpoints();
 		}
@@ -33,24 +65,24 @@ if( ! class_exists( 'API' ) ){
 		 * Check if the license is valid
 		 *
 		 * @since 1.0.0
-		 * 
-		 * @param WP_REST_Request $request
+		 *
+		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception
+		 * @throws \Exception A regular exception.
 		 */
-		public function validate_license( WP_REST_Request $request ) : void {
+		public function validate_license( WP_REST_Request $request ): void {
 			$key = $request->get_param( 'license_key' );
 
-			if( $key ){
+			if ( $key ) {
 				$license = ( new License_Key() )->load_by_field( 'license_key', $key );
 
-				if( $license ){
+				if ( $license ) {
 					wp_send_json_success( array( 'message' => 'License key is valid' ) );
 					return;
 				}
 			}
-			
+
 			wp_send_json_error( array( 'message' => 'License key could not be validated' ) );
 		}
 
@@ -59,34 +91,36 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_REST_Request $request
+		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception
+		 * @throws \Exception A regular exception.
 		 */
-		public function create_license( WP_REST_Request $request ) : void {
-			if( ! $this->auth( $request ) ){
+		public function create_license( WP_REST_Request $request ): void {
+			if ( ! $this->auth( $request ) ) {
 				wp_send_json_error( $this->error_text );
 				return;
 			}
 
-			if( $this->validate_new_license( $request ) ){
+			if ( $this->validate_new_license( $request ) ) {
 				$product_id = $request->get_param( 'product_id' );
 
 				$license = new License_Key();
 				$license->generate();
 				$license->product_id = (int) sanitize_text_field( $product_id );
-				$license->user_id = $this->user->ID;
-				$license->status = License_Key::$ACTIVE_STATUS;
+				$license->user_id    = $this->user->ID;
+				$license->status     = License_Key::$active_status;
 				$license->save();
-				
-				wp_send_json_success( array(
-					'id' => $license->id,
-					'key' => $license->license_key,
-					'created_at' => $license->created_at,
-					'expires_at' => $license->expires_at
-				) );
-			}else{
+
+				wp_send_json_success(
+					array(
+						'id'         => $license->id,
+						'key'        => $license->license_key,
+						'created_at' => $license->created_at,
+						'expires_at' => $license->expires_at,
+					)
+				);
+			} else {
 				wp_send_json_error( $this->error_text );
 			}
 		}
@@ -96,32 +130,33 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_REST_Request $request
+		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception
-		 *
+		 * @throws \Exception A regular exception.
 		 */
-		public function create_product( WP_REST_Request $request ) : void {
-			if( ! $this->auth( $request ) ){
+		public function create_product( WP_REST_Request $request ): void {
+			if ( ! $this->auth( $request ) ) {
 				wp_send_json_error( $this->error_text );
 				return;
 			}
 
-			if( $this->validate_new_product( $request ) ) {
-				$product = new Product();
-				$product->name = sanitize_text_field( $request->get_param( 'name' ) );
-				$product->status = Product::$ACTIVE_STATUS;
+			if ( $this->validate_new_product( $request ) ) {
+				$product          = new Product();
+				$product->name    = sanitize_text_field( $request->get_param( 'name' ) );
+				$product->status  = Product::$active_status;
 				$product->user_id = $this->user->ID;
 				$product->save();
-				
-				wp_send_json_success( array(
-					'id' => $product->id,
-					'name' => $product->name,
-					'status' => $product->status,
-					'created_at' => $product->created_at
-				) );
-			}else{
+
+				wp_send_json_success(
+					array(
+						'id'         => $product->id,
+						'name'       => $product->name,
+						'status'     => $product->status,
+						'created_at' => $product->created_at,
+					)
+				);
+			} else {
 				wp_send_json_error( $this->error_text );
 			}
 		}
@@ -131,29 +166,30 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_REST_Request $request
+		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception
-		 *
+		 * @throws \Exception A regular exception.
 		 */
-		public function retrieve_product( WP_REST_Request $request ) : void {
-			if( ! $this->auth( $request ) ){
+		public function retrieve_product( WP_REST_Request $request ): void {
+			if ( ! $this->auth( $request ) ) {
 				wp_send_json_error( $this->error_text );
 				return;
 			}
 
-			if( $this->validate_existing_product( $request ) ) {
+			if ( $this->validate_existing_product( $request ) ) {
 				$product = new Product( $request->get_param( 'product_id' ) );
-				
-				wp_send_json_success( array(
-					'id' => $product->id,
-					'name' => $product->name,
-					'status' => $product->status,
-					'created_at' => $product->created_at,
-				) );
-				
-			}else{
+
+				wp_send_json_success(
+					array(
+						'id'         => $product->id,
+						'name'       => $product->name,
+						'status'     => $product->status,
+						'created_at' => $product->created_at,
+					)
+				);
+
+			} else {
 				wp_send_json_error( $this->error_text );
 			}
 		}
@@ -165,18 +201,26 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @return void
 		 */
-		private function license_endpoints() : void {
-			// Public
-			register_rest_route( 'lchb/v1/license', '/validate', array(
-				'methods' => 'POST',
-				'callback' => array( $this, 'validate_license' ),
-			) );
+		private function license_endpoints(): void {
+			// Public.
+			register_rest_route(
+				'lchb/v1/license',
+				'/validate',
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'validate_license' ),
+				)
+			);
 
-			// Private
-			register_rest_route( 'lchb/v1/license', '/create', array(
-				'methods' => 'POST',
-				'callback' => array( $this, 'create_license' ),
-			) );
+			// Private.
+			register_rest_route(
+				'lchb/v1/license',
+				'/create',
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'create_license' ),
+				)
+			);
 		}
 
 		/**
@@ -186,15 +230,23 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @return void
 		 */
-		private function product_endpoints() : void {
-			register_rest_route( 'lchb/v1/product', '/retrieve', array(
-				'methods' => 'GET',
-				'callback' => array( $this, 'retrieve_product' ),
-			) );
-			register_rest_route( 'lchb/v1/product', '/create', array(
-				'methods' => 'POST',
-				'callback' => array( $this, 'create_product' ),
-			) );
+		private function product_endpoints(): void {
+			register_rest_route(
+				'lchb/v1/product',
+				'/retrieve',
+				array(
+					'methods'  => 'GET',
+					'callback' => array( $this, 'retrieve_product' ),
+				)
+			);
+			register_rest_route(
+				'lchb/v1/product',
+				'/create',
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'create_product' ),
+				)
+			);
 		}
 
 		/**
@@ -202,16 +254,15 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_REST_Request $request
+		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return bool
-		 * @throws \Exception
-		 *
+		 * @throws \Exception A regular exception.
 		 */
-		private function auth( WP_REST_Request $request ) : bool {
+		private function auth( WP_REST_Request $request ): bool {
 			$key = $request->get_header( 'LCHB-API-KEY' );
 
-			if( ! $key ){
+			if ( ! $key ) {
 				$this->error_text = 'Please use an API key';
 
 				return false;
@@ -219,13 +270,13 @@ if( ! class_exists( 'API' ) ){
 
 			$load = ( new API_Key() )->load_by_field( 'api_key', $key );
 
-			if( ! $load ){
-				$this->error_text = __( 'API Key is invalid', LCHB_SLUG );
+			if ( ! $load ) {
+				$this->error_text = esc_attr__( 'API Key is invalid', 'licensehub' );
 
 				return false;
 			}
 
-			$this->key = $load;
+			$this->key  = $load;
 			$this->user = $this->key->user();
 
 			return true;
@@ -236,24 +287,24 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_REST_Request $request
+		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return bool
 		 */
-		private function validate_new_license( WP_REST_Request $request ) : bool {
+		private function validate_new_license( WP_REST_Request $request ): bool {
 			$product_id = $request->get_param( 'product_id' );
 
-			if( ! $product_id ){
+			if ( ! $product_id ) {
 				$this->error_text = 'No product_id has been passed. Please pass a valid product_id';
 				return false;
 			}
 
-			if( ! is_int( $product_id ) ){
+			if ( ! is_int( $product_id ) ) {
 				$this->error_text = 'The product_id must be an integer';
 				return false;
 			}
 
-			if( ! ( new Product() )->exists( $product_id) ){
+			if ( ! ( new Product() )->exists( $product_id ) ) {
 				$this->error_text = 'The product does not exist';
 				return false;
 			}
@@ -266,17 +317,17 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_REST_Request $request
+		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return bool
 		 */
-		private function validate_new_product( WP_REST_Request $request ) : bool {
-			if( ! $request->get_param( 'name' ) ){
+		private function validate_new_product( WP_REST_Request $request ): bool {
+			if ( ! $request->get_param( 'name' ) ) {
 				$this->error_text = 'Please provide a name for the product';
 				return false;
 			}
 
-			if( ! is_string( $request->get_param( 'name' ) ) ){
+			if ( ! is_string( $request->get_param( 'name' ) ) ) {
 				$this->error_text = 'The product name must be a string';
 				return false;
 			}
@@ -289,24 +340,24 @@ if( ! class_exists( 'API' ) ){
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_REST_Request $request
+		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return bool
 		 */
-		private function validate_existing_product( WP_REST_Request $request ) : bool {
+		private function validate_existing_product( WP_REST_Request $request ): bool {
 			$id = $request->get_param( 'product_id' );
 
-			if( ! $id ){
+			if ( ! $id ) {
 				$this->error_text = 'Please an id for the product';
 				return false;
 			}
 
-			if( ! is_int( $id ) ){
+			if ( ! is_int( $id ) ) {
 				$this->error_text = 'The product_id must be an integer';
 				return false;
 			}
 
-			if( ! ( new Product() )->exists( $id) ){
+			if ( ! ( new Product() )->exists( $id ) ) {
 				$this->error_text = 'There is no product with that id';
 				return false;
 			}

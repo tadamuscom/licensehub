@@ -1,40 +1,55 @@
 <?php
+/**
+ * Holds the Stripe class
+ *
+ * @package licensehub
+ */
 
 namespace LicenseHub\Includes\Controller\Integration\Stripe;
 
-use \DateTime;
-use \DateInterval;
-use \WP_User;
-use \WP_REST_Request;
+use DateTime;
+use DateInterval;
+use WP_User;
+use WP_REST_Request;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
 use Stripe\StripeClient;
 
-if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' ) ){
-	class Stripe{
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+if ( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' ) ) {
+	/**
+	 * Handle the Stripe integration
+	 */
+	class Stripe {
 		/**
 		 * Check if there is a product with the given Stripe Product ID
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $product_id
+		 * @param string $product_id The ID of the product.
 		 *
 		 * @return bool|Product
 		 */
-		public static function product_id_exists( string $product_id ) : bool|Product {
+		public static function product_id_exists( string $product_id ): bool|Product {
 			global $wpdb;
 
 			$product = new Product();
 
-			$results = $wpdb->get_results( "SELECT * FROM " . $product->generate_table_name( $product->table ) . " WHERE meta LIKE '%" . $product_id . "%'" );
+			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s WHERE meta LIKE %s;', $product->generate_table_name( $product->table ), '%' . $product_id . '%' ) );
 
-			if( empty( $results ) ){
+			if ( empty( $results ) ) {
 				return false;
-			}else{
+			} else {
 				return new Product( $results[0]->id );
 			}
 		}
 
+		/**
+		 * Construct the class
+		 */
 		public function __construct() {
 			add_action( 'rest_api_init', array( $this, 'routes' ) );
 		}
@@ -46,12 +61,16 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' )
 		 *
 		 * @return void
 		 */
-		public function routes() : void {
-			// Public
-			register_rest_route( 'lchb/integrations', '/stripe', array(
-				'methods' => 'POST',
-				'callback' => array( $this, 'listener' ),
-			) );
+		public function routes(): void {
+			// Public.
+			register_rest_route(
+				'lchb/integrations',
+				'/stripe',
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'listener' ),
+				)
+			);
 		}
 
 		/**
@@ -59,38 +78,36 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' )
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_REST_Request $request
+		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Stripe\Exception\ApiErrorException
-		 * @throws \Exception
-		 *
-		 * @return void
+		 * @throws \Stripe\Exception\ApiErrorException A Stripe API exception.
+		 * @throws \Exception A regular exception.
 		 */
-		public function listener( WP_REST_Request $request ) : void {
+		public function listener( WP_REST_Request $request ): void {
 			$stripe = new StripeClient( get_option( 'lchb_stripe_private_key' ) );
-			$event = $stripe->events->retrieve( $request->get_param( 'id' ) );
+			$event  = $stripe->events->retrieve( $request->get_param( 'id' ) );
 
-			if( $event->type === 'charge.succeeded' ){
-				$charge = $stripe->charges->retrieve( ( $event->data->values() )[0]->id );
+			if ( 'charge.succeeded' === $event->type ) {
+				$charge  = $stripe->charges->retrieve( ( $event->data->values() )[0]->id );
 				$invoice = $stripe->invoices->retrieve( $charge->invoice );
 
-				$user = lchb_get_or_create_user_by_email( $invoice->customer_email );
+				$user    = lchb_get_or_create_user_by_email( $invoice->customer_email );
 				$product = self::product_id_exists( $invoice->lines->data[0]->plan->product );
 
-				if( $product ){
-					$interval = DateInterval::createFromDateString( $invoice->lines->data[0]->plan->interval_count . ' ' . $invoice->lines->data[0]->plan->interval );
+				if ( $product ) {
+					$interval   = DateInterval::createFromDateString( $invoice->lines->data[0]->plan->interval_count . ' ' . $invoice->lines->data[0]->plan->interval );
 					$expires_at = ( new DateTime() )->add( $interval )->format( LCHB_TIME_FORMAT );
 
 					$keys = License_Key::get_all_by_user_id( $user->ID );
 
-					if( empty( $keys ) ){
+					if ( empty( $keys ) ) {
 						$this->generate_key( $user, $product, $expires_at );
-					}else{
+					} else {
 						$updated = false;
 
-						foreach( $keys as $key ){
-							if( $key->product_id == $product->id ){
+						foreach ( $keys as $key ) {
+							if ( $key->product_id == $product->id ) {
 								$key->expires_at = $expires_at;
 								$key->save();
 
@@ -98,14 +115,13 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' )
 							}
 						}
 
-						if( ! $updated ){
+						if ( ! $updated ) {
 							$this->generate_key( $user, $product, $expires_at );
 						}
 					}
 					wp_send_json_success();
 				}
 			}
-
 		}
 
 		/**
@@ -113,19 +129,19 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' )
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_User $user
-		 * @param Product $product
-		 * @param string  $expires_at
+		 * @param WP_User $user The user object.
+		 * @param Product $product The product object.
+		 * @param string  $expires_at The date the key expires at.
 		 *
 		 * @return void
-		 * @throws \Exception
+		 * @throws \Exception A regular exception.
 		 */
-		private function generate_key( WP_User $user, Product $product, string $expires_at ) : void {
+		private function generate_key( WP_User $user, Product $product, string $expires_at ): void {
 			$key = new License_Key();
 			$key->generate();
-			$key->status = License_Key::$ACTIVE_STATUS;
-			$key->user_id = $user->ID;
-			$key->product_id = ( int ) $product->id;
+			$key->status     = License_Key::$active_status;
+			$key->user_id    = $user->ID;
+			$key->product_id = (int) $product->id;
 			$key->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
 			$key->expires_at = $expires_at;
 			$key->save();
@@ -133,9 +149,9 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' )
 			/**
 			 * Allow for code to be executed after a key was generated
 			 *
-			 * @param WP_User $user
-			 * @param Product $product
-			 * @param License_Key $key
+			 * @param WP_User $user The user object.
+			 * @param Product $product The product object.
+			 * @param License_Key $key The key object.
 			 */
 			do_action( 'lchb-license-key-generated', $user, $product, $key );
 		}

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Holds the FluentCRM class
+ *
+ * @package licensehub
+ */
 
 namespace LicenseHub\Includes\Controller\Integration\FluentCRM;
 
@@ -6,8 +11,15 @@ use WP_User;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
 
-if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\FluentCRM\FluentCRM' ) ){
-	class FluentCRM{
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+if ( ! class_exists( 'LicenseHub\Includes\Controller\Integration\FluentCRM\FluentCRM' ) ) {
+	/**
+	 * Handle the FluentCRM integration
+	 */
+	class FluentCRM {
 		/**
 		 * Check if the FluentCRM is installed
 		 *
@@ -15,8 +27,8 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\FluentCRM\Fluent
 		 *
 		 * @return bool
 		 */
-		public static function is_installed() : bool {
-			if( defined( 'FLUENTCRM' ) ){
+		public static function is_installed(): bool {
+			if ( defined( 'FLUENTCRM' ) ) {
 				return true;
 			}
 
@@ -30,14 +42,17 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\FluentCRM\Fluent
 		 *
 		 * @return bool
 		 */
-		public static function is_active() : bool {
-			if( defined( 'FLUENTCRM' ) && get_option( 'lchb-fluentcrm-integration' ) === 'true' ){
+		public static function is_active(): bool {
+			if ( defined( 'FLUENTCRM' ) && 'true' === get_option( 'lchb-fluentcrm-integration' ) ) {
 				return true;
 			}
 
 			return false;
 		}
 
+		/**
+		 * Construct the class
+		 */
 		public function __construct() {
 			add_action( 'lchb-license-key-generated', array( $this, 'add_contact' ), 10, 3 );
 		}
@@ -47,32 +62,32 @@ if( ! class_exists( 'LicenseHub\Includes\Controller\Integration\FluentCRM\Fluent
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param WP_User $user
-		 * @param Product $product
+		 * @param WP_User $user The user object.
+		 * @param Product $product The product object.
 		 *
 		 * @return void
 		 */
-		public function add_contact( WP_User $user, Product $product  ) : void {
-			if( self::is_active() ){
-				$contactApi = FluentCrmApi('contacts');
+		public function add_contact( WP_User $user, Product $product ): void {
+			if ( self::is_active() ) {
+				$contact_api = FluentCrmApi( 'contacts' );
 
-				if( ! $contactApi->getContact( $user->user_email ) ){
+				if ( ! $contact_api->getContact( $user->user_email ) ) {
 					$data = array(
 						'first_name' => $user->first_name,
-						'last_name' => $user->last_name,
-						'email' => $user->user_email,
-						'status' => 'pending'
+						'last_name'  => $user->last_name,
+						'email'      => $user->user_email,
+						'status'     => 'pending',
 					);
 
-					if( $product->get_meta( 'fluentcrm_lists' ) ){
+					if ( $product->get_meta( 'fluentcrm_lists' ) ) {
 						$data['lists'] = $product->get_meta( 'fluentcrm_lists' );
 					}
 
-					if( $product->get_meta( 'fluentcrm_tags' ) ){
+					if ( $product->get_meta( 'fluentcrm_tags' ) ) {
 						$data['tags'] = $product->get_meta( 'fluentcrm_tags' );
 					}
 
-					$contactApi->createOrUpdate( $data );
+					$contact_api->createOrUpdate( $data );
 				}
 			}
 		}

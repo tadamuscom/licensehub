@@ -1,4 +1,9 @@
 <?php
+/**
+ * Holds the Product model
+ *
+ * @package licensehub
+ */
 
 namespace LicenseHub\Includes\Model;
 
@@ -7,47 +12,118 @@ use Exception;
 use LicenseHub\Includes\Abstract\Model;
 use LicenseHub\Includes\Interface\Model_Blueprint;
 
-if( ! class_exists( 'Product' ) ) {
-	class Product extends Model implements Model_Blueprint{
-		public static string $ACTIVE_STATUS = 'active';
-		public static string $INACTIVE_STATUS = 'inactive';
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+if ( ! class_exists( 'Product' ) ) {
+	/**
+	 * The model for Products
+	 */
+	class Product extends Model implements Model_Blueprint {
+		/**
+		 * String for the active status
+		 *
+		 * @var string
+		 */
+		public static string $active_status = 'active';
+
+		/**
+		 * String for the inactive status
+		 *
+		 * @var string
+		 */
+		public static string $inactive_status = 'inactive';
 
 		/**
 		 * Return a list of product IDs
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param int $user_id
+		 * @param int $user_id The ID of the user.
 		 *
 		 * @return array
 		 */
-		public static function product_list_by_user_id( int $user_id ) : array {
+		public static function product_list_by_user_id( int $user_id ): array {
 			global $wpdb;
 
 			$returnable = array();
-			$table = ( new self() )->generate_table_name();
+			$table      = ( new self() )->generate_table_name();
 
-			$results = $wpdb->get_results( 'SELECT id FROM ' . $table . ' WHERE user_id = ' . $user_id . ';' );
+			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %s WHERE user_id = %s;', $table, $user_id ) );
 
-			foreach( $results as $result ){
+			foreach ( $results as $result ) {
 				$returnable[] = $result->id;
 			}
 
 			return $returnable;
 		}
 
+		/**
+		 * The name of the product
+		 *
+		 * @var string
+		 */
 		public string $table = 'products';
+
+		/**
+		 * The fields of the model
+		 *
+		 * @var array|array[]
+		 */
 		protected array $fields = array(
-			'name'          => array( 'required', 'string' ),
-			'status'        => array( 'required', 'string' ),
-			'user_id'       => array( 'required', 'integer' ),
-			'meta'          => array( 'serialized' ),
-			'created_at'    => array( 'required', 'date' ),
+			'name'       => array( 'required', 'string' ),
+			'status'     => array( 'required', 'string' ),
+			'user_id'    => array( 'required', 'integer' ),
+			'meta'       => array( 'serialized' ),
+			'created_at' => array( 'required', 'date' ),
 		);
 
-		public function init() : void {
-			if( ! $this->table_exists( $this->table ) ){
-				$this->create_table( $this->generate_table_name( $this->table ), "
+		/**
+		 * The name of the product
+		 *
+		 * @var string
+		 */
+		public string $name;
+
+		/**
+		 * The status of the product
+		 *
+		 * @var string
+		 */
+		public string $status;
+
+		/**
+		 * The ID of the user
+		 *
+		 * @var int
+		 */
+		public int $user_id;
+
+		/**
+		 * Meta fields of the model
+		 *
+		 * @var mixed
+		 */
+		public mixed $meta;
+
+		/**
+		 * The date the product was created at
+		 *
+		 * @var string
+		 */
+		public string $created_at;
+
+		/**
+		 * Initiate the model
+		 *
+		 * @return void
+		 */
+		public function init(): void {
+			if ( ! $this->table_exists( $this->table ) ) {
+				$this->create_table(
+					$this->generate_table_name( $this->table ),
+					"
                     id mediumint(9) NOT NULL AUTO_INCREMENT,
                     name varchar(255) NOT NULL,
                     meta TEXT,
@@ -55,7 +131,8 @@ if( ! class_exists( 'Product' ) ) {
                     user_id mediumint(9) NOT NULL,
                     created_at datetime NOT NULL,
                     PRIMARY KEY  (id)
-                " );
+                "
+				);
 			}
 		}
 
@@ -65,14 +142,14 @@ if( ! class_exists( 'Product' ) ) {
 		 * @since 1.0.0
 		 *
 		 * @return WP_User
-		 * @throws Exception
+		 * @throws Exception A regular exception.
 		 */
-		public function user() : WP_User {
-			if( ! $this->exists( $this->id ) ){
+		public function user(): WP_User {
+			if ( ! $this->exists( $this->id ) ) {
 				throw new Exception( 'No license key has been summoned' );
 			}
 
-			if( empty( $this->user_id ) ){
+			if ( empty( $this->user_id ) ) {
 				throw new Exception( 'This license key does not have any users attached' );
 			}
 
@@ -84,18 +161,18 @@ if( ! class_exists( 'Product' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $meta_name
+		 * @param string $meta_name The name of the meta.
 		 *
 		 * @return mixed
 		 */
-		public function get_meta( string $meta_name ) : mixed {
+		public function get_meta( string $meta_name ): mixed {
 			global $wpdb;
 
-			$object = $wpdb->get_row( 'SELECT * FROM ' . $this->generate_table_name() . ' WHERE id=' . $this->id );
+			$object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %s WHERE id = %s', $this->generate_table_name(), $this->id ) );
 
 			$meta = unserialize( $object->meta );
 
-			if( isset( $meta[ $meta_name ] ) ){
+			if ( isset( $meta[ $meta_name ] ) ) {
 				return $meta[ $meta_name ];
 			}
 

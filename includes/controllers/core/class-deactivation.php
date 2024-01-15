@@ -1,12 +1,29 @@
 <?php
+/**
+ * Holds the deactivation class
+ *
+ * @package licensehub
+ */
 
 namespace LicenseHub\Includes\Controller\Core;
 
-if( ! class_exists( 'Deactivation' ) ){
-	class Deactivation{
-		public function __construct(){
-			if( $option = get_option( 'lchb_erase_on_deactivation' ) ){
-				if( $option === 'true' ){
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+if ( ! class_exists( 'Deactivation' ) ) {
+	/**
+	 * Handle the deactivation of the plugin
+	 */
+	class Deactivation {
+		/**
+		 * Construct the class
+		 */
+		public function __construct() {
+			$option = get_option( 'lchb_erase_on_deactivation' );
+
+			if ( $option ) {
+				if ( 'true' === $option ) {
 					$this->erase_all();
 				}
 			}
@@ -19,7 +36,7 @@ if( ! class_exists( 'Deactivation' ) ){
 		 *
 		 * @return void
 		 */
-		private function erase_all() : void {
+		private function erase_all(): void {
 			$this->erase_tables();
 			$this->erase_options();
 		}
@@ -31,15 +48,15 @@ if( ! class_exists( 'Deactivation' ) ){
 		 *
 		 * @return void
 		 */
-		private function erase_tables() : void {
+		private function erase_tables(): void {
 			$models = array(
 				'Product',
 				'License_Key',
-				'API_Key'
+				'API_Key',
 			);
 
-			foreach( $models as $model ){
-				$this->delete_table( ( new $model )->generate_table_name() );
+			foreach ( $models as $model ) {
+				$this->delete_table( ( new $model() )->generate_table_name() );
 			}
 		}
 
@@ -50,12 +67,12 @@ if( ! class_exists( 'Deactivation' ) ){
 		 *
 		 * @return void
 		 */
-		private function erase_options() : void {
+		private function erase_options(): void {
 			$options = array(
-				'lchb_erase_on_deactivation'
+				'lchb_erase_on_deactivation',
 			);
 
-			foreach ( $options as $option ){
+			foreach ( $options as $option ) {
 				delete_option( $option );
 			}
 		}
@@ -65,14 +82,14 @@ if( ! class_exists( 'Deactivation' ) ){
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param $table_name
+		 * @param string $table_name The name of the table.
 		 *
 		 * @return void
 		 */
-		private function delete_table( $table_name ) : void {
+		private function delete_table( string $table_name ): void {
 			global $wpdb;
 
-			$wpdb->query( "DROP TABLE IF EXISTS $table_name ;" );
+			$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %s', $table_name ) );
 		}
 	}
 }

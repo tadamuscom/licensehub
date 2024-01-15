@@ -1,12 +1,20 @@
 <?php
+/**
+ * Holds the loader class
+ *
+ * @package licensehub
+ */
 
 namespace LicenseHub\Includes;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
-if( ! class_exists( 'Loader' ) ) {
+if ( ! class_exists( 'Loader' ) ) {
+	/**
+	 * Responsible to load all the files in the plugin
+	 */
 	class Loader {
 		/**
 		 * Calls all the sub methods that require the files
@@ -14,7 +22,6 @@ if( ! class_exists( 'Loader' ) ) {
 		 * @since 1.0.0
 		 *
 		 * @return void
-		 *
 		 */
 		public function __construct() {
 			require_once LCHB_VENDOR . '/autoload.php';
@@ -32,12 +39,11 @@ if( ! class_exists( 'Loader' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param $dir
+		 * @param string $dir The path of the directory.
 		 *
 		 * @return void
-		 *
 		 */
-		private function require_child_files_once( $dir ): void {
+		private function require_child_files_once( string $dir ): void {
 			foreach ( $this->get_files( $dir ) as $file ) {
 				require_once $file;
 			}
@@ -48,12 +54,11 @@ if( ! class_exists( 'Loader' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param $dir
+		 * @param mixed $dir The directory.
 		 *
 		 * @return array
-		 *
 		 */
-		private function get_files( $dir ): array {
+		private function get_files( mixed $dir ): array {
 			$dir_object = new \DirectoryIterator( $dir );
 			$returnable = array();
 
@@ -66,7 +71,7 @@ if( ! class_exists( 'Loader' ) ) {
 					$returnable = array_merge( $returnable, $this->get_files( $dir . '/' . $file ) );
 				}
 
-				if ( $file->getExtension() != 'php' ) {
+				if ( 'php' !== $file->getExtension() ) {
 					continue;
 				}
 

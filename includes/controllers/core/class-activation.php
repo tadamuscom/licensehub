@@ -1,4 +1,9 @@
 <?php
+/**
+ * Holds the Activation class
+ *
+ * @package licensehub
+ */
 
 namespace LicenseHub\Includes\Controller\Core;
 
@@ -6,9 +11,19 @@ use LicenseHub\Includes\Model\API_Key;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
 
-if( ! class_exists( 'Activation' ) ){
-	class Activation{
-		public function __construct(){
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+if ( ! class_exists( 'Activation' ) ) {
+	/**
+	 * Handle the plugin activation
+	 */
+	class Activation {
+		/**
+		 * Construct the class
+		 */
+		public function __construct() {
 			$this->tables();
 			$this->options();
 		}
@@ -20,10 +35,10 @@ if( ! class_exists( 'Activation' ) ){
 		 *
 		 * @return void
 		 */
-		private function tables() : void  {
-			( new Product )->init();
-			( new API_Key )->init();
-			( new License_Key )->init();
+		private function tables(): void {
+			( new Product() )->init();
+			( new API_Key() )->init();
+			( new License_Key() )->init();
 		}
 
 		/**
@@ -33,8 +48,8 @@ if( ! class_exists( 'Activation' ) ){
 		 *
 		 * @return void
 		 */
-		private function options() : void {
-			if( ! get_option( 'lchb_erase_on_deactivation' ) ){
+		private function options(): void {
+			if ( ! get_option( 'lchb_erase_on_deactivation' ) ) {
 				lchb_add_or_update_option( 'lchb_erase_on_deactivation', 'false' );
 			}
 		}

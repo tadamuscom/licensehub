@@ -1,4 +1,9 @@
 <?php
+/**
+ * Holds the API_Key model
+ *
+ * @package licensehub
+ */
 
 namespace LicenseHub\Includes\Model;
 
@@ -8,23 +13,94 @@ use LicenseHub\Includes\Abstract\Model;
 use LicenseHub\Includes\Interface\Model_Blueprint;
 use LicenseHub\Includes\Lib\Validator;
 
-if( ! class_exists( 'API_Key' ) ) {
-	class API_Key extends Model implements Model_Blueprint{
-		public static string $ACTIVE_STATUS = 'active';
-		public static string $INACTIVE_STATUS = 'inactive';
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
+if ( ! class_exists( 'API_Key' ) ) {
+	/**
+	 * Model for API keys
+	 */
+	class API_Key extends Model implements Model_Blueprint {
+		/**
+		 * The string for the active status
+		 *
+		 * @var string
+		 */
+		public static string $active_status = 'active';
+
+		/**
+		 * The string for the inactive status
+		 *
+		 * @var string
+		 */
+		public static string $inactive_status = 'inactive';
+
+		/**
+		 * The name of the table
+		 *
+		 * @var string
+		 */
 		protected string $table = 'api_keys';
+
+		/**
+		 * Fields of the model
+		 *
+		 * @var array|array[]
+		 */
 		protected array $fields = array(
-			'api_key'           => array( 'required', 'string', 'unique' ),
-			'status'            => array( 'required', 'string' ),
-			'user_id'           => array( 'required', 'numeric' ),
-			'created_at'        => array( 'required', 'date' ),
-			'expires_at'        => array( 'required', 'date' )
+			'api_key'    => array( 'required', 'string', 'unique' ),
+			'status'     => array( 'required', 'string' ),
+			'user_id'    => array( 'required', 'numeric' ),
+			'created_at' => array( 'required', 'date' ),
+			'expires_at' => array( 'required', 'date' ),
 		);
 
-		public function init() : void {
-			if( ! $this->table_exists( $this->table ) ){
-				$this->create_table( $this->generate_table_name( $this->table ), "
+		/**
+		 * The key
+		 *
+		 * @var string
+		 */
+		public string $api_key;
+
+		/**
+		 * The status of the key
+		 *
+		 * @var string
+		 */
+		public string $status;
+
+		/**
+		 * The ID of the user
+		 *
+		 * @var mixed
+		 */
+		public mixed $user_id;
+
+		/**
+		 * The date at which the key was created
+		 *
+		 * @var string
+		 */
+		public string $created_at;
+
+		/**
+		 * The date at which the key expires
+		 *
+		 * @var string
+		 */
+		public string $expires_at;
+
+		/**
+		 * Initiate the model
+		 *
+		 * @return void
+		 */
+		public function init(): void {
+			if ( ! $this->table_exists( $this->table ) ) {
+				$this->create_table(
+					$this->generate_table_name( $this->table ),
+					"
                     id mediumint(9) NOT NULL AUTO_INCREMENT,
                     api_key varchar(255) NOT NULL,
                     status varchar(255) DEFAULT 'inactive',
@@ -32,7 +108,8 @@ if( ! class_exists( 'API_Key' ) ) {
                     created_at datetime NOT NULL,
                     expires_at datetime NOT NULL,
                     PRIMARY KEY  (id)
-                " );
+                "
+				);
 			}
 		}
 
@@ -42,15 +119,15 @@ if( ! class_exists( 'API_Key' ) ) {
 		 * @since 1.0.0
 		 *
 		 * @return void
-		 * @throws Exception
+		 * @throws Exception A regular exception.
 		 */
-		public function generate() : void {
-			$key = hash( 'sha256', uniqid( get_current_user_id() ) );
+		public function generate(): void {
+			$key           = hash( 'sha256', uniqid( get_current_user_id() ) );
 			$this->api_key = $key;
 
 			$validation = ( new Validator( $this, 'api_key', array( 'unique' ) ) );
 
-			if( ! $validation->result() ){
+			if ( ! $validation->result() ) {
 				throw new Exception( 'Cannot generate a valid key, please contact support!' );
 			}
 		}
@@ -61,14 +138,14 @@ if( ! class_exists( 'API_Key' ) ) {
 		 * @since 1.0.0
 		 *
 		 * @return WP_User
-		 * @throws Exception
+		 * @throws Exception A regular exception.
 		 */
-		public function user() : WP_User {
-			if( ! $this->exists( $this->id ) ){
+		public function user(): WP_User {
+			if ( ! $this->exists( $this->id ) ) {
 				throw new Exception( 'No license key has been summoned' );
 			}
 
-			if( empty( $this->user_id ) ){
+			if ( empty( $this->user_id ) ) {
 				throw new Exception( 'This license key does not have any users attached' );
 			}
 
@@ -81,10 +158,10 @@ if( ! class_exists( 'API_Key' ) ) {
 		 * @since 1.0.0
 		 *
 		 * @return void
-		 * @throws Exception
+		 * @throws Exception A regular exception.
 		 */
-		public function save() : void {
-			if( $this->load_by_field( 'user_id', $this->user_id, false ) ){
+		public function save(): void {
+			if ( $this->load_by_field( 'user_id', $this->user_id, false ) ) {
 				$this->generate();
 			}
 
