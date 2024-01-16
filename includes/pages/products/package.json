@@ -13,11 +13,13 @@
   },
   "homepage": "https://tadmaus.com/",
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@wordpress/scripts": "^26.9.0",
     "@codeamp/block-components": "0.0.1-beta.9",
-    "lodash.assign": "^4.2.0"
+    "@wordpress/scripts": "^26.9.0",
+    "lodash.assign": "^4.2.0",
+    "react": "^18.2.0",
+    "react-contenteditable": "^3.3.7",
+    "react-dom": "^18.2.0",
+    "sanitize-html": "^2.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.15",

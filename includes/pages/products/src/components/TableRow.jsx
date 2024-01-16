@@ -45,7 +45,7 @@ function TableRow(props ) {
     }
 
     return (
-        <tr contentEditable>
+        <tr>
             { columns }
             <td><button className='tada-action-icon tada-delete-btn' onClick={ deleteClick }>Delete</button></td>
         </tr>
