@@ -7,16 +7,36 @@ function TableColumn( props ) {
     const [ previousData, setPreviousData ] = useState( props.data );
 
     const onBlur = ( event ) => {
-        console.log( columnData );
+        console.log( event.currentTarget.innerHTML );
     }
 
     const onChange = ( event ) => {
         setColumnData( event.target.value );
-
-        console.log(event.target.value)
     }
 
-    if( props.column === 'id' || props.column === 'ID' ){
+    let editable = true;
+
+    if( props.column === 'id' ){
+        editable = false;
+    }
+
+    if( props.column === 'ID' ){
+        editable = false;
+    }
+
+    if( props.column === 'created_at' ){
+        editable = false;
+    }
+
+    switch ( props.column ){
+        case 'ID':
+        case 'id':
+        case 'created_at':
+        case 'expires_at':
+            editable = false;
+    }
+
+    if( ! editable ){
         return (
             <td column={ props.column }>
                 { columnData }
