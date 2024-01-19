@@ -57,6 +57,13 @@ if ( ! class_exists( 'API_Key' ) ) {
 		);
 
 		/**
+		 * The ID of the object
+		 *
+		 * @var int
+		 */
+		public int $id;
+
+		/**
 		 * The key
 		 *
 		 * @var string

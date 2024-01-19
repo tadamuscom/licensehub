@@ -75,7 +75,9 @@ if ( ! class_exists( 'Validator' ) ) {
 			$this->edit       = $edit;
 			$this->returnable = true;
 
-			$this->validate();
+			if( 'meta' !== $field ){
+				$this->validate();
+			}
 		}
 
 		/**

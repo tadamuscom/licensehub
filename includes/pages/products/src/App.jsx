@@ -4,6 +4,8 @@ import Table from "./components/Table";
 import LinkButton from "./components/LinkButton";
 import NewProduct from "./components/NewProduct";
 import HeadingTwo from "./components/typography/HeadingTwo";
+import {columnAddLoader, getElementID, resetTable, triggerColumnError} from "./helpers/tableHelper";
+import sanitizeHtml from "sanitize-html";
 
 function App( props ) {
     const newOnClick = ( event ) => {
@@ -15,13 +17,73 @@ function App( props ) {
         newProduct.style.display = 'inherit';
     }
 
+    const tableOnBlur = ( event ) => {
+        const table = event.currentTarget.parentNode.parentNode.parentNode.parentNode;
+        const row = event.currentTarget.parentNode.parentNode;
+        const columnElement = event.currentTarget.parentNode
+        const column = sanitizeHtml( columnElement.getAttribute( 'column' ) );
+        const value = sanitizeHtml( event.currentTarget.innerHTML );
+        const id = getElementID( row );
+
+        resetTable( columnElement );
+
+        if( ! column || column.length < 1 ){
+            triggerColumnError( columnElement, table, 'There has been an error, the column name could not be identified' );
+        }
+
+        if( column === 'status' ){
+            const acceptedStatuses = [ 'active', 'inactive' ];
+
+            if( ! acceptedStatuses.includes( value ) ){
+                triggerColumnError( columnElement, table , 'Status can only be set to \'active\' or \'inactive\'' );
+
+                return;
+            }
+        }
+
+        const loader = columnAddLoader( row );
+
+        const data = {
+            nonce: lchb_products.nonce,
+            id: id,
+            column: column,
+            value: value
+        };
+
+        wp.apiFetch( {
+            path: '/tadamus/lchb/v1/update-product',
+            method: 'PUT',
+            data: data
+        } ).then( ( result ) => {
+            if( ! result.success ){
+                loader.remove();
+
+                triggerColumnError( columnElement, table, result.data.message );
+            }else{
+                loader.remove();
+            }
+        }).catch( ( result ) => {
+            loader.remove();
+
+            triggerColumnError( columnElement, table, result.message );
+        } );
+    }
+
     return (
         <div>
             <Header pageTitle='Products' />
-            <LinkButton click={ newOnClick } label='Add Product' />
+            <LinkButton
+                click={ newOnClick }
+                label='Add Product'
+            />
             <NewProduct />
             <HeadingTwo label='Products' />
-            <Table headers={ lchb_products.fields } rows={ lchb_products.products } editable={ true } />
+            <Table
+                headers={ lchb_products.fields }
+                rows={ lchb_products.products }
+                editable={ true }
+                onBlur={ tableOnBlur }
+            />
         </div>
     );
 }

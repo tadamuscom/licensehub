@@ -80,6 +80,13 @@ if ( ! class_exists( 'Product' ) ) {
 		);
 
 		/**
+		 * The ID of the object
+		 *
+		 * @var int
+		 */
+		public int $id;
+
+		/**
 		 * The name of the product
 		 *
 		 * @var string

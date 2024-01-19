@@ -124,6 +124,13 @@ if ( ! class_exists( 'License_Key' ) ) {
 		);
 
 		/**
+		 * The ID of the object
+		 *
+		 * @var int
+		 */
+		public int $id;
+
+		/**
 		 * The key of the license
 		 *
 		 * @var string

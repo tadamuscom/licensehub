@@ -413,6 +413,10 @@ if ( ! class_exists( 'Model' ) ) {
 					continue;
 				}
 
+				if ( 'meta' === $field ) {
+					continue;
+				}
+
 				$returnable[ $field ] = $this->{$field};
 			}
 
