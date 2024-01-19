@@ -6,6 +6,12 @@ function Table( props ) {
     const preHeaders = [];
     const preRows = [];
 
+    let editable = false;
+
+    if( props.editable ){
+        editable = props.editable;
+    }
+
     preHeaders.push( <TableHeader content='ID' key={ 'id' } /> );
 
     props.headers.forEach( ( element, index ) => {
@@ -13,7 +19,7 @@ function Table( props ) {
     } );
 
     props.rows.forEach( ( element, index ) => {
-        preRows.push( <TableRow columns={ element } key={ index } /> );
+        preRows.push( <TableRow columns={ element } key={ index } editable={ editable } /> );
     } );
 
     const [ rows, setRows ] = useState( preRows );

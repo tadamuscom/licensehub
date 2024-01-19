@@ -21,7 +21,7 @@ function App( props ) {
             <LinkButton click={ newOnClick } label='Add Product' />
             <NewProduct />
             <HeadingTwo label='Products' />
-            <Table headers={ lchb_products.fields } rows={ lchb_products.products } />
+            <Table headers={ lchb_products.fields } rows={ lchb_products.products } editable={ true } />
         </div>
     );
 }

@@ -5,7 +5,7 @@ function TableRow(props ) {
     const preColumns = [];
 
     for ( const [ key, value ] of Object.entries( props.columns ) ) {
-        preColumns.push( <TableColumn data={ value } key={ key } column={ key } /> );
+        preColumns.push( <TableColumn data={ value } key={ key } column={ key } editable={ props.editable } /> );
     }
 
     const [ columns, setColumns ] = useState( preColumns );
