@@ -23,15 +23,32 @@ function TableColumn( props ) {
     const onBlur = ( event ) => {
         const table = event.currentTarget.parentNode.parentNode.parentNode.parentNode;
         const row = event.currentTarget.parentNode.parentNode;
-        const column = event.currentTarget.parentNode.getAttribute( 'column' );
+        const columnElement = event.currentTarget.parentNode
+        const column = columnElement.getAttribute( 'column' );
         const value = event.currentTarget.innerHTML;
+        const errorElement = document.getElementById( 'table-error' );
         const id = getElementID( row );
 
-        console.log(table)
+        if( columnElement.style.borderColor === 'red' ){
+            columnElement.style.borderColor = '#000';
+        }
 
-        if ( column === 'status' ){
-            if ( value !== 'active' || value !== 'inactive' ){
-                column.style.border = '1px solid red';
+        console.log(errorElement)
+
+        if( errorElement ){
+            errorElement.remove();
+        }
+
+        if( column === 'status' ){
+            if( value !== 'active' || value !== 'inactive' ){
+                columnElement.style.borderColor = 'red';
+                const tableParent = table.parentNode;
+                const errorParagraph = document.createElement( 'p' );
+                errorParagraph.id = 'table-error';
+                errorParagraph.innerText = 'Status can only be set to \'active\' or \'inactive\'';
+                errorParagraph.style.color = 'red';
+
+                tableParent.appendChild( errorParagraph );
 
                 return;
             }
