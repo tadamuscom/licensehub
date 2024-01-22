@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Header from "./components/layout/Header";
 import Table from "./components/Table";
 import LinkButton from "./components/LinkButton";
@@ -8,6 +8,8 @@ import {columnAddLoader, getElementID, resetTable, triggerColumnError} from "./h
 import sanitizeHtml from "sanitize-html";
 
 function App( props ) {
+    const [ loading, setLoading ] = useState( false );
+
     const newOnClick = ( event ) => {
         event.preventDefault();
 
@@ -26,9 +28,13 @@ function App( props ) {
         const id = getElementID( row );
 
         resetTable( columnElement );
+        setLoading( true );
 
         if( ! column || column.length < 1 ){
             triggerColumnError( columnElement, table, 'There has been an error, the column name could not be identified' );
+            setLoading( false );
+
+            return;
         }
 
         if( column === 'status' ){
@@ -36,6 +42,7 @@ function App( props ) {
 
             if( ! acceptedStatuses.includes( value ) ){
                 triggerColumnError( columnElement, table , 'Status can only be set to \'active\' or \'inactive\'' );
+                setLoading( false );
 
                 return;
             }
@@ -50,6 +57,14 @@ function App( props ) {
             value: value
         };
 
+        const beforeUnloadHandler = (event) => {
+            event.preventDefault();
+
+            event.returnValue = true;
+        };
+
+        window.addEventListener("beforeunload", beforeUnloadHandler);
+
         wp.apiFetch( {
             path: '/tadamus/lchb/v1/update-product',
             method: 'PUT',
@@ -62,10 +77,14 @@ function App( props ) {
             }else{
                 loader.remove();
             }
+
+            window.removeEventListener("beforeunload", beforeUnloadHandler);
         }).catch( ( result ) => {
             loader.remove();
 
             triggerColumnError( columnElement, table, result.message );
+
+            window.removeEventListener("beforeunload", beforeUnloadHandler);
         } );
     }
 
