@@ -1,7 +1,5 @@
 import React from 'react';
-import Label from "./form/Label";
-import SingleTextInput from "./form/SingleTextInput";
-import FormGroup from "./form/FormGroup";
+import { Label, SingleTextInput, FormGroup } from '@tadamus/wpui';
 
 function Stripe(props) {
     if( lchb_products.stripe === 'true' ) {

@@ -1,8 +1,5 @@
 import React from "react";
-import Header from "./components/layout/Header";
-import Table from "./components/Table";
-import LinkButton from "./components/LinkButton";
-import HeadingTwo from "./components/typography/HeadingTwo";
+import { Header, Table, LinkButton, HeadingTwo } from '@tadamus/wpui';
 import NewAPIKey from "./components/NewAPIKey";
 
 function App( props ) {

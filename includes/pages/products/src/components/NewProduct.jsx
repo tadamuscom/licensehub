@@ -1,10 +1,5 @@
 import React from 'react';
-import FormGroup from "./form/FormGroup";
-import Label from "./form/Label";
-import SingleTextInput from "./form/SingleTextInput";
-import HeadingTwo from "./typography/HeadingTwo";
-import Button from "./form/Button";
-import {resetForm, triggerError} from "../helpers/formHelper";
+import { FormGroup, Label, SingleTextInput, HeadingTwo, Button, resetForm, triggerError } from '@tadamus/wpui';
 import Stripe from "./Stripe";
 import FluentCRM from "./FluentCRM";
 

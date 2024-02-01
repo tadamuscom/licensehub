@@ -1,8 +1,5 @@
 import React from 'react';
-import Label from "./form/Label";
-import SingleTextInput from "./form/SingleTextInput";
-import FormGroup from "./form/FormGroup";
-import HelperText from "./form/HelperText";
+import { Label, SingleTextInput, FormGroup, HelperText } from '@tadamus/wpui';
 
 function FluentCrm(props) {
     if( lchb_products.fluentcrm_integration === 'true' ){

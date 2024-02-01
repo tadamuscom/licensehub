@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import FormGroup from "./form/FormGroup";
-import Label from "./form/Label";
-import HeadingTwo from "./typography/HeadingTwo";
-import Button from "./form/Button";
-import {resetForm, triggerError} from "../helpers/formHelper";
-import Select from "./form/Select";
-import SelectOption from "./form/SelectOption";
-import DatePicker from "./form/DatePicker";
+import { FormGroup, Label, HeadingTwo, Button, resetForm, triggerError, Select, SelectOption, DatePicker } from '@tadamus/wpui';
 
 function NewAPIKey(props ) {
     const submit = ( e ) => {

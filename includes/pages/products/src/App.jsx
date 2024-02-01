@@ -1,10 +1,6 @@
 import React, {useState} from "react";
-import Header from "./components/layout/Header";
-import Table from "./components/Table";
-import LinkButton from "./components/LinkButton";
+import { columnAddLoader, getElementID, resetTable, triggerColumnError, Header, Table, LinkButton, HeadingTwo } from "@tadamus/wpui";
 import NewProduct from "./components/NewProduct";
-import HeadingTwo from "./components/typography/HeadingTwo";
-import {columnAddLoader, getElementID, resetTable, triggerColumnError} from "./helpers/tableHelper";
 import sanitizeHtml from "sanitize-html";
 
 function App( props ) {
