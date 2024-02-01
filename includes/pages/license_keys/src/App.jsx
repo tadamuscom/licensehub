@@ -1,9 +1,6 @@
 import React from "react";
-import Header from "./components/layout/Header";
-import Table from "./components/Table";
-import LinkButton from "./components/LinkButton";
+import { Header, Table, LinkButton, HeadingTwo } from '@tadamus/wpui';
 import NewLicenseKey from "./components/NewLicenseKey";
-import HeadingTwo from "./components/typography/HeadingTwo";
 
 function App( props ) {
     const newOnClick = ( event ) => {

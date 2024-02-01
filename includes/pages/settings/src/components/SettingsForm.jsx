@@ -1,6 +1,5 @@
 import React from 'react';
-import FormGroup from "./form/FormGroup";
-import Button from "./form/Button";
+import { FormGroup, Button } from '@tadamus/wpui';
 import Stripe from "./Stripe";
 import FluentCRM from "./FluentCRM";
 

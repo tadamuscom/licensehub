@@ -1,13 +1,5 @@
 import React from "react";
-import Header from "./components/layout/Header";
-import HeadingTwo from "./components/typography/HeadingTwo";
-import FormGroup from "./components/form/FormGroup";
-import CheckBox from "./components/form/CheckBox";
-import Button from "./components/form/Button";
-import {resetForm, triggerError} from "./helpers/formHelper";
-import Label from "./components/form/Label";
-import SingleTextInput from "./components/form/SingleTextInput";
-import SinglePasswordInput from "./components/form/SinglePasswordInput";
+import { Header, HeadingTwo, resetForm, triggerError } from '@tadamus/wpui';
 import SettingsForm from "./components/SettingsForm";
 
 function App( props ) {

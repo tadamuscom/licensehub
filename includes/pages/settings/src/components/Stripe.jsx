@@ -1,9 +1,5 @@
 import React from 'react';
-import FormGroup from "./form/FormGroup";
-import CheckBox from "./form/CheckBox";
-import Label from "./form/Label";
-import SingleTextInput from "./form/SingleTextInput";
-import SinglePasswordInput from "./form/SinglePasswordInput";
+import { FormGroup, CheckBox, Label, SingleTextInput, SinglePasswordInput } from '@tadamus/wpui';
 
 function Stripe(props) {
     const onClick = ( e ) => {

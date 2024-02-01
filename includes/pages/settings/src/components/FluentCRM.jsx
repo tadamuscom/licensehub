@@ -1,6 +1,5 @@
 import React from 'react';
-import FormGroup from "./form/FormGroup";
-import CheckBox from "./form/CheckBox";
+import { FormGroup, CheckBox } from '@tadamus/wpui';
 
 function FluentCrm(props) {
     return (
