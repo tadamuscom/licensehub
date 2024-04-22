@@ -1,0 +1,8 @@
+node_modules/*
+vendor/*
+public/build/*
+public/admin-page/*
+*.min.js
+src/Library/utility-minimum.css
+plugin-update-checker/*
+languages/**/*.json

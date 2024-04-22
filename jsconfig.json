@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"@settings/*": ["./src/Settings/*"]
+		}
+	},
+	"exclude": ["node_modules", "vendor"]
+}
