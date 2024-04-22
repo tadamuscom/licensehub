@@ -10,7 +10,7 @@ namespace LicenseHub\Includes\Controller;
 use LicenseHub\Includes\Model\API_Key;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
-use WP_REST_Request;
+use \WP_REST_Request;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
