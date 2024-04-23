@@ -1,6 +1,5 @@
 import { useState } from '@wordpress/element';
-
-// import ContentEditable from 'react-contenteditable';
+import ContentEditable from 'react-contenteditable';
 
 export const TableColumn = ({ data, editable, column, onBlur }) => {
 	const [columnData, setColumnData] = useState(data);
@@ -19,7 +18,7 @@ export const TableColumn = ({ data, editable, column, onBlur }) => {
 
 	return editable ? (
 		<td column={column}>
-			{/*<ContentEditable html={'hello'} onChange={handleChange} onBlur={onBlur} />*/}
+			<ContentEditable html={'hello'} onChange={handleChange} onBlur={onBlur} />
 		</td>
 	) : (
 		<td column={column}>{}</td>

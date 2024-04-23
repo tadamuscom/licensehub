@@ -83,7 +83,7 @@ export const App = () => {
 
 	return (
 		<div>
-			<Header pageTitle="Products" />
+			<Header pageTitle="Products" logoLink={lchb_products.logo} />
 			<LinkButton click={newOnClick} label="Add Product" />
 			<NewProduct />
 			<HeadingTwo label="Products" />

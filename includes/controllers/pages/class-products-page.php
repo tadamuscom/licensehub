@@ -67,11 +67,16 @@ if (!class_exists('LicenseHub\Includes\Controller\Layout\Products_Page')) {
 				array(),
 				LCHB_VERSION
 			);
+
+			$asset_meta = Asset_Manager::get_asset_meta(
+				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-products.php' )
+			);
+
 			wp_enqueue_script(
 				'lchb-products-script',
 				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-products.js' ),
-				array(),
-				LCHB_VERSION
+				$asset_meta['dependencies'],
+				$asset_meta['version']
 			);
 
 			$product_instance = new Product();
@@ -80,7 +85,7 @@ if (!class_exists('LicenseHub\Includes\Controller\Layout\Products_Page')) {
 			$fluent 					= FluentCRM::is_active() ? 'true' : 'false';
 
 			wp_localize_script(
-				'lchb-products-page',
+				'lchb-products-script',
 				'lchb_products',
 				array(
 					'logo'                  => LCHB_IMG . '/tadamus-logo.png',

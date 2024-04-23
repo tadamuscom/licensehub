@@ -17,7 +17,7 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Core\Asset_Manager' ) ){
 	 */
 	class Asset_Manager{
 		/**
-		 * Holds the names of the asset files and their hashes
+		 * Hold the names of the asset files and their hashes
 		 *
 		 * @since 1.0.0
 		 *
@@ -25,6 +25,20 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Core\Asset_Manager' ) ){
 		 */
 		private array $asset_manifest = [];
 
+		/**
+		 * Retrieve the asset options for the given path
+		 *
+		 * @param string $path
+		 *
+		 * @return array
+		 */
+		public static function get_asset_meta(string $path): array {
+			return file_exists($path) ? require $path : array( 'dependencies' => array(), 'version' => LCHB_VERSION);
+		}
+
+		/**
+		 * Construct the object
+		 */
 		public function __construct(){
 			$this->asset_manifest = $this->get_manifest();
 		}

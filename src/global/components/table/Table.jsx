@@ -13,7 +13,7 @@ import { TableRow } from '@global/components/table/TableRow';
 export const Table = ({
 	editable,
 	onBlur,
-	extraClass,
+	className,
 	onDelete,
 	headers,
 	rows,
