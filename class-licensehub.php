@@ -53,6 +53,10 @@ if ( ! defined( 'LCHB_CONTROLLER' ) ) {
 	define( 'LCHB_CONTROLLER', LCHB_INC . '/controllers' );
 }
 
+if ( ! defined( 'LCHB_PAGE' ) ) {
+	define( 'LCHB_PAGE', LCHB_CONTROLLER . '/pages' );
+}
+
 if ( ! defined( 'LCHB_INTERFACE' ) ) {
 	define( 'LCHB_INTERFACE', LCHB_INC . '/interfaces' );
 }

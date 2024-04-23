@@ -2,7 +2,7 @@
 /**
  * Holds the Asset_Manager class
  *
- * @package migratemonkey
+ * @package licensehub
  */
 
 namespace LicenseHub\Includes\Controller\Core;

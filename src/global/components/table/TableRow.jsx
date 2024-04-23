@@ -1,5 +1,5 @@
-import { TableColumn } from "./TableColumn";
-import { __ } from "@wordpress/i18n";
+import { __ } from '@wordpress/i18n';
+import { TableColumn } from '@global/components/table/TableColumn';
 
 export const TableRow = ({ columns, editable, onBlur, onDelete }) => {
 	return (
@@ -15,7 +15,7 @@ export const TableRow = ({ columns, editable, onBlur, onDelete }) => {
 			))}
 			<td>
 				<button className="tada-action-icon tada-delete-btn" onClick={onDelete}>
-					{__("Delete", "migratemonkey")}
+					{__('Delete', 'licensehub')}
 				</button>
 			</td>
 		</tr>

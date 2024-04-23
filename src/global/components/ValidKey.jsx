@@ -10,7 +10,7 @@ export const ValidKey = ({ setHasValidKey }) => {
 		e.preventDefault();
 
 		const confirmation = confirm(
-			__('Are you sure you want to stop the migration?', 'migratemonkey'),
+			__('Are you sure you want to stop the migration?', 'licensehub'),
 		);
 
 		if (!confirmation) return;
@@ -37,20 +37,20 @@ export const ValidKey = ({ setHasValidKey }) => {
 				pageTitle="Migrate Monkey - Settings"
 				logoLink={tadamm_settings.logo}
 			/>
-			<h2>{__('Great! You have a valid key!', 'migratemonkey')}</h2>
+			<h2>{__('Great! You have a valid key!', 'licensehub')}</h2>
 			<p>
 				{__(
 					'Your migration will begin shortly! You will receive an email when the migration begins.',
-					'migratemonkey',
+					'licensehub',
 				)}
 			</p>
 			<p>
 				{__(
 					'Or you can check the status of your migration on your "',
-					'migratemonkey',
+					'licensehub',
 				)}
-				<a href="https://migratemonkey.com/migration/" target="_blank">
-					{__('migrations page', 'migratemonkey')}
+				<a href="https://licensehub.com/migration/" target="_blank">
+					{__('migrations page', 'licensehub')}
 				</a>
 			</p>
 			<p>
@@ -58,16 +58,14 @@ export const ValidKey = ({ setHasValidKey }) => {
 					style={{
 						color: 'red',
 					}}>
-					{__('Danger!', 'migratemonkey')}
+					{__('Danger!', 'licensehub')}
 				</span>
 				{__(
 					'If you have to you can stop the process and erase all the progress by click on the following button.',
-					'migratemonkey',
+					'licensehub',
 				)}
 			</p>
-			<Button onClick={stopClick}>
-				{__('STOP MIGRATION', 'migratemonkey')}
-			</Button>
+			<Button onClick={stopClick}>{__('STOP MIGRATION', 'licensehub')}</Button>
 			{error && (
 				<p style={{ marginLeft: 0 }} id="tada-status">
 					{error}

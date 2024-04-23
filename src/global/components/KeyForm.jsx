@@ -16,7 +16,7 @@ export const KeyForm = ({ setHasValidKey }) => {
 		event.preventDefault();
 
 		if (key.length < 1) {
-			setError(__('Please enter a key', 'migratemonkey'));
+			setError(__('Please enter a key', 'licensehub'));
 			return;
 		}
 
@@ -44,7 +44,7 @@ export const KeyForm = ({ setHasValidKey }) => {
 			<form onSubmit={handleSubmit} id="tada-settings-form">
 				<FormGroup>
 					<Label htmlFor="tadamm-migration-key">
-						{__('Migration Key', 'migratemonkey')}
+						{__('Migration Key', 'licensehub')}
 					</Label>
 					<Input
 						id="tadamm-migration-key"
@@ -59,19 +59,19 @@ export const KeyForm = ({ setHasValidKey }) => {
 						error={error}
 						helper={__(
 							'The key that was emailed to you after the payment. You can also find it on the migration page.',
-							'migratemonkey',
+							'licensehub',
 						)}
 					/>
 				</FormGroup>
 				<FormGroup className="tada-form-submit">
 					<Button type="submit" disabled={submitting}>
 						{submitting
-							? __('Validating...', 'migratemonkey')
-							: __('Validate Key', 'migratemonkey')}
+							? __('Validating...', 'licensehub')
+							: __('Validate Key', 'licensehub')}
 					</Button>
 					{error && (
 						<p id="tada-status">
-							{__('Please fix the errors above ❌', 'migratemonkey')}
+							{__('Please fix the errors above ❌', 'licensehub')}
 						</p>
 					)}
 				</FormGroup>

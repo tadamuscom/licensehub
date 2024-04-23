@@ -37,11 +37,11 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\APIKeys_Page' ) ) {
 		public function menu(): void
 		{
 			add_submenu_page(
-				'license-hub',
+				'licensehub',
 				__('License Hub - API Keys', 'licensehub'),
 				__('API Keys', 'licensehub'),
 				'manage_options',
-				'license-hub-api-keys',
+				'licensehub-api',
 				array( $this, 'callback' )
 			);
 		}
@@ -57,14 +57,14 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\APIKeys_Page' ) ) {
 			$asset_manager = new Asset_Manager();
 
 			wp_enqueue_style(
-				'lchb-admin-page',
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-api.css' ),
+				'lchb-api-keys-style',
+				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-api.css' ),
 				array(),
 				LCHB_VERSION
 			);
 			wp_enqueue_script(
-				'lchb-api-keys-page',
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-api.js' ),
+				'lchb-api-keys-script',
+				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-api.js' ),
 				array(),
 				LCHB_VERSION
 			);
@@ -90,6 +90,4 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\APIKeys_Page' ) ) {
 			echo '<div id="api-keys-root"></div>';
 		}
 	}
-
-	new API_Keys_Page();
 }

@@ -44,7 +44,7 @@ if (!class_exists('LicenseHub\Includes\Controller\Layout\Products_Page')) {
 				__('License Hub', 'licensehub'),
 				__( 'License Hub', 'licensehub' ),
 				'manage_options',
-				'license-hub',
+				'licensehub',
 				array( $this, 'callback' ),
 				'dashicons-media-spreadsheet'
 			);
@@ -61,10 +61,15 @@ if (!class_exists('LicenseHub\Includes\Controller\Layout\Products_Page')) {
 		{
 			$asset_manager = new Asset_Manager();
 
-			wp_enqueue_style( 'lchb-admin-page', LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-products.css' ), array(), LCHB_VERSION );
+			wp_enqueue_style(
+				'lchb-products-style',
+				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-products.css' ),
+				array(),
+				LCHB_VERSION
+			);
 			wp_enqueue_script(
-				'lchb-products-page',
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-products.js' ),
+				'lchb-products-script',
+				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-products.js' ),
 				array(),
 				LCHB_VERSION
 			);
@@ -90,6 +95,4 @@ if (!class_exists('LicenseHub\Includes\Controller\Layout\Products_Page')) {
 			echo '<div id="products-root"></div>';
 		}
 	}
-
-	new Products_Page();
 }

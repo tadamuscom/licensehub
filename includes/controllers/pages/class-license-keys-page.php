@@ -38,11 +38,11 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\License_Keys_Page' )
 		public function menu(): void
 		{
 			add_submenu_page(
-				'license-hub',
+				'licensehub',
 				__('License Hub - License Keys', 'licensehub'),
 				__('License Keys', 'licensehub'),
 				'manage_options',
-				'license-hub-license-keys',
+				'licensehub-licenses',
 				array( $this, 'callback' )
 			);
 		}
@@ -58,14 +58,14 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\License_Keys_Page' )
 			$asset_manager = new Asset_Manager();
 
 			wp_enqueue_style(
-				'lchb-admin-page',
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-licenses.css' ),
+				'lchb-license-keys-style',
+				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-licenses.css' ),
 				array(),
 				LCHB_VERSION
 			);
 			wp_enqueue_script(
-				'lchb-license-keys-page',
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-licenses.js' ),
+				'lchb-license-keys-script',
+				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-licenses.js' ),
 				array(),
 				LCHB_VERSION
 			);
@@ -95,6 +95,4 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\License_Keys_Page' )
 			echo '<div id="license-keys-root"></div>';
 		}
 	}
-
-	new License_Keys_Page();
 }

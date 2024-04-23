@@ -38,11 +38,11 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\Settings_Page' ) ) {
 		public function menu(): void
 		{
 			add_submenu_page(
-				'license-hub',
+				'licensehub',
 				__('License Hub - Settings', 'licensehub'),
 				__('Settings', 'licensehub'),
 				'manage_options',
-				'license-hub-settings',
+				'licensehub-settings',
 				array( $this, 'callback' )
 			);
 		}
@@ -58,15 +58,15 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\Settings_Page' ) ) {
 			$asset_manager = new Asset_Manager();
 
 			wp_enqueue_style(
-				'lchb-admin-page',
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-settings.css' ),
+				'lchb-settings-style',
+				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-settings.css' ),
 				array(),
 				LCHB_VERSION
 			);
 
 			wp_enqueue_script(
-				'lchb-settings-page',
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-settings.js' ),
+				'lchb-settings-script',
+				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-settings.js' ),
 				array(),
 				LCHB_VERSION
 			);
@@ -101,6 +101,4 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\Settings_Page' ) ) {
 
 		}
 	}
-
-	new Settings_Page();
 }
