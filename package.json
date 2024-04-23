@@ -24,7 +24,8 @@
 		"@wordpress/url": "^3.53.0",
 		"classnames": "^2.3.2",
 		"html-react-parser": "^4.2.2",
-		"react-contenteditable": "^3.3.7"
+		"react-contenteditable": "^3.3.7",
+		"sanitize-html": "^2.13.0"
 	},
 	"devDependencies": {
 		"@babel/preset-react": "^7.22.15",

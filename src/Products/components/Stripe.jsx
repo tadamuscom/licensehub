@@ -1,17 +1,14 @@
-import React from 'react';
-import { Label, SingleTextInput, FormGroup } from '@tadamus/wpui';
+import { FormGroup, Input, Label } from '@global';
 
-function Stripe(props) {
-    if( lchb_products.stripe === 'true' ) {
-        return (
-            <>
-                <FormGroup>
-                    <Label htmlFor='lchb-stripe-id' label='Stripe Product ID'/>
-                    <SingleTextInput id='lchb-stripe-id' name='lchb-stripe-id' value=''/>
-                </FormGroup>
-            </>
-        );
-    }
-}
-
-export default Stripe;
+export const Stripe = () => {
+	if (lchb_products.stripe === 'true') {
+		return (
+			<>
+				<FormGroup>
+					<Label htmlFor="lchb-stripe-id" label="Stripe Product ID" />
+					<Input id="lchb-stripe-id" name="lchb-stripe-id" value="" />
+				</FormGroup>
+			</>
+		);
+	}
+};

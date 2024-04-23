@@ -1,125 +1,134 @@
-import React, {useState} from 'react';
-import { FormGroup, Label, HeadingTwo, Button, resetForm, triggerError, Select, SelectOption, DatePicker } from '@tadamus/wpui';
+import {
+	Button,
+	DatePicker,
+	FormGroup,
+	HeadingTwo,
+	Label,
+	Select,
+	SelectOption,
+} from '@global';
 
-function NewLicenseKey(props ) {
-    const submit = ( e ) => {
-        e.preventDefault();
+export const NewLicenseKey = () => {
+	const submit = (e) => {
+		e.preventDefault();
 
-        const btn = document.querySelector( '#' + e.target.id + ' input[type="submit"]' );
-        btn.disabled = true;
-        btn.value = 'Loading...';
+		const btn = document.querySelector(
+			'#' + e.target.id + ' input[type="submit"]',
+		);
+		btn.disabled = true;
+		btn.value = 'Loading...';
 
-        resetForm( e.target );
+		const formData = new FormData(e.target);
+		const user = formData.get('lchb-user');
+		const product = formData.get('lchb-product');
+		const expiresAt = formData.get('lchb-expires-at');
 
-        const formData = new FormData( e.target );
-        const user = formData.get( 'lchb-user' );
-        const product = formData.get( 'lchb-product' );
-        const expiresAt = formData.get( 'lchb-expires-at' );
+		let go = true;
 
-        let go = true;
+		if (user.length < 1) {
+			go = false;
+		}
 
-        if( user.length < 1 ){
-            triggerError( 'lchb-user', 'User cannot be empty' );
+		if (product.length < 1) {
+			go = false;
+		}
 
-            go = false;
-        }
+		if (expiresAt.length < 1) {
+			go = false;
+		}
 
-        if( product.length < 1 ){
-            triggerError( 'lchb-product', 'Product cannot be empty' );
+		const status = document.getElementById('tada-status');
 
-            go = false;
-        }
+		if (!go) {
+			btn.value = 'Save License Key';
+			btn.disabled = false;
 
-        if( expiresAt.length < 1 ){
-            triggerError( 'lchb-expires-at', 'Expiry date cannot be empty' );
+			status.style.color = 'red';
+			status.innerText = 'Please fix the errors above ❌';
 
-            go = false;
-        }
+			if (status.classList.contains('tada-hidden')) {
+				status.classList.remove('tada-hidden');
+			}
 
-        const status = document.getElementById( 'tada-status' );
+			return;
+		}
 
-        if( ! go ) {
-            btn.value = 'Save License Key';
-            btn.disabled = false;
+		wp.apiFetch({
+			path: '/tadamus/lchb/v1/new-license-key',
+			method: 'POST',
+			data: {
+				nonce: lchb_license_keys.nonce,
+				user: user,
+				product: product,
+				expires_at: expiresAt,
+			},
+		}).then((result) => {
+			btn.value = 'Save License Key';
+			btn.disabled = false;
+			status.innerText = result.data.message + ' ✅';
 
-            status.style.color = 'red';
-            status.innerText = 'Please fix the errors above ❌';
+			if (result.success) {
+				status.style.color = 'green';
+				window.location.reload();
+			} else {
+				status.style.color = 'red';
+				status.innerText = status.innerText + ' ❌';
+			}
 
-            if( status.classList.contains( 'tada-hidden' ) ){
-                status.classList.remove( 'tada-hidden' );
-            }
+			if (status.classList.contains('tada-hidden')) {
+				status.classList.remove('tada-hidden');
+			}
+		});
+	};
 
-            return;
-        }
+	const preProducts = [];
+	const preUsers = [];
 
-        wp.apiFetch( {
-            path: '/tadamus/lchb/v1/new-license-key',
-            method: 'POST',
-            data:{
-                nonce: lchb_license_keys.nonce,
-                user: user,
-                product: product,
-                expires_at: expiresAt
-            }
-        } ).then( ( result ) => {
-            btn.value = 'Save License Key';
-            btn.disabled = false;
-            status.innerText = result.data.message + ' ✅';
+	lchb_license_keys.products.forEach((element, index) => {
+		preProducts.push(
+			<SelectOption id={element.id} label={element.name} key={index} />,
+		);
+	});
 
-            if( result.success ){
-                status.style.color = 'green';
-                window.location.reload();
-            }else{
-                status.style.color = 'red';
-                status.innerText = status.innerText + ' ❌'
-            }
+	lchb_license_keys.users.forEach((element, index) => {
+		preUsers.push(
+			<SelectOption
+				id={element.data.ID}
+				label={element.data.user_email}
+				key={index}
+			/>,
+		);
+	});
 
-            if( status.classList.contains( 'tada-hidden' ) ){
-                status.classList.remove( 'tada-hidden' );
-            }
-        } );
-    }
+	const [products, setProducts] = useState(preProducts);
+	const [users, setUsers] = useState(preUsers);
 
-    const preProducts = [];
-    const preUsers = [];
-
-    lchb_license_keys.products.forEach( ( element, index ) => {
-        preProducts.push( <SelectOption id={ element.id } label={ element.name } key={ index } /> );
-    } );
-
-    lchb_license_keys.users.forEach( ( element, index ) => {
-        preUsers.push( <SelectOption id={ element.data.ID } label={ element.data.user_email } key={ index } /> );
-    } );
-
-    const [ products, setProducts ] = useState( preProducts );
-    const [ users, setUsers ] = useState( preUsers );
-
-    return (
-        <div style={{
-            marginBottom: '15px',
-            display: 'none'
-        }} id='tada-new-license-key'>
-            <HeadingTwo label="New License Key" />
-            <form onSubmit={ submit } id='tada-add-license-key-form'>
-                <FormGroup>
-                    <Label htmlFor='lchb-user' label='User' />
-                    <Select id='lchb-user' name='lchb-user' options={ users } />
-                </FormGroup>
-                <FormGroup>
-                    <Label htmlFor='lchb-product' label='Product' />
-                    <Select id='lchb-product' name='lchb-product' options={ products } />
-                </FormGroup>
-                <FormGroup>
-                    <Label htmlFor='lchb-expires-at' label='Expiry Date' />
-                    <DatePicker id='lchb-expires-at' name='lchb-expires-at' />
-                </FormGroup>
-                <FormGroup extraClass="tada-form-submit">
-                    <Button label='Save License Key' />
-                    <p id='tada-status' className='tada-hidden'></p>
-                </FormGroup>
-            </form>
-        </div>
-    );
-}
-
-export default NewLicenseKey;
+	return (
+		<div
+			style={{
+				marginBottom: '15px',
+				display: 'none',
+			}}
+			id="tada-new-license-key">
+			<HeadingTwo label="New License Key" />
+			<form onSubmit={submit} id="tada-add-license-key-form">
+				<FormGroup>
+					<Label htmlFor="lchb-user" label="User" />
+					<Select id="lchb-user" name="lchb-user" options={users} />
+				</FormGroup>
+				<FormGroup>
+					<Label htmlFor="lchb-product" label="Product" />
+					<Select id="lchb-product" name="lchb-product" options={products} />
+				</FormGroup>
+				<FormGroup>
+					<Label htmlFor="lchb-expires-at" label="Expiry Date" />
+					<DatePicker id="lchb-expires-at" name="lchb-expires-at" />
+				</FormGroup>
+				<FormGroup extraClass="tada-form-submit">
+					<Button label="Save License Key" />
+					<p id="tada-status" className="tada-hidden"></p>
+				</FormGroup>
+			</form>
+		</div>
+	);
+};

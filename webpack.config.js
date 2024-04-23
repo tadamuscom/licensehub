@@ -28,6 +28,7 @@ module.exports = {
 		...defaultConfig.resolve,
 		alias: {
 			...defaultConfig.resolve.alias,
+			'@global': resolve(__dirname, 'src/global'),
 			'@settings': resolve(__dirname, 'src/Settings'),
 			'@products': resolve(__dirname, 'src/Products'),
 			'@licenses': resolve(__dirname, 'src/Licenses'),

@@ -1,0 +1,326 @@
+@font-face {
+	font-family: Kanit;
+	src: url(../../fonts/Kanit-Bold.ttf);
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: Kanit;
+	src: url(../../fonts/Kanit-Regular.ttf);
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: Poppins;
+	src: url(../../fonts/Poppins-Regular.ttf);
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: Poppins;
+	src: url(../../fonts/Poppins-SemiBold.ttf);
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: Poppins;
+	src: url(../../fonts/Poppins-Light.ttf);
+	font-weight: 100;
+}
+
+p{
+	font-family: Poppins, serif;
+	font-size: 14px;
+	color: #000;
+}
+
+.tada-flex-row{
+	display:flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.tada-flex{
+	display:flex;
+}
+
+.tada-admin-header{
+	margin-top:10px;
+}
+
+.tada-admin-header div:first-child{
+	padding-right: 10px;
+	border-right: 3px solid #000;
+}
+
+.tada-admin-header div:last-child{
+	padding-left: 10px;
+}
+
+.tada-admin-page-heading{
+	font-family: Kanit, serif;
+	font-weight: bold;
+	font-size:25px;
+	text-transform: uppercase;
+}
+
+.tada-heading-2{
+	font-family: Kanit, serif;
+	font-weight: bold;
+	font-size:26px;
+	border-bottom: 3px solid;
+	padding-bottom: 5px;
+	margin-bottom: 0;
+	border-image-slice: 1;
+	border-image-source: linear-gradient(90deg, #089A80 47.79%, #E89D2D 50%);
+	text-transform: uppercase;
+}
+
+.tada-form-group{
+	margin: 15px 0;
+}
+
+.tada-form-group label {
+	font-family: Poppins, serif;
+	font-weight: 600;
+	font-size:16px;
+	color: #141414;
+	margin: 5px 0;
+	display: block;
+}
+
+.tada-form-group .tada-input:focus,
+.tada-form-group .tada-input:hover {
+	outline: none;
+	box-shadow: none;
+	background-color: #b5b5b5;
+	color:#000;
+	border-color:#000;
+}
+
+.tada-form-group .tada-input,
+.tada-form-group select {
+	width: 300px;
+	margin-top:8px;
+	background-color: #ECECEC;
+	border: 2px solid #000;
+	border-radius: 11px;
+	padding: 10px;
+	transition-property: all;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 150ms;
+	line-height: 1;
+}
+
+.tada-form-group .tada-input:disabled,
+.tada-form-group select:disabled {
+	background-color: #d9d2d2;
+}
+
+.tada-helper-text{
+	font-family: Poppins, serif;
+	font-size: 13px;
+	color: #1c1c1b;
+	margin-top: 5px;
+	padding-left: 3px;
+}
+
+.tada-error-message{
+	font-family: Poppins, serif;
+	font-size: 13px;
+	color: red;
+	margin-top: 10px;
+	padding-left: 3px;
+}
+
+.tada-field-error{
+	border: 2px solid red !important;
+}
+
+.checkbox-container {
+	display: block;
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 12px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.checkbox-container input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+.checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 28px;
+	width: 28px;
+	background-color: #ECECEC;
+	border: 3px solid #000;
+	border-radius: 25%;
+	transition-duration: 100ms;
+}
+
+.checkbox-container .checkbox-label{
+	display:inline-block;
+	margin-top:8px;
+	margin-left:15px;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+	background-color: #b5b5b5;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+	background-color: #18B295;
+}
+
+.checkmark:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+	display: block;
+}
+
+.checkbox-container .checkmark:after {
+	left: 9px;
+	top: 5px;
+	width: 5px;
+	height: 10px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.tada-form-submit{
+	display: flex;
+	align-items: center;
+}
+
+.tada-button{
+	background-color: #142A64;
+	color: #fff;
+	font-family: Kanit, serif;
+	border: 0;
+	font-size: 14px;
+	padding: 10px 20px;
+	text-transform: uppercase;
+	border-radius: 5px;
+	cursor: pointer;
+	transition-property: all;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 150ms;
+}
+
+.tada-button:disabled, .tada-button:disabled:hover{
+	background-color: #d9d2d2;
+	color: #000;
+}
+
+.tada-disabled{
+	background-color: #1e3d8f;
+	color: #fff;
+}
+
+.tada-button:hover{
+	background-color: #1e3d8f;
+	color: #fff;
+}
+
+.tada-hidden{
+	display: none;
+}
+
+#tada-status{
+	margin-left: 10px;
+	font-family: Poppins, serif;
+	font-size: 16px;
+	color: red;
+}
+
+.tada-table{
+	margin-top:15px;
+}
+
+.tada-table td, .tada-table th{
+	padding: 5px 10px;
+}
+
+.tada-table th{
+	text-transform: uppercase;
+}
+
+.tada-table td:first-child, .tada-table th:first-child{
+	border-left: none;
+}
+
+.tada-table td:last-child, .tada-table th:last-child{
+	border-right: 1px solid #000;
+}
+
+.tada-table td, .tada-table th{
+	border-left: 1px solid #000;
+	border-bottom: 1px solid #000;
+}
+
+.tada-action-icon{
+	cursor: pointer;
+	font-size: 15px;
+}
+
+.tada-loader {
+	border: 4px solid #E89D2D;
+	border-top: 4px solid #18B295;
+	border-radius: 50%;
+	width: 15px;
+	height: 15px;
+	animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+.tada-delete-btn{
+	background:transparent;
+	border: 2px solid red;
+	font-family: Poppins, serif;
+	color: red;
+	transition-property: all;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 150ms;
+}
+
+.tada-delete-btn:hover{
+	background-color: red;
+	color: #fff;
+}
+
+.tada-edit-btn{
+	background:transparent;
+	border: 2px solid orange;
+	font-family: Poppins, serif;
+	color: orange;
+	transition-property: all;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 150ms;
+}
+
+.tada-edit-btn:hover{
+	background-color: orange;
+	color: #fff;
+}

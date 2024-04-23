@@ -1,14 +1,16 @@
-import React from 'react';
-import { FormGroup, CheckBox } from '@tadamus/wpui';
+import { CheckBox, FormGroup } from '@global';
 
-function FluentCrm(props) {
-    return (
-        <>
-            <FormGroup>
-                <CheckBox label='FluentCRM Integration' id='tada-fluentcrm-integration' name='tada-fluentcrm-integration' value={ (lchb_settings.fluentcrm_integration === 'true') } />
-            </FormGroup>
-        </>
-    );
-}
-
-export default FluentCrm;
+export const FluentCRM = () => {
+	return (
+		<>
+			<FormGroup>
+				<CheckBox
+					label="FluentCRM Integration"
+					id="tada-fluentcrm-integration"
+					name="tada-fluentcrm-integration"
+					value={lchb_settings.fluentcrm_integration === 'true'}
+				/>
+			</FormGroup>
+		</>
+	);
+};

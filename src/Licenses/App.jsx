@@ -1,29 +1,39 @@
-import React from "react";
-import { Header, Table, LinkButton, HeadingTwo } from '@tadamus/wpui';
-import NewLicenseKey from "./components/NewLicenseKey";
+import { Header, HeadingTwo, LinkButton, Table } from '@global';
+import { NewLicenseKey } from '@licenses/components/NewLicenseKey';
 
-function App( props ) {
-    const newOnClick = ( event ) => {
-        event.preventDefault();
+export const App = () => {
+	const newOnClick = (event) => {
+		event.preventDefault();
 
-        if( lchb_license_keys.products.length > 0 ){
-            const newProduct = document.getElementById( 'tada-new-license-key' );
+		if (lchb_license_keys.products.length > 0) {
+			const newProduct = document.getElementById('tada-new-license-key');
 
-            event.target.style.display = 'none';
-            newProduct.style.display = 'inherit';
-        }
-    }
+			event.target.style.display = 'none';
+			newProduct.style.display = 'inherit';
+		}
+	};
 
-    return (
-        <div>
-            <Header pageTitle='License Keys' />
-            <LinkButton click={ newOnClick } label='Add License Key' extraClass={ ( lchb_license_keys.products.length < 1 ) ? 'tada-disabled' : '' } />
-            <p className={ ( lchb_license_keys.products.length > 0 ) ? 'tada-error-message tada-hidden' : 'tada-error-message' }>You need to add products before you can create a license.</p>
-            <NewLicenseKey />
-            <HeadingTwo label='License Keys' />
-            <Table headers={ lchb_license_keys.fields } rows={ lchb_license_keys.keys } />
-        </div>
-    );
-}
-
-export default App;
+	return (
+		<div>
+			<Header pageTitle="License Keys" />
+			<LinkButton
+				click={newOnClick}
+				label="Add License Key"
+				extraClass={
+					lchb_license_keys.products.length < 1 ? 'tada-disabled' : ''
+				}
+			/>
+			<p
+				className={
+					lchb_license_keys.products.length > 0
+						? 'tada-error-message tada-hidden'
+						: 'tada-error-message'
+				}>
+				You need to add products before you can create a license.
+			</p>
+			<NewLicenseKey />
+			<HeadingTwo label="License Keys" />
+			<Table headers={lchb_license_keys.fields} rows={lchb_license_keys.keys} />
+		</div>
+	);
+};
