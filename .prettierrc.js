@@ -9,11 +9,11 @@ module.exports = {
 	importOrder: [
 		'^@wordpress/(.*)$',
 		'<THIRD_PARTY_MODULES>',
-		'^@library/(.*)$',
-		'^@launch/(.*)$',
-		'^@assist/(.*)$',
-		'^@draft/(.*)$',
-		'^@help-center/(.*)$',
+		'^@global/(.*)$',
+		'^@settings/(.*)$',
+		'^@products/(.*)$',
+		'^@licenses/(.*)$',
+		'^@api/(.*)$',
 		'^[./]',
 	],
 	overrides: [
