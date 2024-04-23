@@ -40,6 +40,7 @@ module.exports = {
 		'licensehub-products': './src/Products/index.js',
 		'licensehub-licenses': './src/Licenses/index.js',
 		'licensehub-api': './src/Api/index.js',
+		'licensehub-global': './src/global/index.js',
 	},
 	output: {
 		filename: '[name]-[chunkhash].js',

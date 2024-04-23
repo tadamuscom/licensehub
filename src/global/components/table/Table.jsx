@@ -1,5 +1,5 @@
-import { TableHeader } from '@global/table/TableHeader';
-import { TableRow } from '@global/table/TableRow';
+import { TableHeader } from '@global/components/table/TableHeader';
+import { TableRow } from '@global/components/table/TableRow';
 
 /**
  * Add a Table

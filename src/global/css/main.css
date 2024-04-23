@@ -1,30 +1,30 @@
 @font-face {
 	font-family: Kanit;
-	src: url(../../fonts/Kanit-Bold.ttf);
+	src: url(./Kanit-Bold.ttf);
 	font-weight: bold;
 }
 
 @font-face {
 	font-family: Kanit;
-	src: url(../../fonts/Kanit-Regular.ttf);
+	src: url(./Kanit-Regular.ttf);
 	font-weight: normal;
 }
 
 @font-face {
 	font-family: Poppins;
-	src: url(../../fonts/Poppins-Regular.ttf);
+	src: url(./Poppins-Regular.ttf);
 	font-weight: normal;
 }
 
 @font-face {
 	font-family: Poppins;
-	src: url(../../fonts/Poppins-SemiBold.ttf);
+	src: url(./Poppins-SemiBold.ttf);
 	font-weight: 600;
 }
 
 @font-face {
 	font-family: Poppins;
-	src: url(../../fonts/Poppins-Light.ttf);
+	src: url(./Poppins-Light.ttf);
 	font-weight: 100;
 }
 

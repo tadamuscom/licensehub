@@ -2,7 +2,11 @@
 	"compilerOptions": {
 		"baseUrl": "./",
 		"paths": {
-			"@settings/*": ["./src/Settings/*"]
+			"@global/*": ["./src/global/*"],
+			"@settings/*": ["./src/Settings/*"],
+			"@products/*": ["./src/Products/*"],
+			"@licenses/*": ["./src/Licenses/*"],
+			"@api/*": ["./src/Api/*"]
 		}
 	},
 	"exclude": ["node_modules", "vendor"]
