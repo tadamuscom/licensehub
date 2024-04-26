@@ -50,7 +50,7 @@ if ( ! class_exists( 'Activation' ) ) {
 		 */
 		private function options(): void {
 			if ( ! get_option( 'lchb_erase_on_deactivation' ) ) {
-				lchb_add_or_update_option( 'lchb_erase_on_deactivation', 'false' );
+				update_option( 'lchb_erase_on_deactivation', 'false' );
 			}
 		}
 	}

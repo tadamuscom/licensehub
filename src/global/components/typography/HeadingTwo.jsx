@@ -9,14 +9,13 @@
  * @returns {JSX.Element}
  * @constructor
  */
-export const HeadingTwo = ({ className, label, ...props }) => {
-	const defaultClasses = "tada-heading-2";
+export const HeadingTwo = ({ className, children, ...props }) => {
+	const defaultClasses = 'tada-heading-2';
 	return (
 		<h2
-			className={className ? defaultClasses + " " + className : defaultClasses}
-			{...props}
-		>
-			{label}
+			className={className ? defaultClasses + ' ' + className : defaultClasses}
+			{...props}>
+			{children}
 		</h2>
 	);
 };

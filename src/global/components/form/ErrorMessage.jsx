@@ -7,12 +7,11 @@
  * @constructor
  */
 export const ErrorMessage = ({ className, error }) => {
-	const defaultClasses = "tada-error-message";
+	const defaultClasses = 'tada-error-message';
 
 	return (
 		<p
-			className={className ? defaultClasses + " " + className : defaultClasses}
-		>
+			className={className ? defaultClasses + ' ' + className : defaultClasses}>
 			{error}
 		</p>
 	);

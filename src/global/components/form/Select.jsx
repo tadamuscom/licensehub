@@ -10,13 +10,12 @@
  * @constructor
  */
 export const Select = ({ className, options, ...props }) => {
-	const defaultClasses = "tada-select";
+	const defaultClasses = 'tada-select';
 
 	return (
 		<select
-			className={className ? defaultClasses + " " + className : defaultClasses}
-			{...props}
-		>
+			className={className ? defaultClasses + ' ' + className : defaultClasses}
+			{...props}>
 			{options}
 		</select>
 	);

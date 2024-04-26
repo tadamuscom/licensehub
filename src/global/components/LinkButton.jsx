@@ -8,13 +8,12 @@
  * @constructor
  */
 export const LinkButton = ({ click, className, label }) => {
-	const defaultClasses = "tada-button";
+	const defaultClasses = 'tada-button';
 
 	return (
 		<a
 			onClick={click}
-			className={className ? defaultClasses + " " + className : defaultClasses}
-		>
+			className={className ? defaultClasses + ' ' + className : defaultClasses}>
 			{label}
 		</a>
 	);

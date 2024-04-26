@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { FormGroup, Input, Label } from '@global';
 
 export const Stripe = () => {
@@ -5,7 +6,9 @@ export const Stripe = () => {
 		return (
 			<>
 				<FormGroup>
-					<Label htmlFor="lchb-stripe-id" label="Stripe Product ID" />
+					<Label htmlFor="lchb-stripe-id">
+						{__('Stripe Product ID', 'licensehub')}
+					</Label>
 					<Input id="lchb-stripe-id" name="lchb-stripe-id" value="" />
 				</FormGroup>
 			</>

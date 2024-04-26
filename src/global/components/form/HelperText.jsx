@@ -10,13 +10,12 @@
  * @constructor
  */
 export const HelperText = ({ className, content, ...props }) => {
-	const defaultClasses = "tada-helper-text";
+	const defaultClasses = 'tada-helper-text';
 
 	return (
 		<p
-			className={className ? defaultClasses + " " + className : defaultClasses}
-			{...props}
-		>
+			className={className ? defaultClasses + ' ' + className : defaultClasses}
+			{...props}>
 			{content}
 		</p>
 	);

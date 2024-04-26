@@ -1,10 +1,11 @@
 import apiFetch from '@wordpress/api-fetch';
+import { __ } from '@wordpress/i18n';
 import { Button, FormGroup, HeadingTwo, Input, Label } from '@global';
 import { FluentCRM } from '@products/components/FluentCRM';
 import { Stripe } from '@products/components/Stripe';
 
 export const NewProduct = () => {
-	const submit = (e) => {
+	const exSubmit = (e) => {
 		e.preventDefault();
 
 		const btn = document.querySelector(
@@ -96,23 +97,23 @@ export const NewProduct = () => {
 		<div
 			style={{
 				marginBottom: '15px',
-				display: 'none',
-			}}
-			id="tada-new-product">
-			<HeadingTwo label="New Product" />
-			<form onSubmit={submit} id="tada-add-product-form">
+			}}>
+			<HeadingTwo label={__('New Product', 'licensehub')} />
+			<form id="tada-add-product-form">
 				<FormGroup>
-					<Label htmlFor="lchb-name" label="Name" />
+					<Label htmlFor="lchb-name">{__('Name', 'licensehub')}</Label>
 					<Input id="lchb-name" name="lchb-name" value="" />
 				</FormGroup>
 				<Stripe />
 				<FluentCRM />
 				<FormGroup>
-					<Label htmlFor="lchb-download-link" label="Download Link" />
+					<Label htmlFor="lchb-download-link">
+						{__('Download Link', 'licensehub')}
+					</Label>
 					<Input id="lchb-download-link" name="lchb-download-link" value="" />
 				</FormGroup>
 				<FormGroup extraClass="tada-form-submit">
-					<Button label="Save Product" />
+					<Button type="submit">{__('Save Product', 'licensehub')}</Button>
 					<p id="tada-status" className="tada-hidden"></p>
 				</FormGroup>
 			</form>

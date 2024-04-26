@@ -64,27 +64,22 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\Settings_Page' ) ) {
 				LCHB_VERSION
 			);
 
+			$asset_meta = Asset_Manager::get_asset_meta(
+				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-settings.php' )
+			);
+
 			wp_enqueue_script(
 				'lchb-settings-script',
 				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-settings.js' ),
-				array(),
-				LCHB_VERSION
+				$asset_meta['dependencies'],
+				$asset_meta['version']
 			);
 
-			$fluent_installed = 'false';
-
-			if ( FluentCRM::is_installed() ) {
-				$fluent_installed = 'true';
-			}
-
-			$fluent = 'false';
-
-			if ( FluentCRM::is_active() ) {
-				$fluent = 'true';
-			}
+			$fluent_installed = FluentCRM::is_installed() ? 'true' : 'false';
+			$fluent = FluentCRM::is_active() ? 'true' : 'false';
 
 			wp_localize_script(
-				'lchb-settings-page',
+				'lchb-settings-script',
 				'lchb_settings',
 				array(
 					'logo'                  => LCHB_IMG . '/tadamus-logo.png',

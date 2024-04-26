@@ -1,16 +1,21 @@
+import { __ } from '@wordpress/i18n';
 import { CheckBox, FormGroup } from '@global';
 
-export const FluentCRM = () => {
+export const FluentCRM = ({ formValues, changeFormValue }) => {
 	return (
-		<>
-			<FormGroup>
-				<CheckBox
-					label="FluentCRM Integration"
-					id="tada-fluentcrm-integration"
-					name="tada-fluentcrm-integration"
-					value={lchb_settings.fluentcrm_integration === 'true'}
-				/>
-			</FormGroup>
-		</>
+		<FormGroup>
+			<CheckBox
+				label={__('FluentCRM Integration', 'licensehub')}
+				id="tada-fluentcrm-integration"
+				name="tada-fluentcrm-integration"
+				checked={formValues.fluentCRMIntegration}
+				onClick={() =>
+					changeFormValue(
+						'fluentCRMIntegration',
+						!formValues.fluentCRMIntegration,
+					)
+				}
+			/>
+		</FormGroup>
 	);
 };

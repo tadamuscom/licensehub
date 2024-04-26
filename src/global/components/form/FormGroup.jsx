@@ -10,13 +10,12 @@
  * @constructor
  */
 export const FormGroup = ({ className, children, ...props }) => {
-	const defaultClasses = "tada-form-group";
+	const defaultClasses = 'tada-form-group';
 
 	return (
 		<div
-			className={className ? defaultClasses + " " + className : defaultClasses}
-			{...props}
-		>
+			className={className ? defaultClasses + ' ' + className : defaultClasses}
+			{...props}>
 			{children}
 		</div>
 	);

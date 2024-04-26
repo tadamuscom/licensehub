@@ -8,6 +8,7 @@
 namespace LicenseHub\Includes\Controller;
 
 use DateTime;
+use Exception;
 use LicenseHub\Includes\Controller\Integration\Stripe\Stripe;
 use LicenseHub\Includes\Model\API_Key;
 use LicenseHub\Includes\Model\License_Key;
@@ -245,7 +246,7 @@ if ( ! class_exists( 'Internal_API' ) ) {
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception A regular exception.
+		 * @throws Exception A regular exception.
 		 */
 		public function add_new_license_key( WP_REST_Request $request ): void {
 			$params = $request->get_params();
@@ -306,7 +307,7 @@ if ( ! class_exists( 'Internal_API' ) ) {
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception A regular exception.
+		 * @throws Exception A regular exception.
 		 */
 		public function add_new_api_key( WP_REST_Request $request ): void {
 			$params = $request->get_params();
@@ -356,16 +357,17 @@ if ( ! class_exists( 'Internal_API' ) ) {
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception A regular exception.
+		 * @throws Exception A regular exception.
 		 */
 		public function save_settings( WP_REST_Request $request ): void {
 			$params = $request->get_params();
+			$params = json_decode($params[0]);
 
-			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_settings' ) ) {
-				$stripe = $params['stripe_integration'];
+			if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_settings' ) ) {
+				$stripe = $params->stripeIntegration;
 
-				if ( 'on' === $stripe ) {
-					if ( empty( $params['stripe_public_key'] ) ) {
+				if ( $stripe === true ) {
+					if ( empty( $params->stripePublicKey ) ) {
 						wp_send_json_error(
 							array(
 								'message' => __( 'Public Key cannot be empty', 'licensehub' ),
@@ -375,7 +377,7 @@ if ( ! class_exists( 'Internal_API' ) ) {
 						return;
 					}
 
-					if ( empty( $params['stripe_private_key'] ) ) {
+					if ( empty( $params->stripePrivateKey ) ) {
 						wp_send_json_error(
 							array(
 								'message' => __( 'Private Key cannot be empty', 'licensehub' ),
@@ -385,17 +387,17 @@ if ( ! class_exists( 'Internal_API' ) ) {
 						return;
 					}
 
-					lchb_add_or_update_option( 'lchb_stripe_integration', 'true' );
-					lchb_add_or_update_option( 'lchb_stripe_public_key', sanitize_text_field( $params['stripe_public_key'] ) );
-					lchb_add_or_update_option( 'lchb_stripe_private_key', sanitize_text_field( $params['stripe_private_key'] ) );
+					update_option( 'lchb_stripe_integration', 'true' );
+					update_option( 'lchb_stripe_public_key', sanitize_text_field( $params->stripePublicKey ) );
+					update_option( 'lchb_stripe_private_key', sanitize_text_field( $params->stripePrivateKey ) );
 				} else {
-					lchb_add_or_update_option( 'lchb_stripe_integration', 'false' );
+					update_option( 'lchb_stripe_integration', 'false' );
 				}
 
-				if ( 'on' === $params['fluentcrm_integration'] ) {
-					lchb_add_or_update_option( 'lchb-fluentcrm-integration', 'true' );
+				if ( $params->fluentCRMIntegration === true ) {
+					update_option( 'lchb_fluentcrm_integration', 'true' );
 				} else {
-					lchb_add_or_update_option( 'lchb-fluentcrm-integration', 'false' );
+					update_option( 'lchb_fluentcrm_integration', 'false' );
 				}
 
 				wp_send_json_success(

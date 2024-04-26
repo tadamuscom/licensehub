@@ -7,9 +7,8 @@
 
 namespace LicenseHub\Includes\Controller\Integration\FluentCRM;
 
-use WP_User;
-use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
+use WP_User;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -43,11 +42,7 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Integration\FluentCRM\Fluen
 		 * @return bool
 		 */
 		public static function is_active(): bool {
-			if ( defined( 'FLUENTCRM' ) && 'true' === get_option( 'lchb-fluentcrm-integration' ) ) {
-				return true;
-			}
-
-			return false;
+			return defined( 'FLUENTCRM' ) && 'true' === get_option( 'lchb_fluentcrm_integration' );
 		}
 
 		/**

@@ -49,7 +49,10 @@ export const ValidKey = ({ setHasValidKey }) => {
 					'Or you can check the status of your migration on your "',
 					'licensehub',
 				)}
-				<a href="https://licensehub.com/migration/" target="_blank">
+				<a
+					href="https://licensehub.com/migration/"
+					target="_blank"
+					rel="noreferrer">
 					{__('migrations page', 'licensehub')}
 				</a>
 			</p>

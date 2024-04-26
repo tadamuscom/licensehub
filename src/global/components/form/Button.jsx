@@ -10,13 +10,12 @@
  * @constructor
  */
 export const Button = ({ className, children, ...props }) => {
-	const defaultClasses = "tada-button";
+	const defaultClasses = 'tada-button';
 
 	return (
 		<button
-			className={className ? defaultClasses + " " + className : defaultClasses}
-			{...props}
-		>
+			className={className ? defaultClasses + ' ' + className : defaultClasses}
+			{...props}>
 			{children}
 		</button>
 	);
