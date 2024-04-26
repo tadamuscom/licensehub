@@ -12,7 +12,7 @@ use LicenseHub\Includes\Controller\Core\Deactivation;
 use LicenseHub\Includes\Loader;
 
 /**
- * Plugin Name:       License Hub
+ * Plugin Name:       LicenseHub
  * Plugin URI:        https://tadamus.com/products/licensehub
  * Description:       A lightweight plugin that allows you to create, manage and maintain software licenses for your plugins
  * Version:           1.0.0
@@ -109,8 +109,8 @@ if ( ! class_exists( 'LicenseHub' ) ) {
 
 			new Loader();
 
-			add_action( 'activate_' . LCHB_SLUG . '/' . LCHB_SLUG . '.php', array( $this, 'activate' ) );
-			add_action( 'deactivate_' . LCHB_SLUG . '/' . LCHB_SLUG . '.php', array( $this, 'deactivate' ) );
+			add_action( 'activate_' . LCHB_SLUG . '/class-' . LCHB_SLUG . '.php', array( $this, 'activate' ) );
+			add_action( 'deactivate_' . LCHB_SLUG . '/class-' . LCHB_SLUG . '.php', array( $this, 'deactivate' ) );
 		}
 
 		/**
