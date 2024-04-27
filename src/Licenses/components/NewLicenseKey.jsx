@@ -1,8 +1,8 @@
 import {
 	Button,
-	DatePicker,
 	FormGroup,
 	HeadingTwo,
+	Input,
 	Label,
 	Select,
 	SelectOption,
@@ -122,7 +122,7 @@ export const NewLicenseKey = () => {
 				</FormGroup>
 				<FormGroup>
 					<Label htmlFor="lchb-expires-at" label="Expiry Date" />
-					<DatePicker id="lchb-expires-at" name="lchb-expires-at" />
+					<Input id="lchb-expires-at" name="lchb-expires-at" />
 				</FormGroup>
 				<FormGroup extraClass="tada-form-submit">
 					<Button label="Save License Key" />

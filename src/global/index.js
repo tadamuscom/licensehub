@@ -10,6 +10,7 @@ export * from '@global/components/form/Select';
 export * from '@global/components/form/SelectOption';
 export * from '@global/components/form/Input';
 export * from '@global/components/form/ErrorMessage';
+export * from '@global/components/form/SuccessMessage';
 
 // Layout
 export * from '@global/components/layout/Header';

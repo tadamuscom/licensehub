@@ -1,3 +1,4 @@
+import { useEffect, useState } from '@wordpress/element';
 import { ErrorMessage, HelperText } from '@global';
 import classNames from 'classnames';
 
@@ -13,7 +14,13 @@ import classNames from 'classnames';
  * @returns {JSX.Element}
  * @constructor
  */
-export const Input = ({ className, error, helper, ...props }) => {
+export const Input = ({ className, helper, status, ...props }) => {
+	const [error, setError] = useState('');
+
+	useEffect(() => {
+		if (status.field === props.id) setError(status.message);
+	}, [status, setError]);
+
 	const regularClasses =
 		'w-[300px] mt-2 bg-grey-200 border-2 border-black rounded-md p-2 transition duration-100 ease-in-out leading-none font-poppins';
 	const hoverClasses =
@@ -29,10 +36,13 @@ export const Input = ({ className, error, helper, ...props }) => {
 				{...props}
 				className={classNames(
 					className ? defaultClasses + ' ' + className : defaultClasses,
-					{ 'border-2 border-red-500': error },
+					{
+						'border-2 border-red-500':
+							error || (status.type === 'error' && !status.field),
+					},
 				)}
 			/>
-			{error ? <ErrorMessage error={error} /> : ''}
+			{error ? <ErrorMessage>{error}</ErrorMessage> : ''}
 			{helper ? <HelperText content={helper} /> : ''}
 		</>
 	);

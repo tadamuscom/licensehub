@@ -1,7 +1,8 @@
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { Button, ErrorMessage, FormGroup } from '@global';
+import { Button, FormGroup } from '@global';
+import { FormStatus } from '@global/components/form/FormStatus';
 import { FluentCRM } from '@settings/components/FluentCRM';
 import { Stripe } from '@settings/components/Stripe';
 
@@ -13,12 +14,32 @@ export const SettingsForm = ({ onSubmit }) => {
 		fluentCRMIntegration: false,
 	});
 	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(false);
+	const [status, setStatus] = useState({
+		type: '',
+		message: '',
+		field: '',
+	});
 
 	const changeFormValue = (key, value) => {
 		setFormValues((prev) => ({
 			...prev,
 			[key]: value,
+		}));
+	};
+
+	const setSuccess = (message) => {
+		setStatus((prev) => ({
+			type: 'success',
+			message,
+			field: '',
+		}));
+	};
+
+	const setError = (message, field) => {
+		setStatus((prev) => ({
+			type: 'error',
+			message,
+			field: field,
 		}));
 	};
 
@@ -44,12 +65,16 @@ export const SettingsForm = ({ onSubmit }) => {
 				path: '/tadamus/lchb/v1/general-settings',
 				method: 'POST',
 				data: JSON.stringify({
-					nonce: /*lchb_settings.nonce*/ 'nonce',
+					nonce: lchb_settings.nonce,
 					...formValues,
 				}),
 			});
+
+			res.success
+				? setSuccess(res.data.message)
+				: setError(res.data.message, res.data.field);
 		} catch (e) {
-			setError(e.message);
+			setError(e.message, '');
 		} finally {
 			setLoading(false);
 		}
@@ -57,15 +82,23 @@ export const SettingsForm = ({ onSubmit }) => {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<Stripe formValues={formValues} changeFormValue={changeFormValue} />
-			<FluentCRM formValues={formValues} changeFormValue={changeFormValue} />
+			<Stripe
+				formValues={formValues}
+				changeFormValue={changeFormValue}
+				status={status}
+			/>
+			<FluentCRM
+				formValues={formValues}
+				changeFormValue={changeFormValue}
+				status={status}
+			/>
 			<FormGroup>
-				<Button type="submit">
+				<Button type="submit" loading={loading}>
 					{loading
 						? __('Loading...', 'licensehub')
 						: __('Save Settings', 'licensehub')}
 				</Button>
-				{error && <ErrorMessage>{error}</ErrorMessage>}
+				<FormStatus status={status} />
 			</FormGroup>
 		</form>
 	);

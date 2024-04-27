@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { CheckBox, FormGroup, Input, Label } from '@global';
 
-export const Stripe = ({ formValues, changeFormValue }) => {
+export const Stripe = ({ formValues, changeFormValue, status }) => {
 	return (
 		<>
 			<FormGroup>
@@ -22,10 +22,10 @@ export const Stripe = ({ formValues, changeFormValue }) => {
 							{__('Public Key', 'licensehub')}
 						</Label>
 						<Input
-							id="lchb-public-key"
+							id="lchb-stripe-public-key"
 							type="text"
-							name="tada-public-key"
 							value={formValues.stripePublicKey}
+							status={status}
 							onChange={(e) =>
 								changeFormValue('stripePublicKey', e.target.value)
 							}
@@ -38,10 +38,10 @@ export const Stripe = ({ formValues, changeFormValue }) => {
 						</Label>
 						<Input
 							type="password"
-							id="lchb-private-key"
-							name="tada-private-key"
+							id="lchb-stripe-private-key"
 							value={formValues.stripePrivateKey}
 							autoComplete="off"
+							status={status}
 							onChange={(e) =>
 								changeFormValue('stripePrivateKey', e.target.value)
 							}

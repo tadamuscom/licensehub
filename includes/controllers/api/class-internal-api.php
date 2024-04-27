@@ -371,6 +371,7 @@ if ( ! class_exists( 'Internal_API' ) ) {
 						wp_send_json_error(
 							array(
 								'message' => __( 'Public Key cannot be empty', 'licensehub' ),
+								'field'   => 'lchb-stripe-public-key'
 							)
 						);
 
@@ -381,6 +382,7 @@ if ( ! class_exists( 'Internal_API' ) ) {
 						wp_send_json_error(
 							array(
 								'message' => __( 'Private Key cannot be empty', 'licensehub' ),
+								'field'   => 'lchb-stripe-private-key'
 							)
 						);
 
