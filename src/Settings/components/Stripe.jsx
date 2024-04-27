@@ -16,18 +16,14 @@ export const Stripe = ({ formValues, changeFormValue }) => {
 				/>
 			</FormGroup>
 			{formValues.stripeIntegration && (
-				<div
-					id="lchb-stripe-credentials"
-					style={{
-						marginTop: '25px',
-						marginLeft: '10px',
-					}}>
+				<>
 					<FormGroup>
 						<Label htmlFor="lchb-public-key">
 							{__('Public Key', 'licensehub')}
 						</Label>
 						<Input
-							id="tada-public-key"
+							id="lchb-public-key"
+							type="text"
 							name="tada-public-key"
 							value={formValues.stripePublicKey}
 							onChange={(e) =>
@@ -42,15 +38,16 @@ export const Stripe = ({ formValues, changeFormValue }) => {
 						</Label>
 						<Input
 							type="password"
-							id="tada-private-key"
+							id="lchb-private-key"
 							name="tada-private-key"
 							value={formValues.stripePrivateKey}
+							autoComplete="off"
 							onChange={(e) =>
 								changeFormValue('stripePrivateKey', e.target.value)
 							}
 						/>
 					</FormGroup>
-				</div>
+				</>
 			)}
 		</>
 	);

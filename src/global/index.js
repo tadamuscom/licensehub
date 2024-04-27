@@ -3,7 +3,6 @@ import '@global/css/main.css';
 // Form
 export * from '@global/components/form/Button';
 export * from '@global/components/form/CheckBox';
-export * from '@global/components/form/DatePicker';
 export * from '@global/components/form/FormGroup';
 export * from '@global/components/form/HelperText';
 export * from '@global/components/form/Label';

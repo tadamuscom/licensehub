@@ -8,7 +8,7 @@ export const App = () => {
 	const [isAddNew, setIsAddNew] = useState(false);
 
 	return (
-		<div>
+		<div className="licensehub-global">
 			<Header
 				pageTitle={__('Products', 'licensehub')}
 				logoLink={lchb_products.logo}

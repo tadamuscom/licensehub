@@ -1,7 +1,7 @@
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { Button } from '@global';
+import { Button, ErrorMessage, FormGroup } from '@global';
 import { FluentCRM } from '@settings/components/FluentCRM';
 import { Stripe } from '@settings/components/Stripe';
 
@@ -23,16 +23,15 @@ export const SettingsForm = ({ onSubmit }) => {
 	};
 
 	useEffect(() => {
-		changeFormValue(
-			'stripeIntegration',
-			lchb_settings.stripe_integration === 'true',
-		);
-		changeFormValue('stripePublicKey', lchb_settings.stripe_public_key);
-		changeFormValue('stripePrivateKey', lchb_settings.stripe_private_key);
-		changeFormValue(
-			'fluentCRMIntegration',
-			lchb_settings.fluentcrm_integration === 'true',
-		);
+		const stripeIntegration = lchb_settings.stripe_integration === 'true';
+		const stripePublicKey = lchb_settings.stripe_public_key;
+		const stripePrivateKey = lchb_settings.stripe_private_key;
+		const stripeFluentCRM = lchb_settings.fluentcrm_integration === 'true';
+
+		changeFormValue('stripeIntegration', stripeIntegration);
+		changeFormValue('stripePublicKey', stripePublicKey);
+		changeFormValue('stripePrivateKey', stripePrivateKey);
+		changeFormValue('fluentCRMIntegration', stripeFluentCRM);
 	}, []);
 
 	const handleSubmit = async (e) => {
@@ -51,23 +50,23 @@ export const SettingsForm = ({ onSubmit }) => {
 			});
 		} catch (e) {
 			setError(e.message);
+		} finally {
 			setLoading(false);
-			return;
 		}
-
-		setLoading(false);
 	};
 
 	return (
-		<form onSubmit={handleSubmit} id="tada-add-product-form">
+		<form onSubmit={handleSubmit}>
 			<Stripe formValues={formValues} changeFormValue={changeFormValue} />
 			<FluentCRM formValues={formValues} changeFormValue={changeFormValue} />
-			<Button type="submit">
-				{loading
-					? __('Loading...', 'licensehub')
-					: __('Save Settings', 'licensehub')}
-			</Button>
-			{error && <p className="tada-error-message">{error}</p>}
+			<FormGroup>
+				<Button type="submit">
+					{loading
+						? __('Loading...', 'licensehub')
+						: __('Save Settings', 'licensehub')}
+				</Button>
+				{error && <ErrorMessage>{error}</ErrorMessage>}
+			</FormGroup>
 		</form>
 	);
 };

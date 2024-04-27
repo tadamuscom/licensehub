@@ -6,13 +6,13 @@
  * @returns {JSX.Element}
  * @constructor
  */
-export const ErrorMessage = ({ className, error }) => {
-	const defaultClasses = 'tada-error-message';
+export const ErrorMessage = ({ className, children }) => {
+	const defaultClasses = 'font-poppins text-md text-red-500 pl-4 inline-block';
 
 	return (
 		<p
 			className={className ? defaultClasses + ' ' + className : defaultClasses}>
-			{error}
+			{children}
 		</p>
 	);
 };

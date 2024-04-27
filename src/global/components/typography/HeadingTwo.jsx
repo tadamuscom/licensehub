@@ -10,7 +10,8 @@
  * @constructor
  */
 export const HeadingTwo = ({ className, children, ...props }) => {
-	const defaultClasses = 'tada-heading-2';
+	const defaultClasses =
+		'tada-heading-2 font-kanit font-bold text-2xl border-b-2 my-4 uppercase w-fit';
 	return (
 		<h2
 			className={className ? defaultClasses + ' ' + className : defaultClasses}

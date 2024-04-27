@@ -10,11 +10,16 @@
  * @constructor
  */
 export const Button = ({ className, children, ...props }) => {
-	const defaultClasses = 'tada-button';
+	const regularClasses =
+		'bg-tadaBlue text-white font-kanit border-0 text-sm mt-4 px-4 py-2 uppercase rounded-lg cursor-pointer transition-all';
+	const hoverClasses = 'hover:bg-tadaLighterBlue';
+	const disabledClasses =
+		'disabled:bg-tadaGray disabled:text-black disabled:cursor-not-allowed';
+	const defaultClasses = `${regularClasses} ${hoverClasses} ${disabledClasses}`;
 
 	return (
 		<button
-			className={className ? defaultClasses + ' ' + className : defaultClasses}
+			className={className ? className + ' ' + defaultClasses : defaultClasses}
 			{...props}>
 			{children}
 		</button>

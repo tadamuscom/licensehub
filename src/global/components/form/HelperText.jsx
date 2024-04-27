@@ -10,7 +10,7 @@
  * @constructor
  */
 export const HelperText = ({ className, content, ...props }) => {
-	const defaultClasses = 'tada-helper-text';
+	const defaultClasses = 'font-poppins text-sm text-tadaBlack mt-1 pl-1';
 
 	return (
 		<p

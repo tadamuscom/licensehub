@@ -14,7 +14,7 @@ export const App = () => {
 	};
 
 	return (
-		<div>
+		<div className="licensehub-global">
 			<Header pageTitle="License Keys" />
 			<LinkButton
 				click={newOnClick}

@@ -14,7 +14,9 @@ export const TableRow = ({ columns, editable, onBlur, onDelete }) => {
 				/>
 			))}
 			<td>
-				<button className="tada-action-icon tada-delete-btn" onClick={onDelete}>
+				<button
+					className="cursor-pointer text-md tada-delete-btn"
+					onClick={onDelete}>
 					{__('Delete', 'licensehub')}
 				</button>
 			</td>

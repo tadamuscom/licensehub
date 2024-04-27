@@ -23,7 +23,8 @@
 		"classnames": "^2.3.2",
 		"html-react-parser": "^4.2.2",
 		"react-contenteditable": "^3.3.7",
-		"sanitize-html": "^2.13.0"
+		"sanitize-html": "^2.13.0",
+		"tailwindcss": "^3.4.3"
 	},
 	"devDependencies": {
 		"@babel/preset-react": "^7.22.15",
@@ -47,8 +48,15 @@
 		"eslint-plugin-react": "^7.33.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"prettier": "^3.0.3",
+		"postcss": "^8.4.38",
+		"postcss-cli": "^11.0.0",
+		"postcss-import": "^16.1.0",
+		"postcss-loader": "^8.1.1",
+		"postcss-preset-env": "^9.5.4",
+		"postcss-safe-important": "^2.0.1",
 		"resolve-url-loader": "^5.0.0",
 		"style-loader": "^3.3.3",
+		"semver": "^7.6.0",
 		"webpack-assets-manifest": "^5.1.0",
 		"webpack-dev-server": "^4.15.1"
 	},

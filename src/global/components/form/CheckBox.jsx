@@ -10,14 +10,16 @@
  * @constructor
  */
 export const CheckBox = ({ wrapExtraClass, label, ...props }) => {
-	const defaultClasses = 'checkbox-container tada-flex-row';
+	const defaultClasses = 'checkbox-container flex flex-row items-center';
 
 	return (
 		<label
 			className={
 				wrapExtraClass ? defaultClasses + ' ' + wrapExtraClass : defaultClasses
 			}>
-			<span className="checkbox-label">{label}</span>
+			<span className="checkbox-label font-poppins font-semibold text-tadaBlack text-base block">
+				{label}
+			</span>
 			<input type="checkbox" {...props} />
 			<span className="checkmark"></span>
 		</label>

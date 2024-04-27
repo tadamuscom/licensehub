@@ -4,7 +4,7 @@ import { SettingsForm } from '@settings/components/SettingsForm';
 
 export const App = () => {
 	return (
-		<div>
+		<div className="licensehub-global">
 			<Header
 				pageTitle={__('Settings', 'licensehub')}
 				logoLink={lchb_settings.logo}

@@ -18,7 +18,7 @@ export const Table = ({
 	headers,
 	rows,
 }) => {
-	const defaultClasses = 'tada-table';
+	const defaultClasses = 'tada-table mt-3';
 
 	return (
 		<table

@@ -34,13 +34,13 @@ p{
     color: #000;
 }
 
-.tada-flex-row{
+.flex-row{
     display:flex;
     flex-direction: row;
     align-items: center;
 }
 
-.tada-flex{
+.flex{
     display:flex;
 }
 

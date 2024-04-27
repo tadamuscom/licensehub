@@ -12,7 +12,7 @@ export const App = () => {
 	};
 
 	return (
-		<div>
+		<div className="licensehub-global">
 			<Header pageTitle="API Keys" />
 			<LinkButton click={newOnClick} label="Add API Key" />
 			<NewAPIKey />
