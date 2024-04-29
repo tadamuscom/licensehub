@@ -162,9 +162,10 @@ if ( ! class_exists( 'Internal_API' ) ) {
 		 */
 		public function add_new_product( WP_REST_Request $request ): void {
 			$params = $request->get_params();
+			$params = json_decode($params[0]);
 
-			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_products' ) ) {
-				if ( empty( $params['name'] ) ) {
+			if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_products' ) ) {
+				if ( empty( $params->name ) ) {
 					wp_send_json_error(
 						array(
 							'message' => __( 'Name cannot be empty', 'licensehub' ),
@@ -175,17 +176,19 @@ if ( ! class_exists( 'Internal_API' ) ) {
 				}
 
 				$product             = new Product();
-				$product->name       = sanitize_text_field( $params['name'] );
+				$product->name       = sanitize_text_field( $params->name );
 				$product->status     = Product::$active_status;
 				$product->user_id    = get_current_user_id();
 				$product->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
 
 				$meta = array(
-					'download_link' => $params['download_link'],
+					'download_link' => $params->downloadLink,
 				);
 
-				if ( isset( $params['stripe_id'] ) ) {
-					if ( empty( $params['stripe_id'] ) ) {
+				$stripe_integration = get_option( 'lchb_stripe_integration' ) === 'true';
+
+				if ( $stripe_integration ) {
+					if ( empty( $params->stripeID ) ) {
 						wp_send_json_error(
 							array(
 								'message' => __( 'Stripe ID cannot be empty', 'licensehub' ),
@@ -195,7 +198,7 @@ if ( ! class_exists( 'Internal_API' ) ) {
 						return;
 					}
 
-					if ( Stripe::product_id_exists( $params['stripe_id'] ) ) {
+					if ( Stripe::product_id_exists( $params->stripeID ) ) {
 						wp_send_json_error(
 							array(
 								'message' => __( 'That Stripe product already has an integration', 'licensehub' ),
@@ -203,30 +206,35 @@ if ( ! class_exists( 'Internal_API' ) ) {
 						);
 					}
 
-					$meta['stripe_id'] = $params['stripe_id'];
+					$meta['stripeID'] = $params->stripeID;
 				}
 
-				if ( isset( $params['fluentcrm_lists'] ) ) {
-					if ( str_contains( $params['fluentcrm_lists'], ',' ) ) {
-						$lists = explode( ',', $params['fluentcrm_lists'] );
+				if ( isset( $params->fluentCRMLists ) ) {
+					if ( str_contains( $params->fluentCRMLists, ',' ) ) {
+						$lists = explode( ',', $params->fluentCRMLists );
 
-						$meta['fluentcrm_lists'] = $lists;
+						$meta['fluentCRMLists'] = $lists;
 					} else {
-						$meta['fluentcrm_lists'] = $params['fluentcrm_lists'];
+						$meta['fluentCRMLists'] = $params->fluentCRMLists;
 					}
 				}
 
-				if ( isset( $params['fluentcrm_tags'] ) ) {
-					if ( str_contains( $params['fluentcrm_tags'], ',' ) ) {
-						$tags = explode( ',', $params['fluentcrm_tags'] );
+				if ( isset( $params->fluentCRMTags ) ) {
+					if ( str_contains( $params->fluentCRMTags, ',' ) ) {
+						$tags = explode( ',', $params->fluentCRMTags );
 
-						$meta['fluentcrm_tags'] = $tags;
+						$meta['fluentCRMTags'] = $tags;
 					} else {
-						$meta['fluentcrm_tags'] = $params['fluentcrm_tags'];
+						$meta['fluentCRMTags'] = $params->fluentCRMTags;
 					}
 				}
 
 				$product->meta = serialize( $meta );
+
+//				echo '<pre>';
+//				print_r($product);
+//				echo '</pre>';
+//				die();
 
 				$product->save();
 

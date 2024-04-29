@@ -13,8 +13,10 @@ export const App = () => {
 				pageTitle={__('Products', 'licensehub')}
 				logoLink={lchb_products.logo}
 			/>
-			<Button onClick={() => setIsAddNew(true)}>
-				{__('Add Product', 'licensehub')}
+			<Button onClick={() => setIsAddNew((prev) => !prev)}>
+				{isAddNew
+					? __('Product List', 'licensehub')
+					: __('Add Product', 'licensehub')}
 			</Button>
 			{isAddNew ? <NewProduct /> : <ProductList />}
 		</div>
