@@ -27,7 +27,6 @@ module.exports = {
 		'prettier',
 		'no-only-tests',
 		'@rainforestqa/eslint-plugin',
-		'custom-rules',
 	],
 	rules: {
 		'require-await': 'error',
@@ -61,7 +60,6 @@ module.exports = {
 		],
 		'@rainforestqa/no-dangerous-conditional-literals-in-jsx': 'error',
 		// https://github.com/facebook/react/issues/11538
-		'custom-rules/button-translation-needs-span': 'error',
 	},
 	settings: { react: { version: 'detect' } },
 };
