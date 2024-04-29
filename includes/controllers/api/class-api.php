@@ -7,10 +7,11 @@
 
 namespace LicenseHub\Includes\Controller;
 
+use Exception;
 use LicenseHub\Includes\Model\API_Key;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
-use \WP_REST_Request;
+use WP_REST_Request;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -69,7 +70,7 @@ if ( ! class_exists( 'API' ) ) {
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception A regular exception.
+		 * @throws Exception A regular exception.
 		 */
 		public function validate_license( WP_REST_Request $request ): void {
 			$key = $request->get_param( 'license_key' );
@@ -94,7 +95,7 @@ if ( ! class_exists( 'API' ) ) {
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception A regular exception.
+		 * @throws Exception A regular exception.
 		 */
 		public function create_license( WP_REST_Request $request ): void {
 			if ( ! $this->auth( $request ) ) {
@@ -133,7 +134,7 @@ if ( ! class_exists( 'API' ) ) {
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception A regular exception.
+		 * @throws Exception A regular exception.
 		 */
 		public function create_product( WP_REST_Request $request ): void {
 			if ( ! $this->auth( $request ) ) {
@@ -169,7 +170,7 @@ if ( ! class_exists( 'API' ) ) {
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Exception A regular exception.
+		 * @throws Exception A regular exception.
 		 */
 		public function retrieve_product( WP_REST_Request $request ): void {
 			if ( ! $this->auth( $request ) ) {
@@ -209,6 +210,7 @@ if ( ! class_exists( 'API' ) ) {
 				array(
 					'methods'  => 'POST',
 					'callback' => array( $this, 'validate_license' ),
+					'permission_callback' => ''
 				)
 			);
 
@@ -219,6 +221,7 @@ if ( ! class_exists( 'API' ) ) {
 				array(
 					'methods'  => 'POST',
 					'callback' => array( $this, 'create_license' ),
+					'permission_callback' => ''
 				)
 			);
 		}
@@ -237,6 +240,7 @@ if ( ! class_exists( 'API' ) ) {
 				array(
 					'methods'  => 'GET',
 					'callback' => array( $this, 'retrieve_product' ),
+					'permission_callback' => ''
 				)
 			);
 			register_rest_route(
@@ -245,6 +249,7 @@ if ( ! class_exists( 'API' ) ) {
 				array(
 					'methods'  => 'POST',
 					'callback' => array( $this, 'create_product' ),
+					'permission_callback' => ''
 				)
 			);
 		}
@@ -257,7 +262,7 @@ if ( ! class_exists( 'API' ) ) {
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return bool
-		 * @throws \Exception A regular exception.
+		 * @throws Exception A regular exception.
 		 */
 		private function auth( WP_REST_Request $request ): bool {
 			$key = $request->get_header( 'LCHB-API-KEY' );

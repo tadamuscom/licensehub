@@ -7,13 +7,15 @@
 
 namespace LicenseHub\Includes\Controller\Integration\Stripe;
 
-use DateTime;
 use DateInterval;
-use WP_User;
-use WP_REST_Request;
+use DateTime;
+use Exception;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
+use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
+use WP_REST_Request;
+use WP_User;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -69,6 +71,7 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' 
 				array(
 					'methods'  => 'POST',
 					'callback' => array( $this, 'listener' ),
+					'permission_callback' => ''
 				)
 			);
 		}
@@ -81,8 +84,8 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' 
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
-		 * @throws \Stripe\Exception\ApiErrorException A Stripe API exception.
-		 * @throws \Exception A regular exception.
+		 * @throws ApiErrorException A Stripe API exception.
+		 * @throws Exception A regular exception.
 		 */
 		public function listener( WP_REST_Request $request ): void {
 			$stripe = new StripeClient( get_option( 'lchb_stripe_private_key' ) );
@@ -134,7 +137,7 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Integration\Stripe\Stripe' 
 		 * @param string  $expires_at The date the key expires at.
 		 *
 		 * @return void
-		 * @throws \Exception A regular exception.
+		 * @throws Exception A regular exception.
 		 */
 		private function generate_key( WP_User $user, Product $product, string $expires_at ): void {
 			$key = new License_Key();
