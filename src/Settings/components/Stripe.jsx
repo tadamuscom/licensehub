@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { CheckBox, FormGroup, Input, Label } from '@global';
 
-export const Stripe = ({ formValues, changeFormValue, status }) => {
+export const Stripe = ({ formData, changeFormValue, result }) => {
 	return (
 		<>
 			<FormGroup>
@@ -9,13 +9,13 @@ export const Stripe = ({ formValues, changeFormValue, status }) => {
 					label={__('Stripe Integration', 'licensehub')}
 					id="tada-stripe-integration"
 					name="tada-stripe-integration"
-					checked={formValues.stripeIntegration}
+					checked={formData.stripeIntegration}
 					onClick={() =>
-						changeFormValue('stripeIntegration', !formValues.stripeIntegration)
+						changeFormValue('stripeIntegration', !formData.stripeIntegration)
 					}
 				/>
 			</FormGroup>
-			{formValues.stripeIntegration && (
+			{formData.stripeIntegration && (
 				<>
 					<FormGroup>
 						<Label htmlFor="lchb-public-key">
@@ -24,8 +24,8 @@ export const Stripe = ({ formValues, changeFormValue, status }) => {
 						<Input
 							id="lchb-stripe-public-key"
 							type="text"
-							value={formValues.stripePublicKey}
-							status={status}
+							value={formData.stripePublicKey}
+							result={result}
 							onChange={(e) =>
 								changeFormValue('stripePublicKey', e.target.value)
 							}
@@ -39,9 +39,9 @@ export const Stripe = ({ formValues, changeFormValue, status }) => {
 						<Input
 							type="password"
 							id="lchb-stripe-private-key"
-							value={formValues.stripePrivateKey}
+							value={formData.stripePrivateKey}
 							autoComplete="off"
-							status={status}
+							result={result}
 							onChange={(e) =>
 								changeFormValue('stripePrivateKey', e.target.value)
 							}

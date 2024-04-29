@@ -46,9 +46,6 @@ module.exports = ({ mode, file }) => ({
 
 const findContent = (file) => {
 	console.log(`Processing: ${file}`);
-	if (file.endsWith('/settings/settings.css')) {
-		return ['./src/Settings/**/*.{js,jsx}'];
-	}
 	if (file.endsWith('/global/css/main.css')) {
 		return ['./src/global/**/*.{js,jsx}'];
 	}

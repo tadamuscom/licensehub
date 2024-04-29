@@ -10,6 +10,7 @@ export const FluentCRM = () => {
 						{__('FluentCRM List IDs', 'licensehub')}
 					</Label>
 					<Input
+						type="text"
 						id="lchb-fluentcrm-lists"
 						name="lchb-fluentcrm-lists"
 						value=""
@@ -21,6 +22,7 @@ export const FluentCRM = () => {
 						{__('FluentCRM Tag IDs', 'licensehub')}
 					</Label>
 					<Input
+						type="text"
 						id="lchb-fluentcrm-tags"
 						name="lchb-fluentcrm-tags"
 						value=""

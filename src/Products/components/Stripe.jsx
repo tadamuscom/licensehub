@@ -9,7 +9,12 @@ export const Stripe = () => {
 					<Label htmlFor="lchb-stripe-id">
 						{__('Stripe Product ID', 'licensehub')}
 					</Label>
-					<Input id="lchb-stripe-id" name="lchb-stripe-id" value="" />
+					<Input
+						type="text"
+						id="lchb-stripe-id"
+						name="lchb-stripe-id"
+						value=""
+					/>
 				</FormGroup>
 			</>
 		);

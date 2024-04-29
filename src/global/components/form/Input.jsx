@@ -14,12 +14,12 @@ import classNames from 'classnames';
  * @returns {JSX.Element}
  * @constructor
  */
-export const Input = ({ className, helper, status, ...props }) => {
+export const Input = ({ className, helper, result, ...props }) => {
 	const [error, setError] = useState('');
 
 	useEffect(() => {
-		if (status.field === props.id) setError(status.message);
-	}, [status, setError]);
+		if (result.field === props.id) setError(result.message);
+	}, [result, setError]);
 
 	const regularClasses =
 		'w-[300px] mt-2 bg-grey-200 border-2 border-black rounded-md p-2 transition duration-100 ease-in-out leading-none font-poppins';
@@ -38,7 +38,7 @@ export const Input = ({ className, helper, status, ...props }) => {
 					className ? defaultClasses + ' ' + className : defaultClasses,
 					{
 						'border-2 border-red-500':
-							error || (status.type === 'error' && !status.field),
+							error || (result.type === 'error' && !result.field),
 					},
 				)}
 			/>

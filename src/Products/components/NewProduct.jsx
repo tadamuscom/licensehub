@@ -102,7 +102,7 @@ export const NewProduct = () => {
 			<form id="tada-add-product-form">
 				<FormGroup>
 					<Label htmlFor="lchb-name">{__('Name', 'licensehub')}</Label>
-					<Input id="lchb-name" name="lchb-name" value="" />
+					<Input type="text" id="lchb-name" name="lchb-name" value="" />
 				</FormGroup>
 				<Stripe />
 				<FluentCRM />
@@ -110,7 +110,12 @@ export const NewProduct = () => {
 					<Label htmlFor="lchb-download-link">
 						{__('Download Link', 'licensehub')}
 					</Label>
-					<Input id="lchb-download-link" name="lchb-download-link" value="" />
+					<Input
+						type="text"
+						id="lchb-download-link"
+						name="lchb-download-link"
+						value=""
+					/>
 				</FormGroup>
 				<FormGroup extraClass="tada-form-submit">
 					<Button type="submit">{__('Save Product', 'licensehub')}</Button>

@@ -8,7 +8,7 @@
  */
 export const SuccessMessage = ({ className, children, inline = false }) => {
 	const displayClass = inline ? 'pl-4 inline-block' : 'ml-1 mt-1 block';
-	const defaultClasses = `font-poppins text-sm text-green-500 ${displayClass}`;
+	const defaultClasses = `font-poppins text-sm text-green-800 ${displayClass}`;
 
 	return (
 		<p
