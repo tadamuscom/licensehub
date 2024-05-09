@@ -230,12 +230,6 @@ if ( ! class_exists( 'Internal_API' ) ) {
 				}
 
 				$product->meta = serialize( $meta );
-
-//				echo '<pre>';
-//				print_r($product);
-//				echo '</pre>';
-//				die();
-
 				$product->save();
 
 				wp_send_json_success(

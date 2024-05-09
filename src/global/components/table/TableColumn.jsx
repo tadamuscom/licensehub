@@ -18,9 +18,13 @@ export const TableColumn = ({ data, editable, column, onBlur }) => {
 
 	return editable ? (
 		<td column={column}>
-			<ContentEditable html={'hello'} onChange={handleChange} onBlur={onBlur} />
+			<ContentEditable
+				html={columnData}
+				onChange={handleChange}
+				onBlur={onBlur}
+			/>
 		</td>
 	) : (
-		<td column={column}>{}</td>
+		<td column={column}>{columnData}</td>
 	);
 };
