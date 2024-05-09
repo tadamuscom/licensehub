@@ -1,85 +1,66 @@
 import apiFetch from '@wordpress/api-fetch';
-import { useState } from '@wordpress/element';
-import sanitizeHtml from 'sanitize-html';
+import { __ } from '@wordpress/i18n';
+import { toast } from 'react-toastify';
 import { Table } from '@global/components/table/Table';
 import { HeadingTwo } from '@global/components/typography/HeadingTwo';
+import { useTables } from '@global/hooks/useTables';
 
 export const ProductList = () => {
-	const [loading, setLoading] = useState(false);
+	const { getTableData, triggerColumnError, error } = useTables();
 
-	const tableOnBlur = (event) => {
-		const table =
-			event.currentTarget.parentNode.parentNode.parentNode.parentNode;
-		const row = event.currentTarget.parentNode.parentNode;
-		const columnElement = event.currentTarget.parentNode;
-		const column = sanitizeHtml(columnElement.getAttribute('column'));
-		const value = sanitizeHtml(event.currentTarget.innerHTML);
-		const id = getElementID(row);
-
-		setLoading(true);
-
-		if (!column || column.length < 1) {
-			setLoading(false);
-
-			return;
-		}
+	const tableOnBlur = async (event) => {
+		const { column, value, id } = getTableData(event);
 
 		if (column === 'status') {
 			const acceptedStatuses = ['active', 'inactive'];
 
 			if (!acceptedStatuses.includes(value)) {
-				setLoading(false);
+				triggerColumnError(column);
+
+				toast.error(
+					__("Invalid status. Use 'active' or 'inactive'", 'licensehub'),
+					{
+						position: 'bottom-right',
+						autoClose: 2000,
+					},
+				);
 
 				return;
 			}
 		}
 
-		const loader = columnAddLoader(row);
-
-		const data = {
-			nonce: lchb_products.nonce,
-			id: id,
-			column: column,
-			value: value,
-		};
-
-		const beforeUnloadHandler = (event) => {
-			event.preventDefault();
-
-			event.returnValue = true;
-		};
-
-		window.addEventListener('beforeunload', beforeUnloadHandler);
-
-		apiFetch({
-			path: '/tadamus/lchb/v1/update-product',
-			method: 'PUT',
-			data: data,
-		})
-			.then((result) => {
-				if (!result.success) {
-					loader.remove();
-				} else {
-					loader.remove();
-				}
-
-				window.removeEventListener('beforeunload', beforeUnloadHandler);
-			})
-			.catch((result) => {
-				loader.remove();
-
-				window.removeEventListener('beforeunload', beforeUnloadHandler);
-			});
+		await toast.promise(
+			apiFetch({
+				path: '/tadamus/lchb/v1/update-product',
+				method: 'PUT',
+				data: {
+					nonce: lchb_products.nonce,
+					id: id,
+					column: column,
+					value: value,
+				},
+			}),
+			{
+				pending: __('Product is loading...', 'licensehub'),
+				success: __('Product updated', 'licensehub'),
+				error: __('Something went wrong', 'licensehub'),
+			},
+			{
+				position: 'bottom-right',
+				autoClose: 1500,
+			},
+		);
 	};
 
 	return (
 		<>
-			<HeadingTwo label="Products" />
+			<HeadingTwo label={__('Products', 'licensehub')} />
 			<Table
 				headers={lchb_products.fields}
 				rows={lchb_products.products}
 				editable={true}
 				onBlur={tableOnBlur}
+				error={error}
 			/>
 		</>
 	);

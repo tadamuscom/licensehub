@@ -6,6 +6,12 @@ import { TableRow } from '@global/components/table/TableRow';
  *
  * @since 1.0.2
  *
+ * @param editable
+ * @param onBlur
+ * @param className
+ * @param onDelete
+ * @param headers
+ * @param rows
  * @param props
  * @returns {JSX.Element}
  * @constructor
@@ -17,6 +23,7 @@ export const Table = ({
 	onDelete,
 	headers,
 	rows,
+	...props
 }) => {
 	const defaultClasses = 'tada-table mt-3';
 
@@ -39,6 +46,7 @@ export const Table = ({
 						editable={editable ? editable : false}
 						onBlur={onBlur ? onBlur : false}
 						onDelete={onDelete}
+						{...props}
 					/>
 				))}
 			</tbody>

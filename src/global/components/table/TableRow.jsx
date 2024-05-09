@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { TableColumn } from '@global/components/table/TableColumn';
 
-export const TableRow = ({ columns, editable, onBlur, onDelete }) => {
+export const TableRow = ({ columns, editable, onBlur, onDelete, ...props }) => {
 	const renderColumns = () => {
 		let returnable = [];
 
@@ -13,6 +13,7 @@ export const TableRow = ({ columns, editable, onBlur, onDelete }) => {
 					column={columnName}
 					editable={editable}
 					onBlur={onBlur}
+					{...props}
 				/>,
 			);
 		}
