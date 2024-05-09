@@ -6,9 +6,10 @@ import { HeadingTwo } from '@global/components/typography/HeadingTwo';
 import { useTables } from '@global/hooks/useTables';
 
 export const ProductList = () => {
-	const { getTableData, triggerColumnError, error } = useTables();
+	const { getTableData, triggerColumnError, removeRow, error, rows, headers } =
+		useTables(lchb_products.products, lchb_products.fields);
 
-	const tableOnBlur = async (event) => {
+	const handleBlur = async (event) => {
 		const { column, value, id } = getTableData(event);
 
 		if (column === 'status') {
@@ -52,15 +53,42 @@ export const ProductList = () => {
 		);
 	};
 
+	const handleDelete = async (event) => {
+		const { id } = getTableData(event);
+
+		await toast.promise(
+			apiFetch({
+				path: '/tadamus/lchb/v1/delete-product',
+				method: 'DELETE',
+				data: {
+					nonce: lchb_products.nonce,
+					id: id,
+				},
+			}),
+			{
+				pending: __('Product is deleting...', 'licensehub'),
+				success: __('Product deleted', 'licensehub'),
+				error: __('Something went wrong', 'licensehub'),
+			},
+			{
+				position: 'bottom-right',
+				autoClose: 1500,
+			},
+		);
+
+		removeRow(id);
+	};
+
 	return (
 		<>
 			<HeadingTwo label={__('Products', 'licensehub')} />
 			<Table
-				headers={lchb_products.fields}
-				rows={lchb_products.products}
+				headers={headers}
+				rows={rows}
 				editable={true}
-				onBlur={tableOnBlur}
+				onBlur={handleBlur}
 				error={error}
+				onDelete={handleDelete}
 			/>
 		</>
 	);

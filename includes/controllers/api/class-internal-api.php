@@ -103,7 +103,7 @@ if ( ! class_exists( 'Internal_API' ) ) {
 				$this->namespace,
 				'/delete-product',
 				array(
-					'methods'             => 'POST',
+					'methods'             => 'DELETE',
 					'callback'            => array( $this, 'delete_product' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );

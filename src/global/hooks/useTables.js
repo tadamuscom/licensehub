@@ -1,11 +1,13 @@
 import { useState } from '@wordpress/element';
 import sanitizeHtml from 'sanitize-html';
 
-export const useTables = () => {
+export const useTables = (rawRows, rawHeaders) => {
 	const [error, setError] = useState({
 		status: false,
 		column: '',
 	});
+	const [rows, setRows] = useState(rawRows);
+	const [headers, setHeaders] = useState(rawHeaders);
 
 	const triggerColumnError = (column) => {
 		setError({
@@ -19,6 +21,10 @@ export const useTables = () => {
 			status: false,
 			column: '',
 		});
+	};
+
+	const removeRow = (id) => {
+		setRows((prev) => prev.filter((row) => row.id !== id));
 	};
 
 	const getElementID = (row) => {
@@ -43,5 +49,13 @@ export const useTables = () => {
 		id: getElementID(event.currentTarget.parentNode.parentNode),
 	});
 
-	return { getTableData, triggerColumnError, removeColumnError, error };
+	return {
+		getTableData,
+		triggerColumnError,
+		removeColumnError,
+		removeRow,
+		error,
+		rows,
+		headers,
+	};
 };

@@ -20,7 +20,6 @@ export const Table = ({
 	editable,
 	onBlur,
 	className,
-	onDelete,
 	headers,
 	rows,
 	...props
@@ -45,7 +44,6 @@ export const Table = ({
 						key={index}
 						editable={editable ? editable : false}
 						onBlur={onBlur ? onBlur : false}
-						onDelete={onDelete}
 						{...props}
 					/>
 				))}
