@@ -39,18 +39,14 @@ export const useTables = (rawRows, rawHeaders) => {
 	 * @param column
 	 * @param id
 	 * @param status
-	 * @param force
 	 */
-	const changeErrorStatus = (column, id, status, force) => {
+	const changeErrorStatus = (column, id, status) => {
 		setRows((prev) => {
 			return rawRows.map((row, index) => {
 				return Object.entries(row).map(
 					([columnName, columnValue], secondIndex) => {
 						const currentErrorStatus = prev[index][secondIndex].error;
 						const isTargetColumn = columnName === column && row.id === id;
-
-						if (isTargetColumn && force)
-							return { name: columnName, value: columnValue, error: status };
 
 						if (isTargetColumn)
 							return { name: columnName, value: columnValue, error: status };
@@ -81,7 +77,7 @@ export const useTables = (rawRows, rawHeaders) => {
 	 * @param id
 	 */
 	const removeColumnError = (column, id) =>
-		changeErrorStatus(column, id, false, true);
+		changeErrorStatus(column, id, false);
 
 	/**
 	 * Get the ID of the element
@@ -92,7 +88,7 @@ export const useTables = (rawRows, rawHeaders) => {
 	const getElementID = (row) => {
 		let returnable;
 
-		row.childNodes.forEach((element, index) => {
+		row.childNodes.forEach((element) => {
 			switch (element.getAttribute('column')) {
 				case 'id':
 				case 'ID':

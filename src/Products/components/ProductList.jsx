@@ -26,22 +26,36 @@ export const ProductList = () => {
 
 	const handleBlur = async (event) => {
 		const { column, value, id } = getTableData(event);
-
 		removeColumnError(column, id);
 
 		if (column === 'status') {
 			const acceptedStatuses = ['active', 'inactive'];
 
 			if (!acceptedStatuses.includes(value)) {
-				triggerColumnError(column, id, value);
+				triggerColumnError(column, id);
 
-				toast.error(
+				return toast.error(
 					__("Invalid status. Use 'active' or 'inactive'", 'licensehub'),
 					toastOptions,
 				);
-
-				return;
 			}
+		}
+
+		if (column === 'user_id') {
+			let userExists = true;
+
+			try {
+				await apiFetch({
+					path: `/wp/v2/users/${value}`,
+				});
+			} catch {
+				triggerColumnError(column, id);
+
+				toast.error(__('Invalid user ID', 'licensehub'), toastOptions);
+				userExists = false;
+			}
+
+			if (!userExists) return;
 		}
 
 		await toast.promise(
