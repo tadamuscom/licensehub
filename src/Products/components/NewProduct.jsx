@@ -5,7 +5,7 @@ import { useForms } from '@global/hooks/useForms';
 import { FluentCRM } from '@products/components/FluentCRM';
 import { Stripe } from '@products/components/Stripe';
 
-export const NewProduct = () => {
+export const NewProduct = ({ setIsAddNew }) => {
 	const { loading, result, formData, changeFormValue, post } = useForms({
 		name: '',
 		downloadLink: '',
@@ -22,6 +22,8 @@ export const NewProduct = () => {
 					e.preventDefault();
 
 					await post('/tadamus/lchb/v1/new-product', lchb_products.nonce);
+
+					location.reload();
 				}}>
 				<FormGroup>
 					<Label htmlFor="lchb-name">{__('Name', 'licensehub')}</Label>

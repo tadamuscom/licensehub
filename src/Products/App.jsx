@@ -20,7 +20,7 @@ export const App = () => {
 					? __('Product List', 'licensehub')
 					: __('Add Product', 'licensehub')}
 			</Button>
-			{isAddNew ? <NewProduct /> : <ProductList />}
+			{isAddNew ? <NewProduct setIsAddNew={setIsAddNew} /> : <ProductList />}
 			<ToastContainer />
 		</div>
 	);
