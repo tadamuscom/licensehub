@@ -1,3 +1,4 @@
+import { useState } from '@wordpress/element';
 import {
 	Button,
 	FormGroup,
@@ -7,101 +8,26 @@ import {
 	Select,
 	SelectOption,
 } from '@global';
+import { useForms } from '@global/hooks/useForms';
 
 export const NewLicenseKey = () => {
-	const submit = (e) => {
-		e.preventDefault();
+	const { loading, result, formData, changeFormValue, post } = useForms({
+		user: '',
+		product: '',
+		expiresAt: '',
+	});
 
-		const btn = document.querySelector(
-			'#' + e.target.id + ' input[type="submit"]',
-		);
-		btn.disabled = true;
-		btn.value = 'Loading...';
-
-		const formData = new FormData(e.target);
-		const user = formData.get('lchb-user');
-		const product = formData.get('lchb-product');
-		const expiresAt = formData.get('lchb-expires-at');
-
-		let go = true;
-
-		if (user.length < 1) {
-			go = false;
-		}
-
-		if (product.length < 1) {
-			go = false;
-		}
-
-		if (expiresAt.length < 1) {
-			go = false;
-		}
-
-		const status = document.getElementById('tada-status');
-
-		if (!go) {
-			btn.value = 'Save License Key';
-			btn.disabled = false;
-
-			status.style.color = 'red';
-			status.innerText = 'Please fix the errors above ❌';
-
-			if (status.classList.contains('tada-hidden')) {
-				status.classList.remove('tada-hidden');
-			}
-
-			return;
-		}
-
-		wp.apiFetch({
-			path: '/tadamus/lchb/v1/new-license-key',
-			method: 'POST',
-			data: {
-				nonce: lchb_license_keys.nonce,
-				user: user,
-				product: product,
-				expires_at: expiresAt,
-			},
-		}).then((result) => {
-			btn.value = 'Save License Key';
-			btn.disabled = false;
-			status.innerText = result.data.message + ' ✅';
-
-			if (result.success) {
-				status.style.color = 'green';
-				window.location.reload();
-			} else {
-				status.style.color = 'red';
-				status.innerText = status.innerText + ' ❌';
-			}
-
-			if (status.classList.contains('tada-hidden')) {
-				status.classList.remove('tada-hidden');
-			}
+	const [products, setProducts] = useState(() => {
+		return lchb_license_keys.products.map((element, index) => {
+			return <SelectOption id={element.id} label={element.name} key={index} />;
 		});
-	};
-
-	const preProducts = [];
-	const preUsers = [];
-
-	lchb_license_keys.products.forEach((element, index) => {
-		preProducts.push(
-			<SelectOption id={element.id} label={element.name} key={index} />,
-		);
 	});
 
-	lchb_license_keys.users.forEach((element, index) => {
-		preUsers.push(
-			<SelectOption
-				id={element.data.ID}
-				label={element.data.user_email}
-				key={index}
-			/>,
-		);
+	const [users, setUsers] = useState(() => {
+		return lchb_license_keys.users.map((element, index) => {
+			return <SelectOption id={element.id} label={element.name} key={index} />;
+		});
 	});
-
-	const [products, setProducts] = useState(preProducts);
-	const [users, setUsers] = useState(preUsers);
 
 	return (
 		<div
@@ -111,18 +37,39 @@ export const NewLicenseKey = () => {
 			}}
 			id="tada-new-license-key">
 			<HeadingTwo label="New License Key" />
-			<form onSubmit={submit} id="tada-add-license-key-form">
+			<form id="tada-add-license-key-form">
 				<FormGroup>
 					<Label htmlFor="lchb-user" label="User" />
-					<Select id="lchb-user" name="lchb-user" options={users} />
+					<Select
+						id="lchb-user"
+						name="lchb-user"
+						options={users}
+						value={formData.user}
+						result={result}
+						onChange={(e) => changeFormValue('user', e.target.value)}
+					/>
 				</FormGroup>
 				<FormGroup>
 					<Label htmlFor="lchb-product" label="Product" />
-					<Select id="lchb-product" name="lchb-product" options={products} />
+					<Select
+						id="lchb-product"
+						name="lchb-product"
+						options={products}
+						value={formData.product}
+						result={result}
+						onChange={(e) => changeFormValue('product', e.target.value)}
+					/>
 				</FormGroup>
 				<FormGroup>
 					<Label htmlFor="lchb-expires-at" label="Expiry Date" />
-					<Input id="lchb-expires-at" name="lchb-expires-at" />
+					<Input
+						type="date"
+						id="lchb-expires-at"
+						name="lchb-expires-at"
+						value={formData.expiresAt}
+						result={result}
+						onChange={(e) => changeFormValue('expiresAt', e.target.value)}
+					/>
 				</FormGroup>
 				<FormGroup extraClass="tada-form-submit">
 					<Button label="Save License Key" />

@@ -56,6 +56,9 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\License_Keys_Page' )
 		 */
 		public function callback(): void {
 			$asset_manager = new Asset_Manager();
+			$asset_meta = Asset_Manager::get_asset_meta(
+				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-licenses.php' )
+			);
 
 			wp_enqueue_style(
 				'lchb-license-keys-style',
@@ -63,24 +66,23 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\License_Keys_Page' )
 				array(),
 				LCHB_VERSION
 			);
+
 			wp_enqueue_script(
 				'lchb-license-keys-script',
 				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-licenses.js' ),
-				array(),
-				LCHB_VERSION
+				$asset_meta['dependencies'],
+				$asset_meta['version']
 			);
 
-			$product_instance = new Product();
-			$products         = $product_instance->get_all();
-
-			$users = get_users();
-
+			$product_instance 		= new Product();
+			$products         		= $product_instance->get_all();
+			$users 								= get_users();
 			$license_key_instance = new License_Key();
 			$license_keys         = $license_key_instance->get_all();
 			$fields               = $license_key_instance->get_fields();
 
 			wp_localize_script(
-				'lchb-license-keys-page',
+				'lchb-license-keys-script',
 				'lchb_license_keys',
 				array(
 					'logo'     => LCHB_IMG . '/tadamus-logo.png',
