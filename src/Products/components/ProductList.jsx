@@ -7,8 +7,26 @@ import { toastOptions } from '@global/constants';
 import { useTables } from '@global/hooks/useTables';
 
 export const ProductList = () => {
-	const { getTableData, triggerColumnError, removeRow, error, rows, headers } =
-		useTables(lchb_products.products, lchb_products.fields);
+	const {
+		getTableData,
+		triggerColumnError,
+		removeRow,
+		removeColumnError,
+		updateColumn,
+		error,
+		rows,
+		headers,
+	} = useTables(lchb_products.products, lchb_products.fields);
+
+	const updateOriginalValue = (rowID, column, value) => {
+		lchb_products.products = lchb_products.products.map((row) => {
+			if (row.id === rowID) {
+				row[column] = value;
+			}
+
+			return row;
+		});
+	};
 
 	const handleBlur = async (event) => {
 		const { column, value, id } = getTableData(event);
@@ -25,6 +43,8 @@ export const ProductList = () => {
 				);
 
 				return;
+			} else {
+				removeColumnError(column);
 			}
 		}
 
@@ -81,6 +101,7 @@ export const ProductList = () => {
 				onBlur={handleBlur}
 				error={error}
 				onDelete={handleDelete}
+				updateOriginalValue={updateOriginalValue}
 			/>
 		</>
 	);

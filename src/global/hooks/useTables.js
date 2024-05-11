@@ -10,18 +10,20 @@ export const useTables = (rawRows, rawHeaders) => {
 	const [rows, setRows] = useState(rawRows);
 	const [headers, setHeaders] = useState(rawHeaders);
 
+	const updateColumn = async (id, column, value) => {
+		setRows((prev) =>
+			prev.map((row) => {
+				if (row.id !== id) return row;
+
+				return {
+					...row,
+					[column]: value,
+				};
+			}),
+		);
+	};
+
 	const triggerColumnError = (column, id, value) => {
-		const newRows = rows.map((row, index) => {
-			const newRow = { ...row };
-			if (row.id === id) newRow[column] = value;
-			lchb_products.products[index][column] = newRow;
-
-			return newRow;
-		});
-
-		console.log(newRows);
-
-		setRows(newRows);
 		setError({
 			status: true,
 			column,
@@ -29,7 +31,7 @@ export const useTables = (rawRows, rawHeaders) => {
 		});
 	};
 
-	const removeColumnError = () => {
+	const removeColumnError = (column) => {
 		setError({
 			status: false,
 			column: '',
@@ -67,6 +69,7 @@ export const useTables = (rawRows, rawHeaders) => {
 		triggerColumnError,
 		removeColumnError,
 		removeRow,
+		updateColumn,
 		error,
 		rows,
 		headers,
