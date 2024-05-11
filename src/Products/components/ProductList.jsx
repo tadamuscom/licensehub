@@ -27,6 +27,8 @@ export const ProductList = () => {
 	const handleBlur = async (event) => {
 		const { column, value, id } = getTableData(event);
 
+		removeColumnError(column, id);
+
 		if (column === 'status') {
 			const acceptedStatuses = ['active', 'inactive'];
 
@@ -39,8 +41,6 @@ export const ProductList = () => {
 				);
 
 				return;
-			} else {
-				removeColumnError(column);
 			}
 		}
 
