@@ -13,6 +13,7 @@ export const TableRow = ({ columns, editable, onBlur, onDelete, ...props }) => {
 					column={columnName}
 					editable={editable}
 					onBlur={onBlur}
+					row={columns}
 					{...props}
 				/>,
 			);

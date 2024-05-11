@@ -1,5 +1,8 @@
 import '@global/css/main.css';
 
+// Constants
+export * from '@global/constants';
+
 // Form
 export * from '@global/components/form/Button';
 export * from '@global/components/form/CheckBox';

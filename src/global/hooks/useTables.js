@@ -5,14 +5,27 @@ export const useTables = (rawRows, rawHeaders) => {
 	const [error, setError] = useState({
 		status: false,
 		column: '',
+		rowID: 0,
 	});
 	const [rows, setRows] = useState(rawRows);
 	const [headers, setHeaders] = useState(rawHeaders);
 
-	const triggerColumnError = (column) => {
+	const triggerColumnError = (column, id, value) => {
+		const newRows = rows.map((row, index) => {
+			const newRow = { ...row };
+			if (row.id === id) newRow[column] = value;
+			lchb_products.products[index][column] = newRow;
+
+			return newRow;
+		});
+
+		console.log(newRows);
+
+		setRows(newRows);
 		setError({
 			status: true,
 			column,
+			rowID: id,
 		});
 	};
 

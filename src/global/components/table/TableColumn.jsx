@@ -1,7 +1,8 @@
 import { useState } from '@wordpress/element';
+import classNames from 'classnames';
 import ContentEditable from 'react-contenteditable';
 
-export const TableColumn = ({ data, editable, column, onBlur, error }) => {
+export const TableColumn = ({ data, editable, column, onBlur, row, error }) => {
 	const [columnData, setColumnData] = useState(data);
 
 	switch (column) {
@@ -13,7 +14,12 @@ export const TableColumn = ({ data, editable, column, onBlur, error }) => {
 	}
 
 	return editable ? (
-		<td column={column}>
+		<td
+			column={column}
+			className={classNames({
+				'border-2 border-red-500':
+					error && error.column === column && error.rowID === row.id,
+			})}>
 			<ContentEditable
 				html={columnData}
 				onChange={(event) => setColumnData(event.target.value)}

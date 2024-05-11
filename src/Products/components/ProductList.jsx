@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { toast } from 'react-toastify';
 import { Table } from '@global/components/table/Table';
 import { HeadingTwo } from '@global/components/typography/HeadingTwo';
+import { toastOptions } from '@global/constants';
 import { useTables } from '@global/hooks/useTables';
 
 export const ProductList = () => {
@@ -16,14 +17,11 @@ export const ProductList = () => {
 			const acceptedStatuses = ['active', 'inactive'];
 
 			if (!acceptedStatuses.includes(value)) {
-				triggerColumnError(column);
+				triggerColumnError(column, id, value);
 
 				toast.error(
 					__("Invalid status. Use 'active' or 'inactive'", 'licensehub'),
-					{
-						position: 'bottom-right',
-						autoClose: 2000,
-					},
+					toastOptions,
 				);
 
 				return;
@@ -46,10 +44,7 @@ export const ProductList = () => {
 				success: __('Product updated', 'licensehub'),
 				error: __('Something went wrong', 'licensehub'),
 			},
-			{
-				position: 'bottom-right',
-				autoClose: 1500,
-			},
+			toastOptions,
 		);
 	};
 
@@ -70,10 +65,7 @@ export const ProductList = () => {
 				success: __('Product deleted', 'licensehub'),
 				error: __('Something went wrong', 'licensehub'),
 			},
-			{
-				position: 'bottom-right',
-				autoClose: 1500,
-			},
+			toastOptions,
 		);
 
 		removeRow(id);
