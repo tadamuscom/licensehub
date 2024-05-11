@@ -2,45 +2,42 @@ import { useState } from '@wordpress/element';
 import sanitizeHtml from 'sanitize-html';
 
 export const useTables = (rawRows, rawHeaders) => {
-	const [error, setError] = useState({
-		status: false,
-		column: '',
-		rowID: 0,
+	const [rows, setRows] = useState(() => {
+		return rawRows.map((row) => {
+			return Object.entries(row).map(([columnName, columnValue]) => {
+				return { name: columnName, value: columnValue, error: false };
+			});
+		});
 	});
-	const [rows, setRows] = useState(rawRows);
 	const [headers, setHeaders] = useState(rawHeaders);
 
-	const updateColumn = async (id, column, value) => {
-		setRows((prev) =>
-			prev.map((row) => {
-				if (row.id !== id) return row;
+	const removeRow = (id) =>
+		setRows((prev) => prev.filter((row) => row[0].value !== id));
 
-				return {
-					...row,
-					[column]: value,
-				};
-			}),
-		);
-	};
+	const changeErrorStatus = (column, id, status) => {
+		setRows((prev) => {
+			return rawRows.map((row, index) => {
+				return Object.entries(row).map(
+					([columnName, columnValue], secondIndex) => {
+						if (columnName === column && row.id === id)
+							return { name: columnName, value: columnValue, error: true };
+						if (prev[index][secondIndex].error)
+							return { name: columnName, value: columnValue, error: true };
 
-	const triggerColumnError = (column, id, value) => {
-		setError({
-			status: true,
-			column,
-			rowID: id,
+						return { name: columnName, value: columnValue, error: false };
+					},
+				);
+			});
 		});
 	};
 
-	const removeColumnError = (column) => {
-		setError({
-			status: false,
-			column: '',
-		});
+	const triggerColumnError = (column, id) => {
+		console.log('trigger error');
+		changeErrorStatus(column, id, true);
 	};
 
-	const removeRow = (id) => {
-		setRows((prev) => prev.filter((row) => row.id !== id));
-	};
+	const removeColumnError = (column, id) =>
+		changeErrorStatus(column, id, false);
 
 	const getElementID = (row) => {
 		let returnable;
@@ -69,8 +66,6 @@ export const useTables = (rawRows, rawHeaders) => {
 		triggerColumnError,
 		removeColumnError,
 		removeRow,
-		updateColumn,
-		error,
 		rows,
 		headers,
 	};

@@ -5,12 +5,12 @@ export const TableRow = ({ columns, editable, onBlur, onDelete, ...props }) => {
 	const renderColumns = () => {
 		let returnable = [];
 
-		for (let [columnName, columnData] of Object.entries(columns)) {
+		for (const column of columns) {
 			returnable.push(
 				<TableColumn
-					data={columnData}
+					data={column}
 					key={Math.random()}
-					column={columnName}
+					column={column.name}
 					editable={editable}
 					onBlur={onBlur}
 					row={columns}

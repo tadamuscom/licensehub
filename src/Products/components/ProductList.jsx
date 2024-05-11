@@ -12,17 +12,13 @@ export const ProductList = () => {
 		triggerColumnError,
 		removeRow,
 		removeColumnError,
-		updateColumn,
-		error,
 		rows,
 		headers,
 	} = useTables(lchb_products.products, lchb_products.fields);
 
 	const updateOriginalValue = (rowID, column, value) => {
 		lchb_products.products = lchb_products.products.map((row) => {
-			if (row.id === rowID) {
-				row[column] = value;
-			}
+			if (row.id === rowID) row[column] = value;
 
 			return row;
 		});
@@ -99,7 +95,6 @@ export const ProductList = () => {
 				rows={rows}
 				editable={true}
 				onBlur={handleBlur}
-				error={error}
 				onDelete={handleDelete}
 				updateOriginalValue={updateOriginalValue}
 			/>

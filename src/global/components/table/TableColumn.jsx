@@ -8,14 +8,13 @@ export const TableColumn = ({
 	column,
 	onBlur,
 	row,
-	error,
 	updateOriginalValue,
 }) => {
-	const [columnData, setColumnData] = useState(data);
+	const [columnData, setColumnData] = useState(data.value);
 
 	const handleChange = (event) => {
 		setColumnData(event.target.value);
-		updateOriginalValue(row.id, column, event.target.value);
+		updateOriginalValue(row[0].value, column, event.target.value);
 	};
 
 	switch (column) {
@@ -30,8 +29,7 @@ export const TableColumn = ({
 		<td
 			column={column}
 			className={classNames({
-				'border-2 border-red-500':
-					error && error.column === column && error.rowID === row.id,
+				'border-2 border-red-500': data.error,
 			})}>
 			<ContentEditable
 				html={columnData}
@@ -40,6 +38,6 @@ export const TableColumn = ({
 			/>
 		</td>
 	) : (
-		<td column={column}>{data}</td>
+		<td column={column}>{columnData}</td>
 	);
 };
