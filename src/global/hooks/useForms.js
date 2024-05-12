@@ -1,6 +1,12 @@
 import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
 
+/**
+ * Custom hook to handle form submission
+ *
+ * @param defaultValues
+ * @returns {{result: {field: string, type: string, message: string}, post: ((function(*, *): Promise<void>)|*), changeFormValue: changeFormValue, formData: unknown, loading: boolean}}
+ */
 export const useForms = (defaultValues) => {
 	const [loading, setLoading] = useState(false);
 	const [formData, setFormData] = useState(defaultValues);
@@ -10,6 +16,12 @@ export const useForms = (defaultValues) => {
 		field: '',
 	});
 
+	/**
+	 * Change the value of a form field
+	 *
+	 * @param key
+	 * @param value
+	 */
 	const changeFormValue = (key, value) => {
 		setFormData((prev) => ({
 			...prev,
@@ -17,6 +29,11 @@ export const useForms = (defaultValues) => {
 		}));
 	};
 
+	/**
+	 * Set the result of the form submission to success
+	 *
+	 * @param message
+	 */
 	const setSuccess = (message) => {
 		setResult(() => ({
 			type: 'success',
@@ -25,6 +42,12 @@ export const useForms = (defaultValues) => {
 		}));
 	};
 
+	/**
+	 * Set the result of the form submission to error
+	 *
+	 * @param message
+	 * @param field
+	 */
 	const setError = (message, field) => {
 		setResult(() => ({
 			type: 'error',
@@ -33,6 +56,13 @@ export const useForms = (defaultValues) => {
 		}));
 	};
 
+	/**
+	 * Make a post request
+	 *
+	 * @param endpoint
+	 * @param nonce
+	 * @returns {Promise<void>}
+	 */
 	const post = async (endpoint, nonce) => {
 		setLoading(true);
 

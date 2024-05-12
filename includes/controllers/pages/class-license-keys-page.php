@@ -79,7 +79,36 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\License_Keys_Page' )
 			$users 								= get_users();
 			$license_key_instance = new License_Key();
 			$license_keys         = $license_key_instance->get_all();
-			$fields               = $license_key_instance->get_fields();
+			$fields               = array(
+				array(
+					'name' => 'id',
+					'editable' => false,
+				),
+				array(
+					'name' => 'license_key',
+					'editable' => false,
+				),
+				array(
+					'name' => 'status',
+					'editable' => true,
+				),
+				array(
+					'name' => 'user_id',
+					'editable' => true,
+				),
+				array(
+					'name' => 'product_id',
+					'editable' => false,
+				),
+				array(
+					'name' => 'created_at',
+					'editable' => false,
+				),
+				array(
+					'name' => 'expires_at',
+					'editable' => true,
+				),
+			);
 
 			wp_localize_script(
 				'lchb-license-keys-script',
