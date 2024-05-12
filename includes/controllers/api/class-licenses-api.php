@@ -9,6 +9,7 @@ namespace LicenseHub\Includes\Controller\API;
 
 use DateTime;
 use Exception;
+use LicenseHub\Includes\Controller\Core\Settings;
 use LicenseHub\Includes\Helper\API_Helper;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
@@ -22,7 +23,11 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Licenses_API') ){
 
 		public function routes(): void {
 			$this->internal_routes();
-			$this->external_routes();
+			$settings = new Settings();
+
+			if ($settings->is_enabled('rest')){
+				$this->external_routes();
+			}
 		}
 
 		/**

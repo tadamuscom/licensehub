@@ -8,6 +8,7 @@
 namespace LicenseHub\Includes\Controller\API;
 
 use Exception;
+use LicenseHub\Includes\Controller\Core\Settings;
 use LicenseHub\Includes\Helper\API_Helper;
 use WP_REST_Request;
 
@@ -47,6 +48,10 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Settings_API') ){
 			$params = json_decode($params[0]);
 
 			if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_settings' ) ) {
+				$settings = new Settings();
+
+				($params->enable_rest_api === true) ? $settings->set('rest', true) : $settings->set('rest', false);
+				$settings->save();
 
 				wp_send_json_success(
 					array(

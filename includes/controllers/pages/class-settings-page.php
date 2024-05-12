@@ -8,6 +8,7 @@
 namespace LicenseHub\Includes\Controller\Pages;
 
 use LicenseHub\Includes\Controller\Core\Asset_Manager;
+use LicenseHub\Includes\Controller\Core\Settings;
 use LicenseHub\Includes\Interface\Page_Blueprint;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -78,6 +79,7 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Pages\Settings_Page' ) ) {
 				array(
 					'logo'                  => LCHB_IMG . '/tadamus-logo.png',
 					'nonce'                 => wp_create_nonce( 'lchb_settings' ),
+					'enable_rest_api'       => ( new Settings() )->is_enabled( 'rest' ),
 				)
 			);
 
