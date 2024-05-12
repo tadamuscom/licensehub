@@ -21,66 +21,8 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Licenses_API') ){
 		}
 
 		public function routes(): void {
-			// Add new license key.
-			register_rest_route(
-				API_Helper::$namespace,
-				'/new-license-key',
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'internal_add_new_license_key' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				)
-			);
-
-			// Delete License Key.
-			register_rest_route(
-				API_Helper::$namespace,
-				'/delete-license-key',
-				array(
-					'methods'             => 'DELETE',
-					'callback'            => array( $this, 'internal_delete_license_key' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				)
-			);
-
-			// Update License Key.
-			register_rest_route(
-				API_Helper::$namespace,
-				'/update-license-key',
-				array(
-					'methods'             => 'PUT',
-					'callback'            => array( $this, 'internal_update_license_key' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				)
-			);
-
-			// Validate if a license is valid
-			register_rest_route(
-				API_Helper::$namespace . '/licenses',
-				'/validate',
-				array(
-					'methods'  => 'POST',
-					'callback' => array( $this, 'external_validate_license' ),
-					'permission_callback' => ''
-				)
-			);
-
-			// Create license
-			register_rest_route(
-				API_Helper::$namespace . '/licenses',
-				'/create',
-				array(
-					'methods'  => 'POST',
-					'callback' => array( $this, 'external_create_license' ),
-					'permission_callback' => ''
-				)
-			);
+			$this->internal_routes();
+			$this->external_routes();
 		}
 
 		/**
@@ -255,6 +197,71 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Licenses_API') ){
 			} else {
 				wp_send_json_error( API_Helper::$error_text );
 			}
+		}
+
+		private function internal_routes(): void {
+			// Add new license key.
+			register_rest_route(
+				API_Helper::$namespace,
+				'/new-license-key',
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'internal_add_new_license_key' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
+
+			// Delete License Key.
+			register_rest_route(
+				API_Helper::$namespace,
+				'/delete-license-key',
+				array(
+					'methods'             => 'DELETE',
+					'callback'            => array( $this, 'internal_delete_license_key' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
+
+			// Update License Key.
+			register_rest_route(
+				API_Helper::$namespace,
+				'/update-license-key',
+				array(
+					'methods'             => 'PUT',
+					'callback'            => array( $this, 'internal_update_license_key' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
+		}
+
+		private function external_routes(): void {
+			// Validate if a license is valid
+			register_rest_route(
+				API_Helper::$namespace . '/licenses',
+				'/validate',
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'external_validate_license' ),
+					'permission_callback' => ''
+				)
+			);
+
+			// Create license
+			register_rest_route(
+				API_Helper::$namespace . '/licenses',
+				'/create',
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'external_create_license' ),
+					'permission_callback' => ''
+				)
+			);
 		}
 
 		/**

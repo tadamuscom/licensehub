@@ -101,7 +101,6 @@ if (!class_exists('LicenseHub\Includes\Controller\Pages\Products_Page')) {
 					'editable' => false
 				)
 			);
-			$fluent 					= FluentCRM::is_active() ? 'true' : 'false';
 
 			wp_localize_script(
 				'lchb-products-script',
@@ -111,8 +110,6 @@ if (!class_exists('LicenseHub\Includes\Controller\Pages\Products_Page')) {
 					'nonce'                 => wp_create_nonce( 'lchb_products' ),
 					'products'              => $products,
 					'fields'                => $fields,
-					'stripe'                => get_option( 'lchb_stripe_integration' ),
-					'fluentcrm_integration' => $fluent,
 				)
 			);
 

@@ -20,44 +20,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\API_Keys_API') ){
 		}
 
 		public function routes(): void {
-			// Add new API key.
-			register_rest_route(
-				API_Helper::$namespace,
-				'/new-api-key',
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'add_new_api_key' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				)
-			);
-
-			// Delete API Key.
-			register_rest_route(
-				API_Helper::$namespace,
-				'/delete-api-key',
-				array(
-					'methods'             => 'DELETE',
-					'callback'            => array( $this, 'delete_api_key' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				)
-			);
-
-			// Update API Key.
-			register_rest_route(
-				API_Helper::$namespace,
-				'/update-api-key',
-				array(
-					'methods'             => 'PUT',
-					'callback'            => array( $this, 'update_api_key' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				)
-			);
+			$this->internal_routes();
 		}
 
 		/**
@@ -154,6 +117,47 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\API_Keys_API') ){
 			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_api_keys' ) ) {
 				API_Helper::update_model_field($params, API_Key::class);
 			}
+		}
+
+		private function internal_routes(): void {
+			// Add new API key.
+			register_rest_route(
+				API_Helper::$namespace,
+				'/new-api-key',
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'add_new_api_key' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
+
+			// Delete API Key.
+			register_rest_route(
+				API_Helper::$namespace,
+				'/delete-api-key',
+				array(
+					'methods'             => 'DELETE',
+					'callback'            => array( $this, 'delete_api_key' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
+
+			// Update API Key.
+			register_rest_route(
+				API_Helper::$namespace,
+				'/update-api-key',
+				array(
+					'methods'             => 'PUT',
+					'callback'            => array( $this, 'update_api_key' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
 		}
 	}
 

@@ -29,7 +29,7 @@ Add or update the licenses for the products.
 - [x] Generate a license key
 - [x] Edit a license
 - [x] Delete a license
-- [ ] Expire a license
+- [x] Expire a license
 
 ## API Keys
 
@@ -37,7 +37,7 @@ Add or update api keys
 
 - [x] Generate an api key
 - [x] Delete an api key
-- [ ] Expire an api key
+- [x] Expire an api key
 
 ## Settings
 

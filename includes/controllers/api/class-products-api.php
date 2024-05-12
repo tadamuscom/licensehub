@@ -21,66 +21,8 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Products_API') ){
 		}
 
 		public function routes(): void {
-			// Add new product.
-			register_rest_route(
-				API_Helper::$namespace,
-				'/new-product',
-				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'internal_add_new_product' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				)
-			);
-
-			// Delete Product.
-			register_rest_route(
-				API_Helper::$namespace,
-				'/delete-product',
-				array(
-					'methods'             => 'DELETE',
-					'callback'            => array( $this, 'internal_delete_product' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				)
-			);
-
-			// Update Product.
-			register_rest_route(
-				API_Helper::$namespace,
-				'/update-product',
-				array(
-					'methods'             => 'PUT',
-					'callback'            => array( $this, 'internal_update_product' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
-					},
-				)
-			);
-
-			// Retrieve a product
-			register_rest_route(
-				API_Helper::$namespace . '/products',
-				'/retrieve',
-				array(
-					'methods'  => 'GET',
-					'callback' => array( $this, 'external_retrieve_product' ),
-					'permission_callback' => ''
-				)
-			);
-
-			// Create a product external
-			register_rest_route(
-				API_Helper::$namespace . '/products',
-				'/create',
-				array(
-					'methods'  => 'POST',
-					'callback' => array( $this, 'external_create_product' ),
-					'permission_callback' => ''
-				)
-			);
+			$this->internal_routes();
+			$this->external_routes();
 		}
 
 		/**
@@ -116,50 +58,6 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Products_API') ){
 				$meta = array(
 					'download_link' => $params->downloadLink,
 				);
-
-				$stripe_integration = get_option( 'lchb_stripe_integration' ) === 'true';
-
-				if ( $stripe_integration ) {
-					if ( empty( $params->stripeID ) ) {
-						wp_send_json_error(
-							array(
-								'message' => __( 'Stripe ID cannot be empty', 'licensehub' ),
-							)
-						);
-
-						return;
-					}
-
-					if ( Stripe::product_id_exists( $params->stripeID ) ) {
-						wp_send_json_error(
-							array(
-								'message' => __( 'That Stripe product already has an integration', 'licensehub' ),
-							)
-						);
-					}
-
-					$meta['stripeID'] = $params->stripeID;
-				}
-
-				if ( isset( $params->fluentCRMLists ) ) {
-					if ( str_contains( $params->fluentCRMLists, ',' ) ) {
-						$lists = explode( ',', $params->fluentCRMLists );
-
-						$meta['fluentCRMLists'] = $lists;
-					} else {
-						$meta['fluentCRMLists'] = $params->fluentCRMLists;
-					}
-				}
-
-				if ( isset( $params->fluentCRMTags ) ) {
-					if ( str_contains( $params->fluentCRMTags, ',' ) ) {
-						$tags = explode( ',', $params->fluentCRMTags );
-
-						$meta['fluentCRMTags'] = $tags;
-					} else {
-						$meta['fluentCRMTags'] = $params->fluentCRMTags;
-					}
-				}
 
 				$product->meta = serialize( $meta );
 				$product->save();
@@ -290,6 +188,71 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Products_API') ){
 			} else {
 				wp_send_json_error( API_Helper::$error_text );
 			}
+		}
+
+		private function internal_routes(): void {
+			// Add new product.
+			register_rest_route(
+				API_Helper::$namespace,
+				'/new-product',
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'internal_add_new_product' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
+
+			// Delete Product.
+			register_rest_route(
+				API_Helper::$namespace,
+				'/delete-product',
+				array(
+					'methods'             => 'DELETE',
+					'callback'            => array( $this, 'internal_delete_product' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
+
+			// Update Product.
+			register_rest_route(
+				API_Helper::$namespace,
+				'/update-product',
+				array(
+					'methods'             => 'PUT',
+					'callback'            => array( $this, 'internal_update_product' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
+		}
+
+		private function external_routes(): void {
+			// Retrieve a product
+			register_rest_route(
+				API_Helper::$namespace . '/products',
+				'/retrieve',
+				array(
+					'methods'  => 'GET',
+					'callback' => array( $this, 'external_retrieve_product' ),
+					'permission_callback' => ''
+				)
+			);
+
+			// Create a product external
+			register_rest_route(
+				API_Helper::$namespace . '/products',
+				'/create',
+				array(
+					'methods'  => 'POST',
+					'callback' => array( $this, 'external_create_product' ),
+					'permission_callback' => ''
+				)
+			);
 		}
 
 		/**

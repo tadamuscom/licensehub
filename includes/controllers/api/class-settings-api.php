@@ -47,43 +47,6 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Settings_API') ){
 			$params = json_decode($params[0]);
 
 			if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_settings' ) ) {
-				$stripe = $params->stripeIntegration;
-
-				if ( $stripe === true ) {
-					if ( empty( $params->stripePublicKey ) ) {
-						wp_send_json_error(
-							array(
-								'message' => __( 'Public Key cannot be empty', 'licensehub' ),
-								'field'   => 'lchb-stripe-public-key'
-							)
-						);
-
-						return;
-					}
-
-					if ( empty( $params->stripePrivateKey ) ) {
-						wp_send_json_error(
-							array(
-								'message' => __( 'Private Key cannot be empty', 'licensehub' ),
-								'field'   => 'lchb-stripe-private-key'
-							)
-						);
-
-						return;
-					}
-
-					update_option( 'lchb_stripe_integration', 'true' );
-					update_option( 'lchb_stripe_public_key', sanitize_text_field( $params->stripePublicKey ) );
-					update_option( 'lchb_stripe_private_key', sanitize_text_field( $params->stripePrivateKey ) );
-				} else {
-					update_option( 'lchb_stripe_integration', 'false' );
-				}
-
-				if ( $params->fluentCRMIntegration === true ) {
-					update_option( 'lchb_fluentcrm_integration', 'true' );
-				} else {
-					update_option( 'lchb_fluentcrm_integration', 'false' );
-				}
 
 				wp_send_json_success(
 					array(

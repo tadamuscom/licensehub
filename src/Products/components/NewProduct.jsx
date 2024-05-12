@@ -2,16 +2,11 @@ import { __ } from '@wordpress/i18n';
 import { Button, FormGroup, HeadingTwo, Input, Label } from '@global';
 import { FormStatus } from '@global/components/form/FormStatus';
 import { useForms } from '@global/hooks/useForms';
-import { FluentCRM } from '@products/components/FluentCRM';
-import { Stripe } from '@products/components/Stripe';
 
 export const NewProduct = ({ setIsAddNew }) => {
 	const { loading, result, formData, changeFormValue, post } = useForms({
 		name: '',
 		downloadLink: '',
-		stripeID: '',
-		fluentCRMLists: '',
-		fluentCRMTags: '',
 	});
 
 	return (
@@ -39,16 +34,6 @@ export const NewProduct = ({ setIsAddNew }) => {
 						onChange={(e) => changeFormValue('name', e.target.value)}
 					/>
 				</FormGroup>
-				<Stripe
-					result={result}
-					formData={formData}
-					changeFormValue={changeFormValue}
-				/>
-				<FluentCRM
-					result={result}
-					formData={formData}
-					changeFormValue={changeFormValue}
-				/>
 				<FormGroup>
 					<Label htmlFor="lchb-download-link">
 						{__('Download Link', 'licensehub')}
