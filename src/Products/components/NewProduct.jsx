@@ -21,9 +21,12 @@ export const NewProduct = ({ setIsAddNew }) => {
 				onSubmit={async (e) => {
 					e.preventDefault();
 
-					await post('/tadamus/lchb/v1/new-product', lchb_products.nonce);
+					const response = await post(
+						'/tadamus/lchb/v1/new-product',
+						lchb_products.nonce,
+					);
 
-					location.reload();
+					if (response.success) location.reload();
 				}}>
 				<FormGroup>
 					<Label htmlFor="lchb-name">{__('Name', 'licensehub')}</Label>

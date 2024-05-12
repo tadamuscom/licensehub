@@ -129,7 +129,7 @@ if ( ! class_exists( 'Internal_API' ) ) {
 				$this->namespace,
 				'/delete-api-key',
 				array(
-					'methods'             => 'POST',
+					'methods'             => 'DELETE',
 					'callback'            => array( $this, 'delete_api_key' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
@@ -157,6 +157,19 @@ if ( ! class_exists( 'Internal_API' ) ) {
 				array(
 					'methods'             => 'PUT',
 					'callback'            => array( $this, 'update_license_key' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
+
+			// Update API Key.
+			register_rest_route(
+				$this->namespace,
+				'/update-api-key',
+				array(
+					'methods'             => 'PUT',
+					'callback'            => array( $this, 'update_api_key' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},
@@ -327,9 +340,10 @@ if ( ! class_exists( 'Internal_API' ) ) {
 		 */
 		public function add_new_api_key( WP_REST_Request $request ): void {
 			$params = $request->get_params();
+			$params = json_decode($params[0]);
 
-			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_api_keys' ) ) {
-				if ( empty( $params['user'] ) ) {
+			if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_api_keys' ) ) {
+				if ( empty( $params->user ) ) {
 					wp_send_json_error(
 						array(
 							'message' => __( 'User cannot be empty', 'licensehub' ),
@@ -339,7 +353,7 @@ if ( ! class_exists( 'Internal_API' ) ) {
 					return;
 				}
 
-				if ( empty( $params['expires_at'] ) ) {
+				if ( empty( $params->expiresAt ) ) {
 					wp_send_json_error(
 						array(
 							'message' => __( 'Expiry date cannot be empty', 'licensehub' ),
@@ -352,9 +366,9 @@ if ( ! class_exists( 'Internal_API' ) ) {
 				$key = new API_Key();
 				$key->generate();
 				$key->status     = License_Key::$active_status;
-				$key->user_id    = (int) sanitize_text_field( $params['user'] );
+				$key->user_id    = (int) sanitize_text_field( $params->user );
 				$key->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
-				$key->expires_at = ( DateTime::createFromFormat( 'Y-m-d', $params['expires_at'] )->format( LCHB_TIME_FORMAT ) );
+				$key->expires_at = ( DateTime::createFromFormat( 'Y-m-d', $params->expiresAt )->format( LCHB_TIME_FORMAT ) );
 				$key->save();
 
 				wp_send_json_success(
@@ -658,6 +672,71 @@ if ( ! class_exists( 'Internal_API' ) ) {
 				$license_key->save();
 
 				wp_send_json_success( $license_key );
+			}
+		}
+
+		/**
+		 * @throws Exception
+		 */
+		public function update_api_key(WP_REST_Request $request ): void {
+			$params = $request->get_params();
+
+			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_api_keys' ) ) {
+				$id = sanitize_text_field( $params['id'] );
+				$column = sanitize_text_field( $params['column'] );
+				$value = sanitize_text_field( $params['value'] );
+
+				if ( empty( $id ) ){
+					wp_send_json_error( array(
+						'message' => __( 'ID cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				if ( empty( $column ) ){
+					wp_send_json_error( array(
+						'message' => __( 'Column cannot be empty', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				if ( empty( $value ) ){
+					wp_send_json_error( array(
+						'message' => __( 'A value is required', 'licensehub' )
+					) );
+
+					return;
+				}
+
+				if ( 'status' === $column ){
+					$supported_statuses = array( 'active', 'inactive' );
+
+					if( ! in_array( $value, $supported_statuses ) ){
+						wp_send_json_error( array(
+							'message' => __( 'Status can only be set to \'active\' or \'inactive\'', 'licensehub' )
+						) );
+
+						return;
+					}
+				}
+
+				if ( 'user_id' === $column ){
+					$user = get_user_by( 'id', $value );
+
+					if ( ! $user ){
+						wp_send_json_error( array(
+							'message' => __( 'The user does not exist! Please add a valid user id.', 'licensehub' )
+						) );
+					}
+				}
+
+				$api_key = new API_Key( $id );
+				$api_key->{$column} = $value;
+				$api_key->save();
+
+				wp_send_json_success( $api_key );
 			}
 		}
 	}

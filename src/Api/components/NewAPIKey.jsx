@@ -1,4 +1,5 @@
 import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import {
 	Button,
 	FormGroup,
@@ -8,110 +9,73 @@ import {
 	Select,
 	SelectOption,
 } from '@global';
+import { FormStatus } from '@global/components/form/FormStatus';
+import { useForms } from '@global/hooks/useForms';
 
 export const NewAPIKey = () => {
-	const submit = (e) => {
-		e.preventDefault();
-
-		const btn = document.querySelector(
-			'#' + e.target.id + ' input[type="submit"]',
-		);
-		btn.disabled = true;
-		btn.value = 'Loading...';
-
-		const formData = new FormData(e.target);
-		const user = formData.get('lchb-user');
-		const expiresAt = formData.get('lchb-expires-at');
-
-		let go = true;
-
-		if (user.length < 1) {
-			go = false;
-		}
-
-		if (expiresAt.length < 1) {
-			go = false;
-		}
-
-		const status = document.getElementById('tada-status');
-
-		if (!go) {
-			btn.value = 'Save License Key';
-			btn.disabled = false;
-
-			status.style.color = 'red';
-			status.innerText = 'Please fix the errors above ❌';
-
-			if (status.classList.contains('tada-hidden')) {
-				status.classList.remove('tada-hidden');
-			}
-
-			return;
-		}
-
-		wp.apiFetch({
-			path: '/tadamus/lchb/v1/new-api-key',
-			method: 'POST',
-			data: {
-				nonce: lchb_api_keys.nonce,
-				user: user,
-				expires_at: expiresAt,
-			},
-		}).then((result) => {
-			btn.value = 'Save API Key';
-			btn.disabled = false;
-			status.innerText = result.data.message + ' ✅';
-
-			if (result.success) {
-				status.style.color = 'green';
-				window.location.reload();
-			} else {
-				status.style.color = 'red';
-				status.innerText = status.innerText + ' ❌';
-			}
-
-			if (status.classList.contains('tada-hidden')) {
-				status.classList.remove('tada-hidden');
-			}
-		});
-	};
-
-	const preUsers = [];
-
-	lchb_api_keys.users.forEach((element, index) => {
-		preUsers.push(
-			<SelectOption
-				id={element.data.ID}
-				label={element.data.user_email}
-				key={index}
-			/>,
-		);
+	const { loading, result, formData, changeFormValue, post } = useForms({
+		user: lchb_api_keys.users[0].data.ID,
+		expiresAt: '',
 	});
 
-	const [users, setUsers] = useState(preUsers);
+	const [users, setUsers] = useState(() => {
+		return lchb_api_keys.users.map((user, index) => {
+			return (
+				<SelectOption id={user.data.ID} value={user.data.ID} key={index}>
+					{user.data.user_email}
+				</SelectOption>
+			);
+		});
+	});
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		const response = await post(
+			'/tadamus/lchb/v1/new-api-key',
+			lchb_api_keys.nonce,
+		);
+
+		if (response.success) location.reload();
+	};
 
 	return (
-		<div
-			style={{
-				marginBottom: '15px',
-				display: 'none',
-			}}
-			id="tada-new-api-key">
-			<HeadingTwo label="New API Key" />
-			<form onSubmit={submit} id="tada-add-license-key-form">
+		<>
+			<HeadingTwo>{__('New API Key', 'licensehub')}</HeadingTwo>
+			<form onSubmit={handleSubmit}>
 				<FormGroup>
-					<Label htmlFor="lchb-user" label="User" />
-					<Select id="lchb-user" name="lchb-user" options={users} />
+					<Label htmlFor="lchb-user">{__('User', 'licensehub')}</Label>
+					<Select
+						id="lchb-user"
+						name="lchb-user"
+						options={users}
+						value={formData.user}
+						onChange={(e) => changeFormValue('user', e.target.value)}
+						result={result}
+					/>
 				</FormGroup>
 				<FormGroup>
-					<Label htmlFor="lchb-expires-at" label="Expiry Date" />
-					<Input id="lchb-expires-at" name="lchb-expires-at" />
+					<Label htmlFor="lchb-expires-at">
+						{__('Expiry Date', 'licensehub')}
+					</Label>
+					<Input
+						type="date"
+						id="lchb-expires-at"
+						name="lchb-expires-at"
+						value={formData.expiresAt}
+						onChange={(e) => changeFormValue('expiresAt', e.target.value)}
+						result={result}
+					/>
 				</FormGroup>
 				<FormGroup extraClass="tada-form-submit">
-					<Button label="Save License Key" />
-					<p id="tada-status" className="tada-hidden"></p>
+					<Button>
+						{loading
+							? __('Loading...', 'licensehub')
+							: __('Save License Key', 'licensehub')}
+					</Button>
+					<FormStatus status={result} />
 				</FormGroup>
 			</form>
-		</div>
+		</>
 	);
 };

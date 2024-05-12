@@ -66,7 +66,6 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\License_Keys_Page' )
 				array(),
 				LCHB_VERSION
 			);
-
 			wp_enqueue_script(
 				'lchb-license-keys-script',
 				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-licenses.js' ),

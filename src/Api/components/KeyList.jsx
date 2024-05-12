@@ -1,0 +1,72 @@
+import apiFetch from '@wordpress/api-fetch';
+import { __ } from '@wordpress/i18n';
+import { toast } from 'react-toastify';
+import { Table } from '@global/components/table/Table';
+import { HeadingTwo } from '@global/components/typography/HeadingTwo';
+import { toastOptions } from '@global/constants';
+import { useTables } from '@global/hooks/useTables';
+
+export const KeyList = () => {
+	const { getTableData, removeRow, updateColumn, rows, headers } = useTables(
+		lchb_api_keys.keys,
+		lchb_api_keys.fields,
+	);
+
+	const updateOriginalValue = (rowID, column, value) => {
+		lchb_api_keys.keys = lchb_api_keys.keys.map((row) => {
+			if (row.id === rowID) row[column] = value;
+
+			return row;
+		});
+	};
+
+	const handleBlur = async (event) => {
+		updateColumn(
+			event,
+			'/tadamus/lchb/v1/update-api-key',
+			lchb_api_keys.nonce,
+			{
+				pending: __('API key is updating...', 'licensehub'),
+				success: __('API key updated', 'licensehub'),
+				error: __('Something went wrong', 'licensehub'),
+			},
+		);
+	};
+
+	const handleDelete = async (event) => {
+		const { id } = getTableData(event);
+
+		await toast.promise(
+			apiFetch({
+				path: '/tadamus/lchb/v1/delete-api-key',
+				method: 'DELETE',
+				data: {
+					nonce: lchb_api_keys.nonce,
+					id: id,
+				},
+			}),
+			{
+				pending: __('API key is deleting...', 'licensehub'),
+				success: __('API key deleted', 'licensehub'),
+				error: __('Something went wrong', 'licensehub'),
+			},
+			toastOptions,
+		);
+
+		removeRow(id);
+	};
+
+	return (
+		<>
+			<HeadingTwo label="API Keys" />
+			<Table
+				headers={headers}
+				rows={rows}
+				editable={true}
+				updateOriginalValue={updateOriginalValue}
+				onBlur={handleBlur}
+				onDelete={handleDelete}
+			/>
+		</>
+	);
+};

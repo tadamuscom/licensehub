@@ -42,9 +42,12 @@ export const NewLicenseKey = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		await post('/tadamus/lchb/v1/new-license-key', lchb_license_keys.nonce);
+		const response = await post(
+			'/tadamus/lchb/v1/new-license-key',
+			lchb_license_keys.nonce,
+		);
 
-		location.reload();
+		if (response.success) location.reload();
 	};
 
 	return (

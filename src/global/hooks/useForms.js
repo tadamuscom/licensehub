@@ -67,7 +67,7 @@ export const useForms = (defaultValues) => {
 		setLoading(true);
 
 		try {
-			const res = await apiFetch({
+			const response = await apiFetch({
 				path: endpoint,
 				method: 'POST',
 				data: JSON.stringify({
@@ -76,9 +76,11 @@ export const useForms = (defaultValues) => {
 				}),
 			});
 
-			res.success
-				? setSuccess(res.data.message)
-				: setError(res.data.message, res.data.field);
+			response.success
+				? setSuccess(response.data.message)
+				: setError(response.data.message, response.data.field);
+
+			return response;
 		} catch (e) {
 			setError(e.message, '');
 		} finally {

@@ -60,6 +60,9 @@ if (!class_exists('LicenseHub\Includes\Controller\Layout\Products_Page')) {
 		public function callback(): void
 		{
 			$asset_manager = new Asset_Manager();
+			$asset_meta = Asset_Manager::get_asset_meta(
+				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-products.php' )
+			);
 
 			wp_enqueue_style(
 				'lchb-products-style',
@@ -67,11 +70,6 @@ if (!class_exists('LicenseHub\Includes\Controller\Layout\Products_Page')) {
 				array(),
 				LCHB_VERSION
 			);
-
-			$asset_meta = Asset_Manager::get_asset_meta(
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-products.php' )
-			);
-
 			wp_enqueue_script(
 				'lchb-products-script',
 				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-products.js' ),

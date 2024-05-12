@@ -1,23 +1,27 @@
-import { Header, HeadingTwo, LinkButton, Table } from '@global';
+import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { Button, Header } from '@global';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { KeyList } from '@api/components/KeyList';
 import { NewAPIKey } from '@api/components/NewAPIKey';
 
 export const App = () => {
-	const newOnClick = (event) => {
-		event.preventDefault();
-
-		const newProduct = document.getElementById('tada-new-api-key');
-
-		event.target.style.display = 'none';
-		newProduct.style.display = 'inherit';
-	};
+	const [isAddNew, setIsAddNew] = useState(false);
 
 	return (
 		<div className="licensehub-global">
-			<Header pageTitle="API Keys" />
-			<LinkButton click={newOnClick} label="Add API Key" />
-			<NewAPIKey />
-			<HeadingTwo label="API Keys" />
-			<Table headers={lchb_api_keys.fields} rows={lchb_api_keys.keys} />
+			<Header
+				pageTitle={__('API Keys', 'licensehub')}
+				logoLink={lchb_api_keys.logo}
+			/>
+			<Button onClick={() => setIsAddNew((prev) => !prev)}>
+				{isAddNew
+					? __('API Keys List', 'licensehub')
+					: __('Add API Key', 'licensehub')}
+			</Button>
+			{isAddNew ? <NewAPIKey /> : <KeyList />}
+			<ToastContainer />
 		</div>
 	);
 };

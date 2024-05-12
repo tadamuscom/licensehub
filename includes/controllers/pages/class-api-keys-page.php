@@ -55,6 +55,9 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\APIKeys_Page' ) ) {
 		 */
 		public function callback(): void {
 			$asset_manager = new Asset_Manager();
+			$asset_meta = Asset_Manager::get_asset_meta(
+				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-api.php' )
+			);
 
 			wp_enqueue_style(
 				'lchb-api-keys-style',
@@ -65,18 +68,39 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\APIKeys_Page' ) ) {
 			wp_enqueue_script(
 				'lchb-api-keys-script',
 				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-api.js' ),
-				array(),
-				LCHB_VERSION
+				$asset_meta['dependencies'],
+				$asset_meta['version']
 			);
 
 			$users = get_users();
 
 			$api_keys_instance = new API_Key();
 			$keys              = $api_keys_instance->get_all();
-			$fields            = $api_keys_instance->get_fields();
+			$fields            = array(
+				array(
+					'name' => 'id',
+					'editable' => false
+				),
+				array(
+					'name' => 'api_key',
+					'editable' => false
+				),
+				array(
+					'name' => 'status',
+					'editable' => true
+				),
+				array(
+					'name' => 'created_at',
+					'editable' => false
+				),
+				array(
+					'name' => 'expires_at',
+					'editable' => true
+				),
+			);
 
 			wp_localize_script(
-				'lchb-api-keys-page',
+				'lchb-api-keys-script',
 				'lchb_api_keys',
 				array(
 					'logo'   => LCHB_IMG . '/tadamus-logo.png',
