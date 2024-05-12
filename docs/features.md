@@ -43,10 +43,9 @@ Add or update api keys
 
 Manage different options for the plugin and its addons.
 
-- [ ] Enable Releases
-- [ ] Enable different addons
-- [ ] Enable REST API
+- [x] Enable REST API
 - [ ] Enable Webhooks
+- [ ] Enable different addons
 
 ## Client Library
 
