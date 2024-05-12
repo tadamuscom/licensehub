@@ -1,5 +1,9 @@
+import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { toast } from 'react-toastify';
 import sanitizeHtml from 'sanitize-html';
+import { toastOptions } from '@global/constants';
 
 /**
  * Hook to manage tables
@@ -113,11 +117,70 @@ export const useTables = (rawRows, rawHeaders) => {
 		id: getElementID(event.currentTarget.parentNode.parentNode),
 	});
 
+	/**
+	 * Update a column in the table and in the backend
+	 *
+	 * @param event
+	 * @param apiPath
+	 * @param nonce
+	 * @param toastMessages
+	 */
+	const updateColumn = async (event, apiPath, nonce, toastMessages) => {
+		const { column, value, id } = getTableData(event);
+		removeColumnError(column, id);
+
+		if (column === 'status') {
+			const acceptedStatuses = ['active', 'inactive'];
+
+			if (!acceptedStatuses.includes(value)) {
+				triggerColumnError(column, id);
+
+				return toast.error(
+					__("Invalid status. Use 'active' or 'inactive'", 'licensehub'),
+					toastOptions,
+				);
+			}
+		}
+
+		if (column === 'user_id') {
+			let userExists = true;
+
+			try {
+				await apiFetch({
+					path: `/wp/v2/users/${value}`,
+				});
+			} catch {
+				triggerColumnError(column, id);
+
+				toast.error(__('Invalid user ID', 'licensehub'), toastOptions);
+				userExists = false;
+			}
+
+			if (!userExists) return;
+		}
+
+		await toast.promise(
+			apiFetch({
+				path: apiPath,
+				method: 'PUT',
+				data: {
+					nonce: nonce,
+					id: id,
+					column: column,
+					value: value,
+				},
+			}),
+			toastMessages,
+			toastOptions,
+		);
+	};
+
 	return {
 		getTableData,
 		triggerColumnError,
 		removeColumnError,
 		removeRow,
+		updateColumn,
 		rows,
 		headers,
 	};

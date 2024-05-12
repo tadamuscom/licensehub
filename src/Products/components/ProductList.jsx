@@ -7,14 +7,10 @@ import { toastOptions } from '@global/constants';
 import { useTables } from '@global/hooks/useTables';
 
 export const ProductList = () => {
-	const {
-		getTableData,
-		triggerColumnError,
-		removeRow,
-		removeColumnError,
-		rows,
-		headers,
-	} = useTables(lchb_products.products, lchb_products.fields);
+	const { getTableData, removeRow, updateColumn, rows, headers } = useTables(
+		lchb_products.products,
+		lchb_products.fields,
+	);
 
 	const updateOriginalValue = (rowID, column, value) => {
 		lchb_products.products = lchb_products.products.map((row) => {
@@ -25,56 +21,15 @@ export const ProductList = () => {
 	};
 
 	const handleBlur = async (event) => {
-		const { column, value, id } = getTableData(event);
-		removeColumnError(column, id);
-
-		if (column === 'status') {
-			const acceptedStatuses = ['active', 'inactive'];
-
-			if (!acceptedStatuses.includes(value)) {
-				triggerColumnError(column, id);
-
-				return toast.error(
-					__("Invalid status. Use 'active' or 'inactive'", 'licensehub'),
-					toastOptions,
-				);
-			}
-		}
-
-		if (column === 'user_id') {
-			let userExists = true;
-
-			try {
-				await apiFetch({
-					path: `/wp/v2/users/${value}`,
-				});
-			} catch {
-				triggerColumnError(column, id);
-
-				toast.error(__('Invalid user ID', 'licensehub'), toastOptions);
-				userExists = false;
-			}
-
-			if (!userExists) return;
-		}
-
-		await toast.promise(
-			apiFetch({
-				path: '/tadamus/lchb/v1/update-product',
-				method: 'PUT',
-				data: {
-					nonce: lchb_products.nonce,
-					id: id,
-					column: column,
-					value: value,
-				},
-			}),
+		updateColumn(
+			event,
+			'/tadamus/lchb/v1/update-product',
+			lchb_products.nonce,
 			{
 				pending: __('Product is loading...', 'licensehub'),
 				success: __('Product updated', 'licensehub'),
 				error: __('Something went wrong', 'licensehub'),
 			},
-			toastOptions,
 		);
 	};
 
