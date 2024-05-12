@@ -17,7 +17,7 @@ export const SettingsForm = () => {
 		<form
 			onSubmit={async (e) => {
 				e.preventDefault();
-				await post('/tadamus/lchb/v1/general-settings', lchb_settings.nonce);
+				await post('/licensehub/v1/general-settings', lchb_settings.nonce);
 			}}>
 			<Stripe
 				formData={formData}

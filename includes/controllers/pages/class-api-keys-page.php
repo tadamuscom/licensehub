@@ -90,6 +90,10 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\APIKeys_Page' ) ) {
 					'editable' => true
 				),
 				array(
+					'name' => 'user_id',
+					'editable' => true
+				),
+				array(
 					'name' => 'created_at',
 					'editable' => false
 				),

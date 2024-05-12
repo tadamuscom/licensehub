@@ -43,7 +43,7 @@ export const NewLicenseKey = () => {
 		e.preventDefault();
 
 		const response = await post(
-			'/tadamus/lchb/v1/new-license-key',
+			'/licensehub/v1/new-license-key',
 			lchb_license_keys.nonce,
 		);
 

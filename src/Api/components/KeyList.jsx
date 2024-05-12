@@ -21,16 +21,11 @@ export const KeyList = () => {
 	};
 
 	const handleBlur = async (event) => {
-		updateColumn(
-			event,
-			'/tadamus/lchb/v1/update-api-key',
-			lchb_api_keys.nonce,
-			{
-				pending: __('API key is updating...', 'licensehub'),
-				success: __('API key updated', 'licensehub'),
-				error: __('Something went wrong', 'licensehub'),
-			},
-		);
+		updateColumn(event, '/licensehub/v1/update-api-key', lchb_api_keys.nonce, {
+			pending: __('API key is updating...', 'licensehub'),
+			success: __('API key updated', 'licensehub'),
+			error: __('Something went wrong', 'licensehub'),
+		});
 	};
 
 	const handleDelete = async (event) => {
@@ -38,7 +33,7 @@ export const KeyList = () => {
 
 		await toast.promise(
 			apiFetch({
-				path: '/tadamus/lchb/v1/delete-api-key',
+				path: '/licensehub/v1/delete-api-key',
 				method: 'DELETE',
 				data: {
 					nonce: lchb_api_keys.nonce,

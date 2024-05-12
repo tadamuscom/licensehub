@@ -21,16 +21,11 @@ export const ProductList = () => {
 	};
 
 	const handleBlur = async (event) => {
-		updateColumn(
-			event,
-			'/tadamus/lchb/v1/update-product',
-			lchb_products.nonce,
-			{
-				pending: __('Product is loading...', 'licensehub'),
-				success: __('Product updated', 'licensehub'),
-				error: __('Something went wrong', 'licensehub'),
-			},
-		);
+		updateColumn(event, '/licensehub/v1/update-product', lchb_products.nonce, {
+			pending: __('Product is loading...', 'licensehub'),
+			success: __('Product updated', 'licensehub'),
+			error: __('Something went wrong', 'licensehub'),
+		});
 	};
 
 	const handleDelete = async (event) => {
@@ -38,7 +33,7 @@ export const ProductList = () => {
 
 		await toast.promise(
 			apiFetch({
-				path: '/tadamus/lchb/v1/delete-product',
+				path: '/licensehub/v1/delete-product',
 				method: 'DELETE',
 				data: {
 					nonce: lchb_products.nonce,

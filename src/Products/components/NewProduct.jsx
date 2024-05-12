@@ -22,7 +22,7 @@ export const NewProduct = ({ setIsAddNew }) => {
 					e.preventDefault();
 
 					const response = await post(
-						'/tadamus/lchb/v1/new-product',
+						'/licensehub/v1/new-product',
 						lchb_products.nonce,
 					);
 

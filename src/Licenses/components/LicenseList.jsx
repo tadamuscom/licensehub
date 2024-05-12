@@ -23,7 +23,7 @@ export const LicenseList = () => {
 	const handleBlur = async (event) => {
 		updateColumn(
 			event,
-			'/tadamus/lchb/v1/update-license-key',
+			'/licensehub/v1/update-license-key',
 			lchb_license_keys.nonce,
 			{
 				pending: __('License key is updating...', 'licensehub'),
@@ -38,7 +38,7 @@ export const LicenseList = () => {
 
 		await toast.promise(
 			apiFetch({
-				path: '/tadamus/lchb/v1/delete-license-key',
+				path: '/licensehub/v1/delete-license-key',
 				method: 'DELETE',
 				data: {
 					nonce: lchb_license_keys.nonce,

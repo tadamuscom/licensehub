@@ -32,7 +32,7 @@ export const NewAPIKey = () => {
 		e.preventDefault();
 
 		const response = await post(
-			'/tadamus/lchb/v1/new-api-key',
+			'/licensehub/v1/new-api-key',
 			lchb_api_keys.nonce,
 		);
 

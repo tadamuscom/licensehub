@@ -151,13 +151,9 @@ if ( ! class_exists( 'Model' ) ) {
 				}
 			}
 
-			if ( is_string( $value ) ) {
-				$value = '"' . $value . '"';
-			}
-
 			global $wpdb;
 
-			$object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE %s = %s;', $this->generate_table_name(), $field, $value ) );
+			$object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE %i = %s;', $this->generate_table_name(), $field, $value ) );
 
 			if ( $object ) {
 				$this->object_format( $object );
