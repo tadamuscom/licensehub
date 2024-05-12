@@ -31,7 +31,6 @@ export const Table = ({
 			className={className ? defaultClasses + ' ' + className : defaultClasses}>
 			<thead>
 				<tr>
-					<TableHeader content="ID" key={'id'} />
 					{headers.map((header, index) => (
 						<TableHeader content={header} key={index} />
 					))}
@@ -44,6 +43,7 @@ export const Table = ({
 						key={index}
 						editable={editable ? editable : false}
 						onBlur={onBlur ? onBlur : false}
+						headers={headers}
 						{...props}
 					/>
 				))}

@@ -1,4 +1,5 @@
 import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import {
 	Button,
 	FormGroup,
@@ -8,38 +9,50 @@ import {
 	Select,
 	SelectOption,
 } from '@global';
+import { FormStatus } from '@global/components/form/FormStatus';
 import { useForms } from '@global/hooks/useForms';
 
 export const NewLicenseKey = () => {
 	const { loading, result, formData, changeFormValue, post } = useForms({
-		user: '',
-		product: '',
+		user: lchb_license_keys.users[0].data.ID,
+		product: lchb_license_keys.products[0].id,
 		expiresAt: '',
 	});
 
 	const [products, setProducts] = useState(() => {
 		return lchb_license_keys.products.map((element, index) => {
-			return <SelectOption id={element.id} label={element.name} key={index} />;
+			return (
+				<SelectOption id={element.id} key={index} value={element.id}>
+					{element.name}
+				</SelectOption>
+			);
 		});
 	});
 
 	const [users, setUsers] = useState(() => {
 		return lchb_license_keys.users.map((element, index) => {
-			return <SelectOption id={element.id} label={element.name} key={index} />;
+			return (
+				<SelectOption id={element.id} key={index} value={element.data.ID}>
+					{element.data.user_email}
+				</SelectOption>
+			);
 		});
 	});
 
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		await post('/tadamus/lchb/v1/new-license-key', lchb_license_keys.nonce);
+
+		location.reload();
+	};
+
 	return (
-		<div
-			style={{
-				marginBottom: '15px',
-				display: 'none',
-			}}
-			id="tada-new-license-key">
-			<HeadingTwo label="New License Key" />
-			<form id="tada-add-license-key-form">
+		<>
+			<HeadingTwo>{__('New License Key', 'licensehub')}</HeadingTwo>
+			<form onSubmit={handleSubmit}>
 				<FormGroup>
-					<Label htmlFor="lchb-user" label="User" />
+					<Label htmlFor="lchb-user">{__('User', 'licensehub')}</Label>
 					<Select
 						id="lchb-user"
 						name="lchb-user"
@@ -50,7 +63,7 @@ export const NewLicenseKey = () => {
 					/>
 				</FormGroup>
 				<FormGroup>
-					<Label htmlFor="lchb-product" label="Product" />
+					<Label htmlFor="lchb-product">{__('Product', 'licensehub')}</Label>
 					<Select
 						id="lchb-product"
 						name="lchb-product"
@@ -61,7 +74,9 @@ export const NewLicenseKey = () => {
 					/>
 				</FormGroup>
 				<FormGroup>
-					<Label htmlFor="lchb-expires-at" label="Expiry Date" />
+					<Label htmlFor="lchb-expires-at">
+						{__('Expiry Date', 'licensehub')}
+					</Label>
 					<Input
 						type="date"
 						id="lchb-expires-at"
@@ -72,10 +87,14 @@ export const NewLicenseKey = () => {
 					/>
 				</FormGroup>
 				<FormGroup extraClass="tada-form-submit">
-					<Button label="Save License Key" />
-					<p id="tada-status" className="tada-hidden"></p>
+					<Button type="submit" loading={loading}>
+						{loading
+							? __('Loading...', 'licensehub')
+							: __('Save License Key', 'licensehub')}
+					</Button>
+					<FormStatus status={result} />
 				</FormGroup>
 			</form>
-		</div>
+		</>
 	);
 };

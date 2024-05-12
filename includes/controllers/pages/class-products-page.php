@@ -81,7 +81,28 @@ if (!class_exists('LicenseHub\Includes\Controller\Layout\Products_Page')) {
 
 			$product_instance = new Product();
 			$products         = $product_instance->get_all();
-			$fields           = $product_instance->get_fields();
+			$fields           = array(
+				array(
+					'name' => __('id', 'licensehub'),
+					'editable' => false,
+				),
+				array(
+					'name' => __('name', 'licensehub'),
+					'editable' => true,
+				),
+				array(
+					'name' => __('status', 'licensehub'),
+					'editable' => true,
+				),
+				array(
+					'name' => __('user_id', 'licensehub'),
+					'editable' => true
+				),
+				array(
+					'name' => __('created_at', 'licensehub'),
+					'editable' => false
+				)
+			);
 			$fluent 					= FluentCRM::is_active() ? 'true' : 'false';
 
 			wp_localize_script(

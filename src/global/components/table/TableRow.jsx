@@ -1,7 +1,14 @@
 import { __ } from '@wordpress/i18n';
 import { TableColumn } from '@global/components/table/TableColumn';
 
-export const TableRow = ({ columns, editable, onBlur, onDelete, ...props }) => {
+export const TableRow = ({
+	columns,
+	editable,
+	onBlur,
+	onDelete,
+	headers,
+	...props
+}) => {
 	const renderColumns = () => {
 		let returnable = [];
 
@@ -10,7 +17,7 @@ export const TableRow = ({ columns, editable, onBlur, onDelete, ...props }) => {
 				<TableColumn
 					data={column}
 					key={Math.random()}
-					column={column.name}
+					column={headers[columns.indexOf(column)]}
 					editable={editable}
 					onBlur={onBlur}
 					row={columns}

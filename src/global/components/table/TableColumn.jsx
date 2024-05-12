@@ -11,23 +11,23 @@ export const TableColumn = ({
 	updateOriginalValue,
 }) => {
 	const [columnData, setColumnData] = useState(data.value);
+	const [isEditable, setIsEditable] = useState(() => {
+		if (!column) return false;
+		if (!editable) return false;
+
+		return column.editable;
+	});
 
 	const handleChange = (event) => {
 		setColumnData(event.target.value);
-		updateOriginalValue(row[0].value, column, event.target.value);
+		updateOriginalValue(row[0].value, column.name, event.target.value);
 	};
 
-	switch (column) {
-		case 'ID':
-		case 'id':
-		case 'created_at':
-		case 'expires_at':
-			editable = false;
-	}
+	if (!column) return null;
 
-	return editable ? (
+	return isEditable ? (
 		<td
-			column={column}
+			column={column.name}
 			className={classNames({
 				'border-2 border-red-500': data.error,
 			})}>
@@ -38,6 +38,6 @@ export const TableColumn = ({
 			/>
 		</td>
 	) : (
-		<td column={column}>{columnData}</td>
+		<td column={column.name}>{columnData}</td>
 	);
 };

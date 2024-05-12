@@ -1,39 +1,38 @@
-import { Header, HeadingTwo, LinkButton, Table } from '@global';
+import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { Button, ErrorMessage, Header } from '@global';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { LicenseList } from '@licenses/components/LicenseList';
 import { NewLicenseKey } from '@licenses/components/NewLicenseKey';
 
 export const App = () => {
-	const newOnClick = (event) => {
-		event.preventDefault();
+	const [isAddNew, setIsAddNew] = useState(false);
 
-		if (lchb_license_keys.products.length > 0) {
-			const newProduct = document.getElementById('tada-new-license-key');
-
-			event.target.style.display = 'none';
-			newProduct.style.display = 'inherit';
-		}
-	};
+	if (lchb_license_keys.products.length < 1) {
+		return (
+			<ErrorMessage className="mt-4">
+				{__(
+					'You need to add products before you can create a license.',
+					'licensehub',
+				)}
+			</ErrorMessage>
+		);
+	}
 
 	return (
 		<div className="licensehub-global">
-			<Header pageTitle="License Keys" />
-			<LinkButton
-				click={newOnClick}
-				label="Add License Key"
-				extraClass={
-					lchb_license_keys.products.length < 1 ? 'tada-disabled' : ''
-				}
+			<Header
+				pageTitle={__('License Keys', 'licensehub')}
+				logoLink={lchb_license_keys.logo}
 			/>
-			<p
-				className={
-					lchb_license_keys.products.length > 0
-						? 'tada-error-message tada-hidden'
-						: 'tada-error-message'
-				}>
-				You need to add products before you can create a license.
-			</p>
-			<NewLicenseKey />
-			<HeadingTwo label="License Keys" />
-			<Table headers={lchb_license_keys.fields} rows={lchb_license_keys.keys} />
+			<Button onClick={() => setIsAddNew((prev) => !prev)}>
+				{isAddNew
+					? __('License List', 'licensehub')
+					: __('Add License', 'licensehub')}
+			</Button>
+			{isAddNew ? <NewLicenseKey /> : <LicenseList />}
+			<ToastContainer />
 		</div>
 	);
 };

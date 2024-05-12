@@ -1,3 +1,3 @@
 export const TableHeader = ({ content }) => {
-  return <th>{content}</th>;
+	return <th>{content.name.replace('_', ' ')}</th>;
 };
