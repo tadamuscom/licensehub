@@ -6,7 +6,7 @@
  * @package licensehub
  */
 
-namespace LicenseHub\Includes\Controller\Layout;
+namespace LicenseHub\Includes\Controller\Pages;
 
 use LicenseHub\Includes\Controller\Core\Asset_Manager;
 use LicenseHub\Includes\Controller\Integration\FluentCRM\FluentCRM;
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
-if (!class_exists('LicenseHub\Includes\Controller\Layout\Products_Page')) {
+if (!class_exists('LicenseHub\Includes\Controller\Pages\Products_Page')) {
 	/**
 	 * Handle all the settings page
 	 */

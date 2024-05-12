@@ -5,7 +5,7 @@
  * @package licensehub
  */
 
-namespace LicenseHub\Includes\Controller\Layout;
+namespace LicenseHub\Includes\Controller\Pages;
 
 use LicenseHub\Includes\Controller\Core\Asset_Manager;
 use LicenseHub\Includes\Interface\Page_Blueprint;
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\APIKeys_Page' ) ) {
+if ( ! class_exists( 'LicenseHub\Includes\Controller\Pages\APIKeys_Page' ) ) {
 	/**
 	 * Handle all the settings page
 	 */
@@ -83,7 +83,8 @@ if ( ! class_exists( 'LicenseHub\Includes\Controller\Layout\APIKeys_Page' ) ) {
 				),
 				array(
 					'name' => 'api_key',
-					'editable' => false
+					'editable' => false,
+					'hidden' => true
 				),
 				array(
 					'name' => 'status',

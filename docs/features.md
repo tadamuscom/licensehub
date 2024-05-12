@@ -26,17 +26,17 @@ Create releases for the products and allow people to generate download links (ei
 
 Add or update the licenses for the products.
 
-- [ ] Generate a license key
-- [ ] Edit a license
-- [ ] Delete a license
+- [x] Generate a license key
+- [x] Edit a license
+- [x] Delete a license
 - [ ] Expire a license
 
 ## API Keys
 
 Add or update api keys
 
-- [ ] Generate an api key
-- [ ] Delete an api key
+- [x] Generate an api key
+- [x] Delete an api key
 - [ ] Expire an api key
 
 ## Settings

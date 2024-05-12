@@ -1,6 +1,8 @@
 import { useState } from '@wordpress/element';
 import classNames from 'classnames';
 import ContentEditable from 'react-contenteditable';
+import { toast } from 'react-toastify';
+import { toastOptions } from '@global/constants';
 
 export const TableColumn = ({
 	data,
@@ -10,7 +12,11 @@ export const TableColumn = ({
 	row,
 	updateOriginalValue,
 }) => {
-	const [columnData, setColumnData] = useState(data.value);
+	const [columnData, setColumnData] = useState(() => {
+		if (column.hidden) return '********';
+
+		return data.value;
+	});
 	const [isEditable, setIsEditable] = useState(() => {
 		if (!column) return false;
 		if (!editable) return false;
@@ -22,8 +28,6 @@ export const TableColumn = ({
 		setColumnData(event.target.value);
 		updateOriginalValue(row[0].value, column.name, event.target.value);
 	};
-
-	if (!column) return null;
 
 	return isEditable ? (
 		<td
@@ -38,6 +42,30 @@ export const TableColumn = ({
 			/>
 		</td>
 	) : (
-		<td column={column.name}>{columnData}</td>
+		<td column={column.name}>
+			{columnData}
+			{column.hidden && (
+				<button
+					className="cursor-pointer bg-transparent border-0 ml-1"
+					onClick={() => {
+						navigator.clipboard.writeText(data.value);
+
+						toast.success('Copied to clipboard', toastOptions);
+					}}>
+					{copy}
+				</button>
+			)}
+		</td>
 	);
 };
+
+const copy = (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="16"
+		height="16"
+		viewBox="0 0 1024 1024">
+		<path d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64h64z" />
+		<path d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64H384zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64z" />
+	</svg>
+);
