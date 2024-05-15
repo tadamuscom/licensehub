@@ -129,49 +129,63 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 		 *
 		 * @var int
 		 */
-		public int $id;
+		public int $id = 0;
 
 		/**
 		 * The key of the license
 		 *
 		 * @var string
 		 */
-		public string $license_key;
+		public string $license_key = '';
 
 		/**
 		 * The status of the key
 		 *
 		 * @var string
 		 */
-		public string $status;
+		public string $status = '';
 
 		/**
 		 * The ID of the user
 		 *
 		 * @var int
 		 */
-		public int $user_id;
+		public int $user_id = 0;
 
 		/**
 		 * The ID of the product
 		 *
 		 * @var int
 		 */
-		public int $product_id;
+		public int $product_id = 0;
 
 		/**
 		 * The date the key was created at
 		 *
 		 * @var string
 		 */
-		public string $created_at;
+		public string $created_at = '';
+
+		/**
+		 * The date the key was expires at
+		 *
+		 * @var string
+		 */
+		public string $expires_at = '';
 
 		/**
 		 * The date the key expires at
 		 *
 		 * @var string
 		 */
-		public string $expires_at;
+		public string $expires_a = '';
+
+		/**
+		 * The meta fields of the key
+		 *
+		 * @var mixed
+		 */
+		public mixed $meta = array();
 
 		/**
 		 * Initiate the model

@@ -84,42 +84,42 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 		 *
 		 * @var int
 		 */
-		public int $id;
+		public int $id = 0;
 
 		/**
 		 * The name of the product
 		 *
 		 * @var string
 		 */
-		public string $name;
+		public string $name = '';
 
 		/**
 		 * The status of the product
 		 *
 		 * @var string
 		 */
-		public string $status;
+		public string $status = '';
 
 		/**
 		 * The ID of the user
 		 *
 		 * @var int
 		 */
-		public int $user_id;
+		public int $user_id = 0;
 
 		/**
 		 * Meta fields of the model
 		 *
 		 * @var mixed
 		 */
-		public mixed $meta;
+		public mixed $meta = array();
 
 		/**
 		 * The date the product was created at
 		 *
 		 * @var string
 		 */
-		public string $created_at;
+		public string $created_at = '';
 
 		/**
 		 * Initiate the model

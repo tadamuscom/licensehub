@@ -320,6 +320,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 						$today = ( new DateTime() )->setTimestamp( time() );
 
 						$this->{$field} = $today->format( LCHB_TIME_FORMAT );
+					}elseif ( in_array( 'array', $rules, true )  ) {
+						$this->{$field} = array();
 					} else {
 						$this->{$field} = null;
 					}

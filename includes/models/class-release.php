@@ -33,9 +33,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 		 * @var array|array[]
 		 */
 		protected array $fields = array(
-			'product_id'    => array( 'required', 'int' ),
+			'product_id'    => array( 'required', 'integer' ),
 			'version'     	=> array( 'required', 'string' ),
-			'changelog'    	=> array( 'text' ),
+			'changelog'    	=> array( 'string' ),
 			'created_at' 		=> array( 'required', 'date' ),
 			'updated_at' 		=> array( 'required', 'date' ),
 			'meta'					=> array( 'serialized' ),
@@ -46,49 +46,49 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 		 *
 		 * @var int
 		 */
-		public int $id;
+		public int $id = 0;
 
 		/**
 		 * The product id of the release
 		 *
 		 * @var int
 		 */
-		public int $product_id;
+		public int $product_id = 0;
 
 		/**
 		 * The version of the release
 		 *
 		 * @var string
 		 */
-		public string $version;
+		public string $version = '';
 
 		/**
 		 * The changelog of the release
 		 *
 		 * @var string
 		 */
-		public string $changelog;
+		public string $changelog = '';
 
 		/**
 		 * The date the release was created at
 		 *
 		 * @var string
 		 */
-		public string $created_at;
+		public string $created_at = '';
 
 		/**
 		 * The date the release was last updated at
 		 *
 		 * @var string
 		 */
-		public string $updated_at;
+		public string $updated_at = '';
 
 		/**
 		 * The meta fields of the release
 		 *
-		 * @var array
+		 * @var mixed
 		 */
-		public array $meta;
+		public mixed $meta = array();
 
 		/**
 		 * Init the database table
@@ -104,7 +104,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 					$this->generate_table_name( $this->table ),
 					"
                     id mediumint(9) NOT NULL AUTO_INCREMENT,
-                    product_id integer NOT NULL,
+                    product_id mediumint(9) NOT NULL,
                     version varchar(255) NOT NULL,
                     changelog TEXT,
                     created_at datetime NOT NULL,

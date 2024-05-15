@@ -33,10 +33,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Download_Link' ) ) {
 		 * @var array|array[]
 		 */
 		protected array $fields = array(
-			'release_id'    => array( 'required', 'int' ),
+			'release_id'    => array( 'required', 'integer' ),
 			'link'     			=> array( 'required', 'string' ),
-			'type'    			=> array( 'text' ),
-			'user_id' 			=> array( 'required', 'int' ),
+			'type'    			=> array( 'string' ),
+			'user_id' 			=> array( 'required', 'integer' ),
 			'expires_at' 		=> array( 'date' ),
 			'allowed_ips' 	=> array( 'array' ),
 			'status' 				=> array( 'required', 'string' ),
@@ -50,77 +50,77 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Download_Link' ) ) {
 		 *
 		 * @var int
 		 */
-		public int $id;
+		public int $id = 0;
 
 		/**
 		 * The release id of the download link
 		 *
 		 * @var int
 		 */
-		public int $release_id;
+		public int $release_id = 0;
 
 		/**
 		 * The URL of the download link
 		 *
 		 * @var string
 		 */
-		public string $link;
+		public string $link = '';
 
 		/**
 		 * The type of the download link
 		 *
 		 * @var string
 		 */
-		public string $type;
+		public string $type = '';
 
 		/**
 		 * The user id of the download link
 		 *
 		 * @var int
 		 */
-		public int $user_id;
+		public int $user_id = 0;
 
 		/**
 		 * The expiration date of the download link
 		 *
 		 * @var string
 		 */
-		public string $expires_at;
+		public string $expires_at = '';
 
 		/**
 		 * The allowed IPs of the download link
 		 *
 		 * @var array
 		 */
-		public array $allowed_ips;
+		public array $allowed_ips = array();
 
 		/**
 		 * The status of the download link
 		 *
 		 * @var string
 		 */
-		public string $status;
+		public string $status = '';
 
 		/**
 		 * The date the download link was created at
 		 *
 		 * @var string
 		 */
-		public string $created_at;
+		public string $created_at = '';
 
 		/**
 		 * The date the download link was last updated at
 		 *
 		 * @var string
 		 */
-		public string $updated_at;
+		public string $updated_at = '';
 
 		/**
 		 * The meta fields of the download link
 		 *
-		 * @var array
+		 * @var mixed
 		 */
-		public array $meta;
+		public mixed $meta = array();
 
 		/**
 		 * Init the database table
@@ -134,8 +134,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Download_Link' ) ) {
 					$this->generate_table_name( $this->table ),
 					"
                     id mediumint(9) NOT NULL AUTO_INCREMENT,
-                    release_id integer NOT NULL,
-                    user_id integer,
+                    release_id mediumint(9) NOT NULL,
+                    user_id mediumint(9),
                     link varchar(255) NOT NULL,
                     type varchar(255) NOT NULL,
                     allowed_ips TEXT,

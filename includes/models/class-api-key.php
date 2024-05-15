@@ -62,42 +62,49 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 		 *
 		 * @var int
 		 */
-		public int $id;
+		public int $id = 0;
 
 		/**
 		 * The key
 		 *
 		 * @var string
 		 */
-		public string $api_key;
+		public string $api_key = '';
 
 		/**
 		 * The status of the key
 		 *
 		 * @var string
 		 */
-		public string $status;
+		public string $status = 'inactive';
 
 		/**
 		 * The ID of the user
 		 *
 		 * @var mixed
 		 */
-		public mixed $user_id;
+		public mixed $user_id = '';
 
 		/**
 		 * The date at which the key was created
 		 *
 		 * @var string
 		 */
-		public string $created_at;
+		public string $created_at = '';
 
 		/**
 		 * The date at which the key expires
 		 *
 		 * @var string
 		 */
-		public string $expires_at;
+		public string $expires_at = '';
+
+		/**
+		 * The meta fields of the key
+		 *
+		 * @var mixed
+		 */
+		public mixed $meta = array();
 
 		/**
 		 * Initiate the model
