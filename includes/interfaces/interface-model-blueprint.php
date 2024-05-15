@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! interface_exists( 'Model_Blueprint' ) ) {
+if ( ! interface_exists( '\LicenseHub\Includes\Interface\Model_Blueprint' ) ) {
 	interface Model_Blueprint {
 		/**
 		 * This method should init the model and create its table and add its fields

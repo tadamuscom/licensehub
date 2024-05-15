@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Activation' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Activation' ) ) {
 	/**
 	 * Handle the plugin activation
 	 */

@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'LicenseHub\Includes\Controller\Core\Settings' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Settings' ) ) {
 	/**
 	 * Handles all the emails being sent by the plugin
 	 */

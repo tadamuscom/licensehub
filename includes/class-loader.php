@@ -7,11 +7,13 @@
 
 namespace LicenseHub\Includes;
 
+use DirectoryIterator;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Loader' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Loader' ) ) {
 	/**
 	 * Responsible to load all the files in the plugin
 	 */
@@ -59,7 +61,7 @@ if ( ! class_exists( 'Loader' ) ) {
 		 * @return array
 		 */
 		private function get_files( mixed $dir ): array {
-			$dir_object = new \DirectoryIterator( $dir );
+			$dir_object = new DirectoryIterator( $dir );
 			$returnable = array();
 
 			foreach ( $dir_object as $file ) {

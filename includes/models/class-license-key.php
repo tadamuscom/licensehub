@@ -7,17 +7,17 @@
 
 namespace LicenseHub\Includes\Model;
 
-use WP_User;
 use Exception;
 use LicenseHub\Includes\Abstract\Model;
 use LicenseHub\Includes\Interface\Model_Blueprint;
 use LicenseHub\Includes\Lib\Validator;
+use WP_User;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'License_Key' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 	/**
 	 * The model for license keys
 	 */
@@ -121,6 +121,7 @@ if ( ! class_exists( 'License_Key' ) ) {
 			'product_id'  => array( 'required', 'integer' ),
 			'created_at'  => array( 'required', 'date' ),
 			'expires_at'  => array( 'required', 'date' ),
+			'meta'			 	=> array( 'serialized' ),
 		);
 
 		/**
@@ -189,6 +190,7 @@ if ( ! class_exists( 'License_Key' ) ) {
                     product_id mediumint(9) NOT NULL,
                     created_at varchar(255) NOT NULL,
                     expires_at varchar(255) NOT NULL,
+                    meta TEXT,
                     PRIMARY KEY  (id)
                 "
 				);

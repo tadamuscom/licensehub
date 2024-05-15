@@ -7,16 +7,16 @@
 
 namespace LicenseHub\Includes\Model;
 
-use WP_User;
 use Exception;
 use LicenseHub\Includes\Abstract\Model;
 use LicenseHub\Includes\Interface\Model_Blueprint;
+use WP_User;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Product' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 	/**
 	 * The model for Products
 	 */
@@ -75,8 +75,8 @@ if ( ! class_exists( 'Product' ) ) {
 			'name'       => array( 'required', 'string' ),
 			'status'     => array( 'required', 'string' ),
 			'user_id'    => array( 'required', 'integer' ),
-			'meta'       => array( 'serialized' ),
 			'created_at' => array( 'required', 'date' ),
+			'meta'       => array( 'serialized' ),
 		);
 
 		/**

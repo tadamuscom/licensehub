@@ -7,15 +7,15 @@
 
 namespace LicenseHub\Includes\Controller\Core;
 
-use WP_User;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
+use WP_User;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'LicenseHub\Includes\Controller\Core\Emails' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Emails' ) ) {
 	/**
 	 * Handles all the emails being sent by the plugin
 	 */

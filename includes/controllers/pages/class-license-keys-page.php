@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'LicenseHub\Includes\Controller\Pages\License_Keys_Page' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' ) ) {
 	/**
 	 * Handle all the settings page
 	 */

@@ -7,17 +7,17 @@
 
 namespace LicenseHub\Includes\Model;
 
-use WP_User;
 use Exception;
 use LicenseHub\Includes\Abstract\Model;
 use LicenseHub\Includes\Interface\Model_Blueprint;
 use LicenseHub\Includes\Lib\Validator;
+use WP_User;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'API_Key' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 	/**
 	 * Model for API keys
 	 */
@@ -54,6 +54,7 @@ if ( ! class_exists( 'API_Key' ) ) {
 			'user_id'    => array( 'required', 'numeric' ),
 			'created_at' => array( 'required', 'date' ),
 			'expires_at' => array( 'required', 'date' ),
+			'meta'			 => array( 'serialized' ),
 		);
 
 		/**
@@ -114,6 +115,7 @@ if ( ! class_exists( 'API_Key' ) ) {
                     user_id mediumint(9) NOT NULL,
                     created_at datetime NOT NULL,
                     expires_at datetime NOT NULL,
+                    meta TEXT,
                     PRIMARY KEY  (id)
                 "
 				);

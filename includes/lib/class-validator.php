@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Validator' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 	/**
 	 * Helps validate data
 	 */

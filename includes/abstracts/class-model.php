@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Model' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 	/**
 	 * Main Model class which will be inherited by all the models
 	 */

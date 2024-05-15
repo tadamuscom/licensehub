@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Helper' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Helper\Helper' ) ) {
 	/**
 	 * Main class that holds all the helper methods
 	 */

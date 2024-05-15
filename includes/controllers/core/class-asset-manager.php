@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'LicenseHub\Includes\Controller\Core\Asset_Manager' ) ){
+if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Asset_Manager' ) ){
 	/**
 	 * Manage assets
 	 */

@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'Deactivation' ) ) {
+if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Deactivation' ) ) {
 	/**
 	 * Handle the deactivation of the plugin
 	 */
