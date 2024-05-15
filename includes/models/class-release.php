@@ -105,7 +105,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 					"
                     id mediumint(9) NOT NULL AUTO_INCREMENT,
                     product_id integer NOT NULL,
-                    version varchar(255) DEFAULT 'inactive',
+                    version varchar(255) NOT NULL,
                     changelog TEXT,
                     created_at datetime NOT NULL,
                     updated_at datetime NOT NULL,
