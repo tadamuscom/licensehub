@@ -60,7 +60,7 @@ export const LicenseList = () => {
 		<>
 			<HeadingTwo>{__('License Keys', 'licensehub')}</HeadingTwo>
 			<Table
-				headers={headers}
+				headers={headers[0]}
 				rows={rows}
 				onDelete={handleDelete}
 				editable={true}

@@ -1,6 +1,7 @@
 # Main Features
 
 ## Products
+
 Allow people to add and manage products which then they can license or sell through the plugin.
 
 - [x] Add a product
@@ -8,10 +9,11 @@ Allow people to add and manage products which then they can license or sell thro
 - [x] Delete a product
 
 ## Releases
+
 Create releases for the products and allow people to generate download links (either public or private) and also allow people to manage versions and automated updates.
 
 - [ ] Add a release
-	- [ ] Link to a product
+  - [ ] Link to a product
   - [ ] Add a version
   - [ ] Add a changelog
 - [ ] Edit a release

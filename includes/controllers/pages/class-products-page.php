@@ -9,7 +9,6 @@
 namespace LicenseHub\Includes\Controller\Pages;
 
 use LicenseHub\Includes\Controller\Core\Asset_Manager;
-use LicenseHub\Includes\Controller\Integration\FluentCRM\FluentCRM;
 use LicenseHub\Includes\Interface\Page_Blueprint;
 use LicenseHub\Includes\Model\Product;
 
@@ -40,14 +39,30 @@ if (!class_exists('\LicenseHub\Includes\Controller\Pages\Products_Page')) {
 		 */
 		public function menu(): void
 		{
-			add_menu_page(
-				__('License Hub', 'licensehub'),
-				__( 'License Hub', 'licensehub' ),
-				'manage_options',
-				'licensehub',
-				array( $this, 'callback' ),
-				'dashicons-media-spreadsheet'
-			);
+            $menu_slug = 'licensehub';
+            $menu_title = __('License Hub', 'licensehub');
+        
+            add_menu_page(
+                $menu_title,
+                $menu_title,
+                'manage_options',
+                $menu_slug,
+                array( $this, 'callback' ),
+                'dashicons-media-spreadsheet'
+            );
+        
+            add_submenu_page(
+                $menu_slug, 
+                __('Products - LicenseHub', 'licensehub'), 
+                __('Products', 'licensehub'), 
+                'manage_options', 
+                $menu_slug . '-products', 
+                array($this, 'callback')
+            );
+
+            add_action('admin_init', function () {
+                remove_submenu_page('licensehub', 'licensehub');
+            });
 		}
 
 		/**

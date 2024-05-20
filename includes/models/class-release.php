@@ -34,11 +34,11 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 		 */
 		protected array $fields = array(
 			'product_id'    => array( 'required', 'integer' ),
-			'version'     	=> array( 'required', 'string' ),
+			'version'     	=> array( 'required', 'string', 'unique' ),
 			'changelog'    	=> array( 'string' ),
-			'created_at' 		=> array( 'required', 'date' ),
-			'updated_at' 		=> array( 'required', 'date' ),
-			'meta'					=> array( 'serialized' ),
+			'created_at' 	=> array( 'required', 'date' ),
+			'updated_at' 	=> array( 'required', 'date' ),
+			'meta'			=> array( 'serialized' ),
 		);
 
 		/**

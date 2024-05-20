@@ -60,7 +60,7 @@ export const KeyList = () => {
 		<>
 			<HeadingTwo label="API Keys" />
 			<Table
-				headers={headers}
+				headers={headers[0]}
 				rows={rows}
 				editable={true}
 				updateOriginalValue={updateOriginalValue}

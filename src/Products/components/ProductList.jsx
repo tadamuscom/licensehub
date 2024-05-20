@@ -60,7 +60,7 @@ export const ProductList = () => {
 		<>
 			<HeadingTwo label={__('Products', 'licensehub')} />
 			<Table
-				headers={headers}
+				headers={headers[0]}
 				rows={rows}
 				editable={true}
 				onBlur={handleBlur}

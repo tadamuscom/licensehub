@@ -6,7 +6,8 @@
 			"@settings/*": ["./src/Settings/*"],
 			"@products/*": ["./src/Products/*"],
 			"@licenses/*": ["./src/Licenses/*"],
-			"@api/*": ["./src/Api/*"]
+			"@api/*": ["./src/Api/*"],
+			"@releases/*": ["./src/Releases/*"]
 		}
 	},
 	"exclude": ["node_modules", "vendor"]

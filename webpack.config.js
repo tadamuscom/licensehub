@@ -33,9 +33,11 @@ module.exports = {
 			'@products': resolve(__dirname, 'src/Products'),
 			'@licenses': resolve(__dirname, 'src/Licenses'),
 			'@api': resolve(__dirname, 'src/Api'),
+			'@releases': resolve(__dirname, 'src/Releases'),
 		},
 	},
 	entry: {
+		'licensehub-releases': './src/Releases/index.js',
 		'licensehub-settings': './src/Settings/index.js',
 		'licensehub-products': './src/Products/index.js',
 		'licensehub-licenses': './src/Licenses/index.js',

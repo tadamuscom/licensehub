@@ -34,15 +34,15 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Download_Link' ) ) {
 		 */
 		protected array $fields = array(
 			'release_id'    => array( 'required', 'integer' ),
-			'link'     			=> array( 'required', 'string' ),
-			'type'    			=> array( 'string' ),
-			'user_id' 			=> array( 'required', 'integer' ),
-			'expires_at' 		=> array( 'date' ),
+			'link'     		=> array( 'required', 'string' ),
+			'type'    		=> array( 'string' ),
+			'user_id' 		=> array( 'required', 'integer' ),
+			'expires_at' 	=> array( 'date' ),
 			'allowed_ips' 	=> array( 'array' ),
-			'status' 				=> array( 'required', 'string' ),
-			'created_at' 		=> array( 'required', 'date' ),
-			'updated_at' 		=> array( 'required', 'date' ),
-			'meta'					=> array( 'serialized' ),
+			'status' 		=> array( 'required', 'string' ),
+			'created_at' 	=> array( 'required', 'date' ),
+			'updated_at' 	=> array( 'required', 'date' ),
+			'meta'		    => array( 'serialized' ),
 		);
 
 		/**
