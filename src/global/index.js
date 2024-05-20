@@ -14,15 +14,33 @@ export * from '@global/components/form/SelectOption';
 export * from '@global/components/form/Input';
 export * from '@global/components/form/ErrorMessage';
 export * from '@global/components/form/SuccessMessage';
+export * from '@global/components/form/FormStatus';
 
 // Layout
 export * from '@global/components/layout/Header';
 
 // Table
 export * from '@global/components/table/Table';
+export * from '@global/components/table/TableRow';
+export * from '@global/components/table/TableColumn';
+export * from '@global/components/table/TableHeader';
 
 // Typography
 export * from '@global/components/typography/HeadingTwo';
 
 // LinkButton
 export * from '@global/components/LinkButton';
+
+// Hooks
+export * from '@global/hooks/useForms';
+export * from '@global/hooks/useTables';
+
+export const addQueryParameter = (key, value) => {
+	let url = new URL(window.location.href);
+	let searchParams = new URLSearchParams(url.search);
+
+	searchParams.set(key, value);
+	url.search = searchParams.toString();
+
+	window.history.pushState({}, '', url.toString());
+};

@@ -1,8 +1,10 @@
 import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { addQueryParameter } from '@global';
+import { toastOptions } from '@global';
 import classNames from 'classnames';
 import ContentEditable from 'react-contenteditable';
 import { toast } from 'react-toastify';
-import { toastOptions } from '@global/constants';
 
 export const TableColumn = ({
 	data,
@@ -17,6 +19,7 @@ export const TableColumn = ({
 
 		return data.value;
 	});
+
 	const isEditable = useState(() => {
 		if (!column) return false;
 		if (!editable) return false;
@@ -24,27 +27,43 @@ export const TableColumn = ({
 		return column.editable;
 	});
 
+	const isButton = useState(() => {
+		if (editable) return false;
+		if (!column.button) return false;
+
+		return true;
+	});
+
 	const handleChange = (event) => {
 		setColumnData(event.target.value);
 		updateOriginalValue(row[0].value, column.name, event.target.value);
 	};
 
-	return isEditable ? (
-		<td
-			// eslint-disable-next-line react/no-unknown-property
-			column={column.name}
-			className={classNames({
-				'border-2 border-red-500': data.error,
-			})}>
-			<ContentEditable
-				html={columnData}
-				onChange={handleChange}
-				onBlur={onBlur}
-			/>
-		</td>
-	) : (
-		// eslint-disable-next-line react/no-unknown-property
-		<td column={column.name}>
+	const handleButtonClick = () => {
+		if (!column.button) return;
+
+		if (column.button === 'edit') addQueryParameter('id', row[0].value);
+	};
+
+	if (isEditable[0]) {
+		return (
+			<td
+				// eslint-disable-next-line react/no-unknown-property
+				column={column.name}
+				className={classNames({
+					'border-2 border-red-500': data.error,
+				})}>
+				<ContentEditable
+					html={columnData}
+					onChange={handleChange}
+					onBlur={onBlur}
+				/>
+			</td>
+		);
+	}
+
+	const nonEditable = (
+		<>
 			{columnData}
 			{column.hidden && (
 				<button
@@ -52,13 +71,32 @@ export const TableColumn = ({
 					onClick={() => {
 						navigator.clipboard.writeText(data.value);
 
-						toast.success('Copied to clipboard', toastOptions);
+						toast.success(
+							__('Copied to clipboard', 'licensehub'),
+							toastOptions,
+						);
 					}}>
 					{copy}
 				</button>
 			)}
-		</td>
+		</>
 	);
+
+	if (isButton[0]) {
+		return (
+			// eslint-disable-next-line react/no-unknown-property
+			<td column={column.name}>
+				<button
+					onClick={handleButtonClick}
+					className="bg-transparent border-0 cursor-pointer text-blue-500">
+					{nonEditable}
+				</button>
+			</td>
+		);
+	}
+
+	// eslint-disable-next-line react/no-unknown-property
+	return <td column={column.name}>{nonEditable}</td>;
 };
 
 const copy = (

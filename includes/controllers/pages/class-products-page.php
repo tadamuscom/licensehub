@@ -97,24 +97,25 @@ if (!class_exists('\LicenseHub\Includes\Controller\Pages\Products_Page')) {
 			$fields           = array(
 				array(
 					'name' => __('id', 'licensehub'),
-					'editable' => false,
 				),
 				array(
 					'name' => __('name', 'licensehub'),
-					'editable' => true,
+                    'button' => 'edit'
 				),
 				array(
 					'name' => __('status', 'licensehub'),
-					'editable' => true,
 				),
 				array(
 					'name' => __('user_id', 'licensehub'),
-					'editable' => true
 				),
 				array(
 					'name' => __('created_at', 'licensehub'),
-					'editable' => false
-				)
+                ),
+                array(
+                    'name' => __('add_a_release', 'licensehub'),
+                    'button' => true,
+                    'hidden' => true
+                ),
 			);
 
             wp_add_inline_script(

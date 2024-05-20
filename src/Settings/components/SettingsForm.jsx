@@ -1,7 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { Button, CheckBox, FormGroup } from '@global';
-import { FormStatus } from '@global/components/form/FormStatus';
-import { useForms } from '@global/hooks/useForms';
+import { Button, CheckBox, FormGroup, FormStatus, useForms } from '@global';
 
 export const SettingsForm = () => {
 	const { loading, result, formData, changeFormValue, post } = useForms({

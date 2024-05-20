@@ -8,9 +8,9 @@ import {
 	Label,
 	Select,
 	SelectOption,
+	FormStatus,
+	useForms,
 } from '@global';
-import { FormStatus } from '@global/components/form/FormStatus';
-import { useForms } from '@global/hooks/useForms';
 
 export const NewLicenseKey = () => {
 	const { loading, result, formData, changeFormValue, post } = useForms({

@@ -1,10 +1,8 @@
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
+import { Table, HeadingTwo, useTables } from '@global';
+import { toastOptions } from '@global';
 import { toast } from 'react-toastify';
-import { Table } from '@global/components/table/Table';
-import { HeadingTwo } from '@global/components/typography/HeadingTwo';
-import { toastOptions } from '@global/constants';
-import { useTables } from '@global/hooks/useTables';
 
 export const LicenseList = () => {
 	const { getTableData, removeRow, updateColumn, rows, headers } = useTables(

@@ -1,9 +1,9 @@
 import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { toastOptions } from '@global';
 import { toast } from 'react-toastify';
 import sanitizeHtml from 'sanitize-html';
-import { toastOptions } from '@global/constants';
 
 /**
  * Hook to manage tables

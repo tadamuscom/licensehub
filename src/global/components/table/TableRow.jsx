@@ -1,9 +1,10 @@
 import { __ } from '@wordpress/i18n';
-import { TableColumn } from '@global/components/table/TableColumn';
+import { TableColumn } from '@global';
 
 export const TableRow = ({
 	columns,
 	editable,
+	deletable = true,
 	onBlur,
 	onDelete,
 	headers,
@@ -32,13 +33,15 @@ export const TableRow = ({
 	return (
 		<tr>
 			{renderColumns()}
-			<td>
-				<button
-					className="cursor-pointer text-md tada-delete-btn"
-					onClick={onDelete}>
-					{__('Delete', 'licensehub')}
-				</button>
-			</td>
+			{deletable && (
+				<td>
+					<button
+						className="cursor-pointer text-md tada-delete-btn"
+						onClick={onDelete}>
+						{__('Delete', 'licensehub')}
+					</button>
+				</td>
+			)}
 		</tr>
 	);
 };

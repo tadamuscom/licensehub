@@ -1,5 +1,4 @@
-import { ErrorMessage } from '@global/components/form/ErrorMessage';
-import { SuccessMessage } from '@global/components/form/SuccessMessage';
+import { ErrorMessage, SuccessMessage } from '@global';
 
 export const FormStatus = ({ status }) => {
 	if (status.field) return null;

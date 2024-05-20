@@ -86,6 +86,11 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Releases_Page' ) ) {
                 array(
 					'name' => __('updated_at', 'licensehub'),
 				),
+                array(
+                    'name' => __('edit', 'licensehub'),
+                    'button' => true,
+                    'hidden' => true
+                ),
             );
 
             wp_add_inline_script(
