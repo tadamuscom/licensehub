@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\API_Keys_Page' ) ) {
 	/**
-	 * Handle all the settings page
+	 * Handle all the api keys page
 	 */
 	class API_Keys_Page implements Page_Blueprint {
 		/**
@@ -104,17 +104,19 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\API_Keys_Page' ) ) {
 				),
 			);
 
-			wp_localize_script(
-				'lchb-api-keys-script',
-				'lchb_api_keys',
-				array(
-					'logo'   => LCHB_IMG . '/tadamus-logo.png',
-					'nonce'  => wp_create_nonce( 'lchb_api_keys' ),
-					'keys'   => $keys,
-					'users'  => $users,
-					'fields' => $fields,
-				)
-			);
+            wp_add_inline_script(
+                'lchb-api-keys-script',
+                'window.lchb_api_keys = ' . wp_json_encode(
+                    array(
+                        'logo'   => LCHB_IMG . '/tadamus-logo.png',
+                        'nonce'  => wp_create_nonce( 'lchb_api_keys' ),
+                        'keys'   => $keys,
+                        'users'  => $users,
+                        'fields' => $fields,
+				    )
+                ), 
+                'before'
+            );
 
 			echo '<div id="api-keys-root"></div>';
 		}

@@ -73,15 +73,17 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Settings_Page' ) ) {
 				$asset_meta['version']
 			);
 
-			wp_localize_script(
-				'lchb-settings-script',
-				'lchb_settings',
-				array(
-					'logo'                  => LCHB_IMG . '/tadamus-logo.png',
-					'nonce'                 => wp_create_nonce( 'lchb_settings' ),
-					'enable_rest_api'       => ( new Settings() )->is_enabled( 'rest' ),
-				)
-			);
+            wp_add_inline_script(
+                'lchb-settings-script',
+                'window.lchb_settings = ' . wp_json_encode( 
+                    array(
+                        'logo'                  => LCHB_IMG . '/tadamus-logo.png',
+                        'nonce'                 => wp_create_nonce( 'lchb_settings' ),
+                        'enable_rest_api'       => ( new Settings() )->is_enabled( 'rest' ),
+				    ) 
+                ) . ';',
+                'before'
+            );
 
 			echo '<div id="settings-root"></div>';
 

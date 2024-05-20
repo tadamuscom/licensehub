@@ -102,16 +102,18 @@ if (!class_exists('\LicenseHub\Includes\Controller\Pages\Products_Page')) {
 				)
 			);
 
-			wp_localize_script(
-				'lchb-products-script',
-				'lchb_products',
-				array(
-					'logo'                  => LCHB_IMG . '/tadamus-logo.png',
-					'nonce'                 => wp_create_nonce( 'lchb_products' ),
-					'products'              => $products,
-					'fields'                => $fields,
-				)
-			);
+            wp_add_inline_script(
+                'lchb-products-script',
+                'window.lchb_products = ' . wp_json_encode(
+                    array(
+                    		'logo'                  => LCHB_IMG . '/tadamus-logo.png',
+                    		'nonce'                 => wp_create_nonce( 'lchb_products' ),
+                    		'products'              => $products,
+                    		'fields'                => $fields,
+                    )
+                ), 
+                'before'
+            );
 
 			echo '<div id="products-root"></div>';
 		}

@@ -7,7 +7,7 @@ export const App = () => {
 		<div className="licensehub-global">
 			<Header
 				pageTitle={__('Settings', 'licensehub')}
-				logoLink={lchb_settings.logo}
+				logoLink={window.lchb_settings.logo}
 			/>
 			<HeadingTwo>{__('Settings', 'licensehub')}</HeadingTwo>
 			<SettingsForm />

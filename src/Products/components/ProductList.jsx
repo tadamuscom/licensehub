@@ -8,24 +8,29 @@ import { useTables } from '@global/hooks/useTables';
 
 export const ProductList = () => {
 	const { getTableData, removeRow, updateColumn, rows, headers } = useTables(
-		lchb_products.products,
-		lchb_products.fields,
+		window.lchb_products.products,
+		window.lchb_products.fields,
 	);
 
 	const updateOriginalValue = (rowID, column, value) => {
-		lchb_products.products = lchb_products.products.map((row) => {
+		window.lchb_products.products = window.lchb_products.products.map((row) => {
 			if (row.id === rowID) row[column] = value;
 
 			return row;
 		});
 	};
 
-	const handleBlur = async (event) => {
-		updateColumn(event, '/licensehub/v1/update-product', lchb_products.nonce, {
-			pending: __('Product is loading...', 'licensehub'),
-			success: __('Product updated', 'licensehub'),
-			error: __('Something went wrong', 'licensehub'),
-		});
+	const handleBlur = (event) => {
+		updateColumn(
+			event,
+			'/licensehub/v1/update-product',
+			window.lchb_products.nonce,
+			{
+				pending: __('Product is loading...', 'licensehub'),
+				success: __('Product updated', 'licensehub'),
+				error: __('Something went wrong', 'licensehub'),
+			},
+		);
 	};
 
 	const handleDelete = async (event) => {
@@ -36,7 +41,7 @@ export const ProductList = () => {
 				path: '/licensehub/v1/delete-product',
 				method: 'DELETE',
 				data: {
-					nonce: lchb_products.nonce,
+					nonce: window.lchb_products.nonce,
 					id: id,
 				},
 			}),

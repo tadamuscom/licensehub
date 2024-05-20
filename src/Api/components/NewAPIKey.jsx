@@ -14,12 +14,12 @@ import { useForms } from '@global/hooks/useForms';
 
 export const NewAPIKey = () => {
 	const { loading, result, formData, changeFormValue, post } = useForms({
-		user: lchb_api_keys.users[0].data.ID,
+		user: window.lchb_api_keys.users[0].data.ID,
 		expiresAt: '',
 	});
 
-	const [users, setUsers] = useState(() => {
-		return lchb_api_keys.users.map((user, index) => {
+	const users = useState(() => {
+		return window.lchb_api_keys.users.map((user, index) => {
 			return (
 				<SelectOption id={user.data.ID} value={user.data.ID} key={index}>
 					{user.data.user_email}
@@ -33,7 +33,7 @@ export const NewAPIKey = () => {
 
 		const response = await post(
 			'/licensehub/v1/new-api-key',
-			lchb_api_keys.nonce,
+			window.lchb_api_keys.nonce,
 		);
 
 		if (response.success) location.reload();

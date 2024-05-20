@@ -14,13 +14,13 @@ import { useForms } from '@global/hooks/useForms';
 
 export const NewLicenseKey = () => {
 	const { loading, result, formData, changeFormValue, post } = useForms({
-		user: lchb_license_keys.users[0].data.ID,
-		product: lchb_license_keys.products[0].id,
+		user: window.lchb_license_keys.users[0].data.ID,
+		product: window.lchb_license_keys.products[0].id,
 		expiresAt: '',
 	});
 
-	const [products, setProducts] = useState(() => {
-		return lchb_license_keys.products.map((element, index) => {
+	const products = useState(() => {
+		return window.lchb_license_keys.products.map((element, index) => {
 			return (
 				<SelectOption id={element.id} key={index} value={element.id}>
 					{element.name}
@@ -29,8 +29,8 @@ export const NewLicenseKey = () => {
 		});
 	});
 
-	const [users, setUsers] = useState(() => {
-		return lchb_license_keys.users.map((element, index) => {
+	const users = useState(() => {
+		return window.lchb_license_keys.users.map((element, index) => {
 			return (
 				<SelectOption id={element.id} key={index} value={element.data.ID}>
 					{element.data.user_email}
@@ -44,7 +44,7 @@ export const NewLicenseKey = () => {
 
 		const response = await post(
 			'/licensehub/v1/new-license-key',
-			lchb_license_keys.nonce,
+			window.lchb_license_keys.nonce,
 		);
 
 		if (response.success) location.reload();

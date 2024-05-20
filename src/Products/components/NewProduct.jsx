@@ -3,7 +3,7 @@ import { Button, FormGroup, HeadingTwo, Input, Label } from '@global';
 import { FormStatus } from '@global/components/form/FormStatus';
 import { useForms } from '@global/hooks/useForms';
 
-export const NewProduct = ({ setIsAddNew }) => {
+export const NewProduct = () => {
 	const { loading, result, formData, changeFormValue, post } = useForms({
 		name: '',
 		downloadLink: '',
@@ -18,7 +18,7 @@ export const NewProduct = ({ setIsAddNew }) => {
 
 					const response = await post(
 						'/licensehub/v1/new-product',
-						lchb_products.nonce,
+						window.lchb_products.nonce,
 					);
 
 					if (response.success) location.reload();

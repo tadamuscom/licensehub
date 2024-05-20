@@ -13,7 +13,7 @@ export const App = () => {
 		<div className="licensehub-global">
 			<Header
 				pageTitle={__('API Keys', 'licensehub')}
-				logoLink={lchb_api_keys.logo}
+				logoLink={window.lchb_api_keys.logo}
 			/>
 			<Button onClick={() => setIsAddNew((prev) => !prev)}>
 				{isAddNew

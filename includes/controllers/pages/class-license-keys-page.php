@@ -110,18 +110,20 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' )
 				),
 			);
 
-			wp_localize_script(
-				'lchb-license-keys-script',
-				'lchb_license_keys',
-				array(
-					'logo'     => LCHB_IMG . '/tadamus-logo.png',
-					'nonce'    => wp_create_nonce( 'lchb_license_keys' ),
-					'keys'     => $license_keys,
-					'products' => $products,
-					'users'    => $users,
-					'fields'   => $fields,
-				)
-			);
+            wp_add_inline_script(
+                'lchb-license-keys-script',
+                'window.lchb_license_keys = ' . wp_json_encode(
+                    array(
+                        'logo'     => LCHB_IMG . '/tadamus-logo.png',
+                        'nonce'    => wp_create_nonce( 'lchb_license_keys' ),
+                        'keys'     => $license_keys,
+                        'products' => $products,
+                        'users'    => $users,
+                        'fields'   => $fields,
+				    )
+                ), 
+                'before'
+            );
 
 			echo '<div id="license-keys-root"></div>';
 		}

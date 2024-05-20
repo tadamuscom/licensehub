@@ -17,7 +17,7 @@ export const TableColumn = ({
 
 		return data.value;
 	});
-	const [isEditable, setIsEditable] = useState(() => {
+	const isEditable = useState(() => {
 		if (!column) return false;
 		if (!editable) return false;
 
@@ -31,6 +31,7 @@ export const TableColumn = ({
 
 	return isEditable ? (
 		<td
+			// eslint-disable-next-line react/no-unknown-property
 			column={column.name}
 			className={classNames({
 				'border-2 border-red-500': data.error,
@@ -42,6 +43,7 @@ export const TableColumn = ({
 			/>
 		</td>
 	) : (
+		// eslint-disable-next-line react/no-unknown-property
 		<td column={column.name}>
 			{columnData}
 			{column.hidden && (

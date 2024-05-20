@@ -9,7 +9,7 @@ import { NewLicenseKey } from '@licenses/components/NewLicenseKey';
 export const App = () => {
 	const [isAddNew, setIsAddNew] = useState(false);
 
-	if (lchb_license_keys.products.length < 1) {
+	if (window.lchb_license_keys.products.length < 1) {
 		return (
 			<ErrorMessage className="mt-4">
 				{__(
@@ -24,7 +24,7 @@ export const App = () => {
 		<div className="licensehub-global">
 			<Header
 				pageTitle={__('License Keys', 'licensehub')}
-				logoLink={lchb_license_keys.logo}
+				logoLink={window.lchb_license_keys.logo}
 			/>
 			<Button onClick={() => setIsAddNew((prev) => !prev)}>
 				{isAddNew

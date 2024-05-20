@@ -27,7 +27,7 @@ export const useTables = (rawRows, rawHeaders) => {
 	/**
 	 * Process the headers and add them to state
 	 */
-	const [headers, setHeaders] = useState(rawHeaders);
+	const headers = useState(rawHeaders);
 
 	/**
 	 * Remove a row from the table
