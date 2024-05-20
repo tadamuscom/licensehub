@@ -14,6 +14,7 @@ module.exports = {
 		'^@products/(.*)$',
 		'^@licenses/(.*)$',
 		'^@api/(.*)$',
+		'^@releases/(.*)$',
 		'^[./]',
 	],
 	overrides: [

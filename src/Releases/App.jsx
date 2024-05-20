@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { Header, HeadingTwo } from '@global';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ReleaseList } from './components/ReleaseList';
 
 export const App = () => {
 	return (
@@ -11,6 +12,7 @@ export const App = () => {
 				logoLink={window.lchb_releases.logo}
 			/>
 			<HeadingTwo>{__('Releases', 'licensehub')}</HeadingTwo>
+			<ReleaseList />
 			<ToastContainer />
 		</div>
 	);

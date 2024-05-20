@@ -9,6 +9,8 @@ namespace LicenseHub\Includes\Controller\Pages;
 
 use LicenseHub\Includes\Controller\Core\Asset_Manager;
 use LicenseHub\Includes\Interface\Page_Blueprint;
+use LicenseHub\Includes\Model\Product;
+use LicenseHub\Includes\Model\Release;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -58,14 +60,42 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Releases_Page' ) ) {
 				'lchb-releases-script',
 				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-releases.js' ),
 				$asset_meta['dependencies'],
-				$asset_meta['version']
+                $asset_meta['version']
 			);
+
+            $product_instance   = new Product();
+            $products           = $product_instance->get_all();
+            $release_instance   = new Release();
+            $releases           = $release_instance->get_all();
+            $fields             = array(
+                array(
+					'name' => __('id', 'licensehub'),
+				),
+                array(
+					'name' => __('product_id', 'licensehub'),
+				),
+                array(
+					'name' => __('version', 'licensehub'),
+				),
+                array(
+					'name' => __('changelog', 'licensehub'),
+				),
+                array(
+					'name' => __('created_at', 'licensehub'),
+				),
+                array(
+					'name' => __('updated_at', 'licensehub'),
+				),
+            );
 
             wp_add_inline_script(
                 'lchb-releases-script',
                 'window.lchb_releases = ' . wp_json_encode( 
                     array(
-                        'logo' => LCHB_IMG . '/tadamus-logo.png',
+                        'logo'      => LCHB_IMG . '/tadamus-logo.png',
+                        'releases'  => $releases,
+                        'products'  => $products,
+                        'fields'    => $fields,
                     ) 
                 ) . ';',
                 'before'
