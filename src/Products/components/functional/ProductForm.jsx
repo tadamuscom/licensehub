@@ -21,19 +21,6 @@ export const ProductForm = ({
 					onChange={(e) => changeFormValue('name', e.target.value)}
 				/>
 			</FormGroup>
-			<FormGroup>
-				<Label htmlFor="lchb-download-link">
-					{__('Download Link', 'licensehub')}
-				</Label>
-				<Input
-					type="text"
-					id="lchb-download-link"
-					name="lchb-download-link"
-					value={formData.downloadLink}
-					result={result}
-					onChange={(e) => changeFormValue('downloadLink', e.target.value)}
-				/>
-			</FormGroup>
 			<FormGroup extraClass="tada-form-submit">
 				<Button type="submit" loading={loading}>
 					{loading

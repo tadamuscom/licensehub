@@ -11,7 +11,7 @@ export const SettingsForm = () => {
 			onSubmit={async (e) => {
 				e.preventDefault();
 				await post(
-					'/licensehub/v1/general-settings',
+					'/licensehub/v1/settings/general',
 					window.lchb_settings.nonce,
 				);
 			}}>

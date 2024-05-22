@@ -5,24 +5,23 @@
  * @package licensehub
  */
 
-namespace LicenseHub\Includes\Controller\API;
+namespace LicenseHub\Includes\Controller\API\Internal;
 
 use Exception;
 use LicenseHub\Includes\Controller\Core\Settings;
 use LicenseHub\Includes\Helper\API_Helper;
 use WP_REST_Request;
 
-if ( ! class_exists('\LicenseHub\Includes\Controller\API\Settings_API') ){
+if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Settings_API') ){
 	class Settings_API{
 		public function __construct() {
 			add_action( 'rest_api_init', array( $this, 'routes' ) );
 		}
 
 		public function routes(): void {
-			// Save settings.
 			register_rest_route(
-				API_Helper::$namespace,
-				'/general-settings',
+				API_Helper::generate_prefix('settings'),
+				'/general',
 				array(
 					'methods'             => 'POST',
 					'callback'            => array( $this, 'save_settings' ),

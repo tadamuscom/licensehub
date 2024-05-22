@@ -12,7 +12,7 @@ export const NewProduct = () => {
 		e.preventDefault();
 
 		const response = await post(
-			'/licensehub/v1/new-product',
+			'/licensehub/v1/products/new-product',
 			window.lchb_products.nonce,
 		);
 

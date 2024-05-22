@@ -18,10 +18,90 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists('\LicenseHub\Includes\Helper\API_Helper') ){
 	class API_Helper{
+        /**
+         * The license prefix
+         *
+         * @var string
+         */
+        public static string $license_prefix = 'licenses';
+
+        /**
+         * The API keys prefix
+         *
+         * @var string
+         */
+        public static string $api_keys_prefix = 'api-keys';
+
+        /**
+         * The products prefix
+         *
+         * @var string
+         */
+        public static string $products_prefix = 'products';
+
+        /**
+         * The releases prefix
+         *
+         * @var string
+         */
+        public static string $releases_prefix = 'releases';
+
+        /**
+         * The settings prefix
+         *
+         * @var string
+         */
+        public static string $settings_prefix = 'settings';
+
+        /**
+         * The namespace
+         *
+         * @var string
+         */
 		public static string $namespace = 'licensehub/v1';
+
+        /**
+         * The error text
+         *
+         * @var string
+         */
 		public static string $error_text = '';
+
+        /**
+         * The API key
+         *
+         * @var API_Key
+         */
 		public static API_Key $key;
+
+        /**
+         * The user
+         *
+         * @var WP_User
+         */
 		public static WP_User $user;
+
+        /**
+         * Generate a prefix for the API
+         *
+         * @since 1.0.0
+         *
+         * @param string $prefix The prefix to generate.
+         *
+         * @return string
+         */
+        public static function generate_prefix( string $prefix ): string {
+            $suffix = match( $prefix ) {
+                'licenses' => self::$license_prefix,
+                'api-keys' => self::$api_keys_prefix,
+                'products' => self::$products_prefix,
+                'releases' => self::$releases_prefix,
+                'settings' => self::$settings_prefix,
+                default => ''
+            };
+
+            return self::$namespace . '/' . $suffix;
+        }
 
 		/**
 		 * Check for the authentication header and validate it
@@ -56,6 +136,16 @@ if ( ! class_exists('\LicenseHub\Includes\Helper\API_Helper') ){
 			return true;
 		}
 
+        /**
+         * Update a model field
+         *
+         * @since 1.0.0
+         *
+         * @param array $params The parameters to update.
+         * @param string $model The model to update.
+         *
+         * @return void
+         */
 		public static function update_model_field( $params, $model ): void {
 			$id = sanitize_text_field( $params['id'] );
 			$column = sanitize_text_field( $params['column'] );

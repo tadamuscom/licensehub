@@ -43,7 +43,7 @@ export const NewLicenseKey = () => {
 		e.preventDefault();
 
 		const response = await post(
-			'/licensehub/v1/new-license-key',
+			'/licensehub/v1/licenses/new-license-key',
 			window.lchb_license_keys.nonce,
 		);
 

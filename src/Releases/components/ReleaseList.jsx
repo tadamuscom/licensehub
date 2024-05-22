@@ -10,7 +10,12 @@ export const ReleaseList = () => {
 	return (
 		<>
 			<HeadingTwo label={__('Products', 'licensehub')} />
-			<Table headers={headers[0]} rows={rows} editable={false} />
+			<Table
+				headers={headers[0]}
+				rows={rows}
+				editable={false}
+				deletable={false}
+			/>
 		</>
 	);
 };
