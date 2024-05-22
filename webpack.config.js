@@ -1,6 +1,5 @@
 const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 const { resolve } = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');

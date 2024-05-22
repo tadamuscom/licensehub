@@ -5,7 +5,6 @@ import { ProductForm } from '@products/components/functional/ProductForm';
 export const NewProduct = () => {
 	const { loading, result, formData, changeFormValue, post } = useForms({
 		name: '',
-		downloadLink: '',
 	});
 
 	const handleSubmit = async (e) => {

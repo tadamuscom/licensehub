@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { Table, HeadingTwo, useTables } from '@global';
 
-export const ProductList = () => {
+export const ProductList = ({ setIsEdit }) => {
 	const { rows, headers } = useTables(
 		window.lchb_products.products,
 		window.lchb_products.fields,
@@ -15,6 +15,7 @@ export const ProductList = () => {
 				rows={rows}
 				editable={false}
 				deletable={false}
+				setIsEdit={setIsEdit}
 			/>
 		</>
 	);

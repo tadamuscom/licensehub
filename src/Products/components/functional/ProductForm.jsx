@@ -7,6 +7,7 @@ export const ProductForm = ({
 	changeFormValue,
 	loading,
 	handleSubmit,
+	disabled,
 }) => {
 	return (
 		<form onSubmit={handleSubmit}>
@@ -19,10 +20,12 @@ export const ProductForm = ({
 					value={formData.name}
 					result={result}
 					onChange={(e) => changeFormValue('name', e.target.value)}
+					disabled={disabled}
+					autoFocus={true}
 				/>
 			</FormGroup>
 			<FormGroup extraClass="tada-form-submit">
-				<Button type="submit" loading={loading}>
+				<Button type="submit" loading={loading} disabled={disabled}>
 					{loading
 						? __('Loading...', 'licensehub')
 						: __('Save Product', 'licensehub')}

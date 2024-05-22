@@ -16,11 +16,18 @@ export const Button = ({
 	loading,
 	children,
 	disabled = false,
+	variant = 'primary',
 	...props
 }) => {
-	const regularClasses =
-		'bg-tadaBlue text-white font-kanit border-0 text-sm mt-4 px-4 py-2 uppercase rounded-lg cursor-pointer transition-all';
-	const hoverClasses = 'hover:bg-tadaLighterBlue';
+	let bgClass = 'bg-tadaBlue';
+	let hoverClasses = 'hover:bg-tadaLighterBlue';
+
+	if (variant === 'danger') {
+		bgClass = 'bg-red-700';
+		hoverClasses = 'hover:bg-red-600';
+	}
+
+	const regularClasses = `${bgClass} text-white font-kanit border-0 text-sm mt-4 px-4 py-2 uppercase rounded-lg cursor-pointer transition-all`;
 	const disabledColors = loading
 		? 'disabled:bg-tadaBlue disabled:text-white'
 		: 'disabled:bg-tadaGray disabled:text-black';

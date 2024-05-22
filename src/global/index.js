@@ -44,3 +44,18 @@ export const addQueryParameter = (key, value) => {
 
 	window.history.pushState({}, '', url.toString());
 };
+
+export const removeQueryParameter = (key) => {
+	let url = new URL(window.location.href);
+	let searchParams = new URLSearchParams(url.search);
+
+	searchParams.delete(key);
+	url.search = searchParams.toString();
+
+	window.history.pushState({}, '', url.toString());
+};
+
+export const getQueryParameter = (key) => {
+	let searchParams = new URLSearchParams(window.location.search);
+	return searchParams.get(key);
+};

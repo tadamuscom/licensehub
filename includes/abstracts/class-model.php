@@ -47,13 +47,11 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		 * @param mixed $id The ID of the object.
 		 */
 		public function __construct( mixed $id = false ) {
-			if ( ! $id ) {
-				return $this->new();
-			} elseif ( $this->exists( $id ) ) {
-					return $this->load_by_id( $id );
-			} else {
-				return $this->new();
-			}
+			if ( $id || $this->exists( $id ) ) {
+                return $this->load_by_id( $id );
+            }
+
+            return $this->new();
 		}
 
 		/**

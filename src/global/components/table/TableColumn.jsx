@@ -13,6 +13,7 @@ export const TableColumn = ({
 	onBlur,
 	row,
 	updateOriginalValue,
+	setIsEdit,
 }) => {
 	const [columnData, setColumnData] = useState(() => {
 		if (column.hidden) return '********';
@@ -42,7 +43,10 @@ export const TableColumn = ({
 	const handleButtonClick = () => {
 		if (!column.button) return;
 
-		if (column.button === 'edit') addQueryParameter('id', row[0].value);
+		if (column.button === 'edit') {
+			addQueryParameter('id', row[0].value);
+			setIsEdit(true);
+		}
 	};
 
 	if (isEditable[0]) {

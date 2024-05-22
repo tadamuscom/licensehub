@@ -54,6 +54,18 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 					},
 				)
 			);
+
+            register_rest_route(
+				API_Helper::generate_prefix('products'),
+				'/get-product/(?P<id>\d+)',
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'get_product' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+				)
+			);
 		}
 
 		/**
@@ -132,19 +144,71 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 		/**
 		 * Update product
 		 *
-		 * @since 1.0.4
+		 * @since 1.0.0
 		 *
 		 * @param WP_REST_Request $request The request object.
-		 *
 		 * @return void
 		 */
 		public function update_product( WP_REST_Request $request ): void {
 			$params = $request->get_params();
+            $params = json_decode($params[0], true);
 
 			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_products' ) ) {
-				API_Helper::update_model_field($params, Product::class);
+                $id = sanitize_text_field( $params['id'] );
+                $name = sanitize_text_field( $params['name'] );
+                
+                if ( empty( $id ) ){
+                    wp_send_json_error( array(
+                        'message' => __( 'ID cannot be empty', 'licensehub' )
+                    ) );
+
+                    return;
+                }
+
+                if ( empty( $name ) ){
+                    wp_send_json_error( array(
+                        'message' => __( 'Name cannot be empty', 'licensehub' )
+                    ) );
+
+                    return;
+                }
+
+                $product = new Product($id);
+                $product->name = $name;
+                $product->save();
+
+                wp_send_json_success(
+                    array(
+                        'message' => __( 'Product updated!', 'licensehub' ),
+                    )
+                );
 			}
 		}
+
+        /**
+         * Retrieve a product
+         * 
+         * @since 1.0.0
+         *
+         * @param WP_REST_Request $request
+         * @return void
+         */
+        public function get_product( WP_REST_Request $request ): void {
+            $params = $request->get_url_params();
+            $product = new Product($params['id']);
+
+            if (empty($product->id)) {
+                wp_send_json_error(
+                    array(
+                        'message' => __( 'Product not found', 'licensehub' ),
+                    )
+                );
+            }
+
+            wp_send_json_success(
+                $product
+            );
+        }
 	}
 
 	new Products_API();

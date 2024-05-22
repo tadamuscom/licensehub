@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n';
 import { Button, Header } from '@global';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getQueryParameter } from '@global/index';
 import { EditProduct } from '@products/components/core/EditProduct';
 import { NewProduct } from '@products/components/core/NewProduct';
 import { ProductList } from '@products/components/core/ProductList';
@@ -23,7 +24,10 @@ export const App = () => {
 					pageTitle={__('Products', 'licensehub')}
 					logoLink={window.lchb_products.logo}
 				/>
-				<EditProduct productID={window.location.search.includes('id')} />
+				<EditProduct
+					productID={getQueryParameter('id')}
+					setIsEdit={setIsEdit}
+				/>
 				<ToastContainer />
 			</div>
 		);
@@ -40,7 +44,11 @@ export const App = () => {
 					? __('Product List', 'licensehub')
 					: __('Add Product', 'licensehub')}
 			</Button>
-			{isAddNew ? <NewProduct setIsAddNew={setIsAddNew} /> : <ProductList />}
+			{isAddNew ? (
+				<NewProduct setIsAddNew={setIsAddNew} />
+			) : (
+				<ProductList setIsEdit={setIsEdit} />
+			)}
 			<ToastContainer />
 		</div>
 	);

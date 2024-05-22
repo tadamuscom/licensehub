@@ -88,5 +88,30 @@ export const useForms = (defaultValues) => {
 		}
 	};
 
-	return { loading, result, formData, changeFormValue, post };
+	const put = async (endpoint, parameters, nonce) => {
+		setLoading(true);
+
+		try {
+			const response = await apiFetch({
+				path: endpoint,
+				method: 'PUT',
+				data: JSON.stringify({
+					nonce: nonce,
+					...parameters,
+				}),
+			});
+
+			response.success
+				? setSuccess(response.data.message)
+				: setError(response.data.message, response.data.field);
+
+			return response;
+		} catch (e) {
+			setError(e.message, '');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	return { loading, result, formData, changeFormValue, post, put };
 };
