@@ -18,7 +18,7 @@ module.exports = ({ mode, file }) => ({
 		require('tailwindcss')({
 			...tailwind,
 			// Scope the editor css separately from the frontend css.
-			content: findContent(file),
+			content: ['./src/global/**/*.{js,jsx}'],
 			important: findImportant(file),
 		}),
 		(css) =>
@@ -43,14 +43,6 @@ module.exports = ({ mode, file }) => ({
 		require('postcss-safe-important'),
 	],
 });
-
-const findContent = (file) => {
-	console.log(`Processing: ${file}`);
-	if (file.endsWith('/global/css/main.css')) {
-		return ['./src/global/**/*.{js,jsx}'];
-	}
-	return [];
-};
 
 const findImportant = (rawFile) => {
 	const file = rawFile.toLowerCase();
