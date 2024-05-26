@@ -15,6 +15,7 @@ export * from '@global/components/form/Input';
 export * from '@global/components/form/ErrorMessage';
 export * from '@global/components/form/SuccessMessage';
 export * from '@global/components/form/FormStatus';
+export * from '@global/components/form/Textarea';
 
 // Layout
 export * from '@global/components/layout/Header';
@@ -27,6 +28,7 @@ export * from '@global/components/table/TableHeader';
 
 // Typography
 export * from '@global/components/typography/HeadingTwo';
+export * from '@global/components/typography/HeadingThree';
 
 // LinkButton
 export * from '@global/components/LinkButton';

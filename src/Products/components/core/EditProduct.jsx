@@ -1,7 +1,9 @@
-import { apiFetch } from '@wordpress/api-fetch';
+import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 import { HeadingTwo, useForms, Button, removeQueryParameter } from '@global';
 import { ProductForm } from '@products/components/functional/ProductForm';
+import { AddRelease } from './AddRelease';
+import { ReleaseList } from './ReleaseList';
 
 export const EditProduct = ({ productID }) => {
 	const getProductByID = (id) =>
@@ -49,24 +51,27 @@ export const EditProduct = ({ productID }) => {
 				/>
 			</div>
 			<div>
+				<HeadingTwo>{__('Releases', 'licensehub')}</HeadingTwo>
+				<ReleaseList productID={productID} />
+				<AddRelease productID={productID} />
+			</div>
+			<div>
 				<HeadingTwo>{__('Danger Zone', 'licensehub')}</HeadingTwo>
 				<div className="flex flex-row gap-4 items-center">
 					<div>
 						<p className="font-bold my-0">
 							{__('Delete this product', 'licensehub')}
 						</p>
-						<p>
+						<p className="my-2">
 							{__(
 								'Once you delete a repository, there is no going back. Please be certain.',
 								'licensehub',
 							)}
 						</p>
 					</div>
-					<div className="ml-1">
-						<Button variant="danger" onClick={handleDelete}>
-							{__('Delete Product', 'licensehub')}
-						</Button>
-					</div>
+					<Button variant="danger" onClick={handleDelete} className="mt-0">
+						{__('Delete Product', 'licensehub')}
+					</Button>
 				</div>
 			</div>
 		</div>

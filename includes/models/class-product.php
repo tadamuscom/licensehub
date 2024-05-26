@@ -185,5 +185,34 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 
 			return false;
 		}
+
+        /**
+         * Return a list of releases or empty array if there are none
+         * 
+         * @since 1.0.0
+         *
+         * @return array
+         */
+        public function releases(): array {
+            global $wpdb;
+
+            if ( ! $this->exists( $this->id ) ) {
+                return array();
+            }
+
+            $object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s', (new Release())->generate_table_name(), $this->id ) );
+
+            if ( empty( $object ) ){
+                return array();
+            }
+
+            $returnable = array();
+
+            foreach ( $object as $release ) {
+                $returnable[] = new Release($release->id);
+            }
+
+            return $returnable;
+        }
 	}
 }

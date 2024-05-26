@@ -1,4 +1,3 @@
-const tailwind = require('./tailwind.config');
 const semver = require('semver');
 const requiredNodeVersion = require('./package').engines.node;
 
@@ -9,18 +8,13 @@ if (!semver.satisfies(process.version, requiredNodeVersion)) {
 	process.exit(1);
 }
 
-module.exports = ({ mode, file }) => ({
+module.exports = ({ mode }) => ({
 	ident: 'postcss',
 	sourceMap: mode !== 'production',
 	plugins: [
 		require('postcss-import'),
 		require('tailwindcss/nesting'),
-		require('tailwindcss')({
-			...tailwind,
-			// Scope the editor css separately from the frontend css.
-			content: ['./src/global/**/*.{js,jsx}'],
-			important: findImportant(file),
-		}),
+		require('tailwindcss'),
 		(css) =>
 			css.walkRules((rule) => {
 				// Removes top level TW styles like *::before {}
@@ -43,20 +37,3 @@ module.exports = ({ mode, file }) => ({
 		require('postcss-safe-important'),
 	],
 });
-
-const findImportant = (rawFile) => {
-	const file = rawFile.toLowerCase();
-	let tailwindPrefix = true;
-
-	const filePrefixes = {
-		global: '.licensehub-global',
-	};
-
-	Object.keys(filePrefixes).forEach((key) => {
-		if (file.includes(key)) {
-			tailwindPrefix = filePrefixes[key];
-		}
-	});
-
-	return tailwindPrefix;
-};

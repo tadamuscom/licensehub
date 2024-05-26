@@ -66,6 +66,17 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 					},
 				)
 			);
+
+            register_rest_route(
+                API_Helper::generate_prefix('products'), 
+                '/(?P<id>\d+)/get-releases', 
+                array(
+                    'methods' => 'GET',
+                    'callback' => array($this, 'get_releases'),
+                    'permission_callback' => function () {
+                        return current_user_can('manage_options');
+                    }
+            ));
 		}
 
 		/**
@@ -84,10 +95,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 			if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_products' ) ) {
 				if ( empty( $params->name ) ) {
 					wp_send_json_error(
-						array(
-							'message' => __( 'Name cannot be empty', 'licensehub' ),
-						)
-					);
+						array( 'message' => __( 'Name cannot be empty', 'licensehub' ) ) );
 
 					return;
 				}
@@ -99,11 +107,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 				$product->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
 				$product->save();
 
-				wp_send_json_success(
-					array(
-						'message' => __( 'The product was saved!', 'licensehub' ),
-					)
-				);
+				wp_send_json_success( array( 'message' => __( 'The product was saved!', 'licensehub' ) ) );
 			}
 		}
 
@@ -121,11 +125,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 
 			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_products' ) ) {
 				if ( empty( $params['id'] ) ) {
-					wp_send_json_error(
-						array(
-							'message' => __( 'ID cannot be empty', 'licensehub' ),
-						)
-					);
+					wp_send_json_error( array( 'message' => __( 'ID cannot be empty', 'licensehub' ) ) );
 
 					return;
 				}
@@ -133,11 +133,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 				$product = new Product( $params['id'] );
 				$product->destroy();
 
-				wp_send_json_success(
-					array(
-						'message' => __( 'Product Deleted!', 'licensehub' ),
-					)
-				);
+				wp_send_json_success( array( 'message' => __( 'Product Deleted!', 'licensehub' ) ) );
 			}
 		}
 
@@ -158,17 +154,13 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
                 $name = sanitize_text_field( $params['name'] );
                 
                 if ( empty( $id ) ){
-                    wp_send_json_error( array(
-                        'message' => __( 'ID cannot be empty', 'licensehub' )
-                    ) );
+                    wp_send_json_error( array( 'message' => __( 'ID cannot be empty', 'licensehub' ) ) );
 
                     return;
                 }
 
                 if ( empty( $name ) ){
-                    wp_send_json_error( array(
-                        'message' => __( 'Name cannot be empty', 'licensehub' )
-                    ) );
+                    wp_send_json_error( array( 'message' => __( 'Name cannot be empty', 'licensehub' ) ) );
 
                     return;
                 }
@@ -178,9 +170,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
                 $product->save();
 
                 wp_send_json_success(
-                    array(
-                        'message' => __( 'Product updated!', 'licensehub' ),
-                    )
+                    array( 'message' => __( 'Product updated!', 'licensehub' ) )
                 );
 			}
 		}
@@ -195,19 +185,34 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
          */
         public function get_product( WP_REST_Request $request ): void {
             $params = $request->get_url_params();
-            $product = new Product($params['id']);
+            $product = new Product( $params['id'] );
 
-            if (empty($product->id)) {
+            if  (empty( $product->id ) ) {
+                wp_send_json_error( array( 'message' => __( 'Product not found', 'licensehub' ) ) );
+            }
+
+            wp_send_json_success( $product );
+        }
+
+        /**
+         * Retrieve the releases of a product
+         * 
+         * @since 1.0.0
+         *
+         * @param WP_REST_Request $request
+         * @return void
+         */
+        public function get_releases( WP_REST_Request $request ): void {
+            $params = $request->get_url_params();
+            $product = new Product( $params['id'] );
+
+            if ( $product->id === 0 ) {
                 wp_send_json_error(
-                    array(
-                        'message' => __( 'Product not found', 'licensehub' ),
-                    )
+                    array( 'message' => __( 'Product not found', 'licensehub' ) )
                 );
             }
 
-            wp_send_json_success(
-                $product
-            );
+            wp_send_json_success( $product->releases() );
         }
 	}
 

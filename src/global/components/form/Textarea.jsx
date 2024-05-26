@@ -1,20 +1,8 @@
-import { useEffect, useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { ErrorMessage, HelperText } from '@global';
 import classNames from 'classnames';
 
-/**
- * Add a password input
- *
- * @since 1.0.2
- *
- * @param className
- * @param error
- * @param helper
- * @param props
- * @returns {JSX.Element}
- * @constructor
- */
-export const Input = ({ className, helper, result, ...props }) => {
+export const Textarea = ({ className, helper, result, ...props }) => {
 	const [error, setError] = useState('');
 
 	useEffect(() => {
@@ -32,7 +20,7 @@ export const Input = ({ className, helper, result, ...props }) => {
 
 	return (
 		<>
-			<input
+			<textarea
 				{...props}
 				className={classNames(
 					className ? defaultClasses + ' ' + className : defaultClasses,
@@ -41,7 +29,8 @@ export const Input = ({ className, helper, result, ...props }) => {
 							error || (result.type === 'error' && !result.field),
 					},
 				)}
-			/>
+				rows="10"></textarea>
+
 			{error ? <ErrorMessage>{error}</ErrorMessage> : ''}
 			{helper ? <HelperText content={helper} /> : ''}
 		</>
