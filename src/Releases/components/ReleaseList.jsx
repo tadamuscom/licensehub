@@ -9,7 +9,7 @@ export const ReleaseList = () => {
 
 	return (
 		<>
-			<HeadingTwo label={__('Products', 'licensehub')} />
+			<HeadingTwo label={__('Releases', 'licensehub')} />
 			<Table
 				headers={headers[0]}
 				rows={rows}

@@ -126,6 +126,8 @@ if (!class_exists('\LicenseHub\Includes\Controller\Pages\Products_Page')) {
                     		'nonce'                 => wp_create_nonce( 'lchb_products' ),
                     		'products'              => $products,
                     		'fields'                => $fields,
+                            'releases_nonce'        => wp_create_nonce( 'lchb_releases' ),
+                            'releases_url'          => admin_url('admin.php?page=licensehub-releases'),
                     )
                 ), 
                 'before'

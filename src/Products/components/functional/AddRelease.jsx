@@ -13,7 +13,7 @@ import { Textarea } from '@global/index';
 
 export const AddRelease = ({ productID }) => {
 	const [isForm, setIsForm] = useState(false);
-	const { loading, result, formData, changeFormValue } = useForms({
+	const { loading, result, formData, changeFormValue, post } = useForms({
 		productID,
 		version: '',
 		changeLog: '',
@@ -27,10 +27,15 @@ export const AddRelease = ({ productID }) => {
 		);
 	}
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		console.log('submit');
+		const response = await post(
+			'/licensehub/v1/releases/new-release',
+			window.lchb_products.releases_nonce,
+		);
+
+		if (response.success) location.reload();
 	};
 
 	return (

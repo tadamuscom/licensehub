@@ -214,5 +214,40 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 
             return $returnable;
         }
+
+        /**
+         * Retrieve the latest release of the product
+         *
+         * @return Release|bool
+         */
+        public function last_release(): Release|bool {
+            global $wpdb;
+
+            if ( ! $this->exists( $this->id ) ) {
+                return false;
+            }
+
+            $object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s ORDER BY `version` DESC LIMIT 1', (new Release())->generate_table_name(), $this->id ) );
+
+            if ( empty( $object ) ) {
+                return false;
+            }
+
+            return new Release($object->id);
+        }
+
+        /**
+         * Extend the parent destroy to also delete all releases of the product
+         *
+         * @return void
+         */
+        public function destroy(): void
+        {
+            global $wpdb;
+
+            $wpdb->delete( (new Release())->generate_table_name(), array( 'product_id' => $this->id ) );
+
+            parent::destroy();
+        }
 	}
 }

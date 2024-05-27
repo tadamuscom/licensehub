@@ -2,7 +2,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 import { HeadingTwo, useForms, Button, removeQueryParameter } from '@global';
 import { ProductForm } from '@products/components/functional/ProductForm';
-import { AddRelease } from './AddRelease';
+import { AddRelease } from '../functional/AddRelease';
 import { ReleaseList } from './ReleaseList';
 
 export const EditProduct = ({ productID }) => {
@@ -28,14 +28,19 @@ export const EditProduct = ({ productID }) => {
 	};
 
 	const handleDelete = async () => {
-		await apiFetch({
-			path: '/licensehub/v1/delete-product',
+		const response = await apiFetch({
+			path: '/licensehub/v1/products/delete-product',
 			method: 'DELETE',
 			data: {
 				nonce: window.lchb_products.nonce,
 				id: productID,
 			},
 		});
+
+		if (!response.success) console.error(response);
+
+		removeQueryParameter('id');
+		location.reload();
 	};
 
 	return (

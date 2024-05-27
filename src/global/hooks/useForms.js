@@ -88,6 +88,15 @@ export const useForms = (defaultValues) => {
 		}
 	};
 
+	/**
+	 *
+	 * Make a put request
+	 *
+	 * @param endpoint
+	 * @param parameters
+	 * @param nonce
+	 * @returns
+	 */
 	const put = async (endpoint, parameters, nonce) => {
 		setLoading(true);
 
