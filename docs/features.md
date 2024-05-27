@@ -12,10 +12,10 @@ Allow people to add and manage products which then they can license or sell thro
 
 Create releases for the products and allow people to generate download links (either public or private) and also allow people to manage versions and automated updates.
 
-- [ ] Add a release
+- [x] Add a release
   - [x] Link to a product
-  - [ ] Add a version
-  - [ ] Add a changelog
+  - [x] Add a version
+  - [x] Add a changelog
 - [ ] Edit a release
 - [ ] Delete a release
 - [ ] Generate public download links
