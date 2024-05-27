@@ -93,11 +93,11 @@ export const useForms = (defaultValues) => {
 	 * Make a put request
 	 *
 	 * @param endpoint
-	 * @param parameters
+	 * @param id
 	 * @param nonce
 	 * @returns
 	 */
-	const put = async (endpoint, parameters, nonce) => {
+	const put = async (endpoint, id, nonce) => {
 		setLoading(true);
 
 		try {
@@ -106,7 +106,8 @@ export const useForms = (defaultValues) => {
 				method: 'PUT',
 				data: JSON.stringify({
 					nonce: nonce,
-					...parameters,
+					id,
+					...formData,
 				}),
 			});
 

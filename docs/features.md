@@ -16,8 +16,8 @@ Create releases for the products and allow people to generate download links (ei
   - [x] Link to a product
   - [x] Add a version
   - [x] Add a changelog
-- [ ] Edit a release
-- [ ] Delete a release
+- [x] Edit a release
+- [x] Delete a release
 - [ ] Generate public download links
 - [ ] Generate private download links
   - [ ] Account based

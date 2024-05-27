@@ -18,7 +18,7 @@ export const EditProduct = ({ productID }) => {
 
 		const response = await put(
 			'/licensehub/v1/products/update-product',
-			{ id: productID, ...formData },
+			productID,
 			window.lchb_products.nonce,
 		);
 
@@ -69,7 +69,7 @@ export const EditProduct = ({ productID }) => {
 						</p>
 						<p className="my-2">
 							{__(
-								'Once you delete a repository, there is no going back. Please be certain.',
+								'Once you delete a product, there is no going back. Please be certain.',
 								'licensehub',
 							)}
 						</p>

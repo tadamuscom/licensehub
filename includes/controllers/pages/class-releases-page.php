@@ -76,6 +76,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Releases_Page' ) ) {
 				),
                 array(
 					'name' => __('version', 'licensehub'),
+                    'button' => 'edit'
 				),
                 array(
 					'name' => __('changelog', 'licensehub'),
@@ -101,6 +102,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Releases_Page' ) ) {
                         'releases'  => $releases,
                         'products'  => $products,
                         'fields'    => $fields,
+                        'nonce'     => wp_create_nonce( 'lchb_releases' )
                     ) 
                 ) . ';',
                 'before'
