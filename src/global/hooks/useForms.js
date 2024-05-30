@@ -1,5 +1,6 @@
 import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Custom hook to handle form submission
@@ -88,6 +89,40 @@ export const useForms = (defaultValues) => {
 		}
 	};
 
+	const filePost = async (endpoint, nonce) => {
+		setLoading(true);
+
+		const data = new FormData();
+		data.append('nonce', nonce);
+
+		for (let [key, value] of Object.entries(formData)) {
+			data.append(key, value);
+		}
+
+		try {
+			const req = await fetch('http://skunkworks.test/wp-json' + endpoint, {
+				method: 'POST',
+				body: data,
+			});
+
+			if (!req.ok) {
+				throw new Error(__('Server error!', 'licensehub'));
+			}
+
+			const response = await req.json();
+
+			response.data.success
+				? setSuccess(response.data.data.message)
+				: setError(response.data.data.message, response.data.data.field);
+
+			return response;
+		} catch (e) {
+			setError(e.message, '');
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	/**
 	 *
 	 * Make a put request
@@ -123,5 +158,5 @@ export const useForms = (defaultValues) => {
 		}
 	};
 
-	return { loading, result, formData, changeFormValue, post, put };
+	return { loading, result, formData, changeFormValue, post, filePost, put };
 };

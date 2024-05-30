@@ -13,10 +13,11 @@ import { Textarea } from '@global/index';
 
 export const AddRelease = ({ productID }) => {
 	const [isForm, setIsForm] = useState(false);
-	const { loading, result, formData, changeFormValue, post } = useForms({
+	const { loading, result, formData, changeFormValue, filePost } = useForms({
 		productID,
 		version: '',
 		changeLog: '',
+		fileUpload: '',
 	});
 
 	if (!isForm) {
@@ -30,7 +31,7 @@ export const AddRelease = ({ productID }) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const response = await post(
+		const response = await filePost(
 			'/licensehub/v1/releases/new-release',
 			window.lchb_products.releases_nonce,
 		);
@@ -63,6 +64,16 @@ export const AddRelease = ({ productID }) => {
 						onChange={(e) => changeFormValue('changeLog', e.target.value)}>
 						{formData.changeLog}
 					</Textarea>
+				</FormGroup>
+				<FormGroup>
+					<Label htmlFor="file-upload">{__('File Upload', 'licensehub')}</Label>
+					<Input
+						type="file"
+						id="file-upload"
+						name="file-upload"
+						result={result}
+						onChange={(e) => changeFormValue('fileUpload', e.target.files[0])}
+					/>
 				</FormGroup>
 				<FormGroup extraClass="tada-form-submit">
 					<Button type="submit" loading={loading}>
