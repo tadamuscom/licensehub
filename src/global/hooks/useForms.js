@@ -1,5 +1,4 @@
 import apiFetch from '@wordpress/api-fetch';
-import body from '@wordpress/components/src/panel/body';
 import { useState } from '@wordpress/element';
 
 /**
@@ -92,25 +91,19 @@ export const useForms = (defaultValues) => {
 	const filePost = async (endpoint, nonce) => {
 		setLoading(true);
 
-		// TODO: Figure out a way to send files with apiFetch
-		const data = new FormData();
-		data.append('nonce', nonce);
-
-		for (let [key, value] of Object.entries(formData)) {
-			data.append(key, value);
-		}
-
 		try {
-			const response = await apiFetch(endpoint, {
-				body: {
-					nonce: nonce,
-					body,
-				},
+			const response = await apiFetch({
+				path: endpoint,
+				method: 'POST',
+				data: JSON.stringify({
+					nonce,
+					...formData,
+				}),
 			});
 
-			response.data.success
-				? setSuccess(response.data.data.message)
-				: setError(response.data.data.message, response.data.data.field);
+			response.success
+				? setSuccess(response.data.message)
+				: setError(response.data.message, response.data.field);
 
 			return response;
 		} catch (e) {
