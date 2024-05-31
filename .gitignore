@@ -11,3 +11,4 @@ composer.lock
 wp-fusion.code-workspace
 vendor/
 public/
+.vscode/

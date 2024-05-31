@@ -1,6 +1,6 @@
 import apiFetch from '@wordpress/api-fetch';
+import body from '@wordpress/components/src/panel/body';
 import { useState } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
 
 /**
  * Custom hook to handle form submission
@@ -92,6 +92,7 @@ export const useForms = (defaultValues) => {
 	const filePost = async (endpoint, nonce) => {
 		setLoading(true);
 
+		// TODO: Figure out a way to send files with apiFetch
 		const data = new FormData();
 		data.append('nonce', nonce);
 
@@ -100,16 +101,12 @@ export const useForms = (defaultValues) => {
 		}
 
 		try {
-			const req = await fetch('http://skunkworks.test/wp-json' + endpoint, {
-				method: 'POST',
-				body: data,
+			const response = await apiFetch(endpoint, {
+				body: {
+					nonce: nonce,
+					body,
+				},
 			});
-
-			if (!req.ok) {
-				throw new Error(__('Server error!', 'licensehub'));
-			}
-
-			const response = await req.json();
 
 			response.data.success
 				? setSuccess(response.data.data.message)
