@@ -144,7 +144,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Releases_API')
                     wp_send_json_error( array( 'message' => __( 'Release not found', 'licensehub' ) ) );
                 }
 
-                if ( $product->last_release() && version_compare(($product->last_release())->version, $version, '>=') ) {
+                if ( $product->last_release() && ($product->last_release())->version !== $version  && version_compare(($product->last_release())->version, $version, '>=') ) {
                     wp_send_json_error( array( 'message' => __( 'The version must be greater than the last release', 'licensehub' ) ) );
                 }
 
