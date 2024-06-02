@@ -1,5 +1,6 @@
 import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Custom hook to handle form submission
@@ -88,17 +89,47 @@ export const useForms = (defaultValues) => {
 		}
 	};
 
-	const filePost = async (endpoint, nonce) => {
+	const filePost = async (endpoint, nonce, ajaxUrl) => {
 		setLoading(true);
 
+		let attachmentID = false;
+
 		try {
+			if (!formData.fileUpload) return;
+
+			const formObj = new FormData();
+			formObj.append('action', 'lchb_create_release');
+			formObj.append('nonce', nonce);
+			formObj.append('file', formData.fileUpload);
+
+			const fileReq = await fetch(ajaxUrl, {
+				method: 'POST',
+				body: formObj,
+			});
+
+			if (!fileReq.ok) throw Error(__('Error uploading file', 'licensehub'));
+
+			const fileRes = await fileReq.json();
+
+			if (!fileRes.success) throw Error(fileRes.data.message);
+
+			attachmentID = fileRes.data.attachment_id;
+		} catch (e) {
+			setError(e.message, 'file-upload');
+		}
+
+		try {
+			const reqData = {
+				nonce,
+				...formData,
+			};
+
+			if (attachmentID) reqData.attachmentID = attachmentID;
+
 			const response = await apiFetch({
 				path: endpoint,
 				method: 'POST',
-				data: JSON.stringify({
-					nonce,
-					...formData,
-				}),
+				data: JSON.stringify(reqData),
 			});
 
 			response.success
@@ -108,6 +139,8 @@ export const useForms = (defaultValues) => {
 			return response;
 		} catch (e) {
 			setError(e.message, '');
+
+			return { success: false };
 		} finally {
 			setLoading(false);
 		}

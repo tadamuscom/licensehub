@@ -34,6 +34,7 @@ export const AddRelease = ({ productID }) => {
 		const response = await filePost(
 			'/licensehub/v1/releases/new-release',
 			window.lchb_products.releases_nonce,
+			window.lchb_products.ajax_url,
 		);
 
 		if (response.success) location.reload();

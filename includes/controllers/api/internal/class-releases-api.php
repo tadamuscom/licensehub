@@ -61,6 +61,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Releases_API')
                 $version = sanitize_text_field( $params->version );
                 $change_log = sanitize_text_field( $params->changeLog );
                 $product_id = sanitize_text_field( $params->productID );
+                $attachment_id = sanitize_text_field( $params->attachmentID );
 
                 if ( empty( $version ) ) {
                     wp_send_json_error(
@@ -87,6 +88,11 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Releases_API')
                 $release->product_id = $product_id;
                 $release->changelog = $change_log;
                 $release->version = $version;
+
+                if ( ! empty( $attachment_id ) ) {
+                    $release->attachment_id = (int) $attachment_id;
+                }
+
                 $release->save();
 
                 wp_send_json_success( array( 'message' => __( 'The product was saved!', 'licensehub' ) ) );

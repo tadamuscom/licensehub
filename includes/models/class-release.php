@@ -39,6 +39,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 			'created_at' 	=> array( 'required', 'date' ),
 			'updated_at' 	=> array( 'required', 'date' ),
 			'meta'			=> array( 'serialized' ),
+            'attachment_id' => array(),
 		);
 
 		/**
@@ -90,6 +91,13 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 		 */
 		public mixed $meta = array();
 
+        /**
+         * The ID of the attachment
+         *
+         * @var mixed
+         */
+        public mixed $attachment_id = 0;
+
 		/**
 		 * Init the database table
 		 *
@@ -106,6 +114,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
                     id mediumint(9) NOT NULL AUTO_INCREMENT,
                     product_id mediumint(9) NOT NULL,
                     version varchar(255) NOT NULL,
+                    attachment_id varchar(255),
                     changelog TEXT,
                     created_at datetime NOT NULL,
                     updated_at datetime NOT NULL,
