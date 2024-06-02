@@ -115,6 +115,9 @@ export const useForms = (defaultValues) => {
 				attachmentID = fileRes.data.attachment_id;
 			} catch (e) {
 				setError(e.message, 'file-upload');
+				setLoading(false);
+
+				return { success: false };
 			}
 		}
 
