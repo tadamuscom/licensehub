@@ -67,26 +67,27 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Releases_Page' ) ) {
             $products           = $product_instance->get_all();
             $release_instance   = new Release();
             $releases           = $release_instance->get_all();
-            $fields             = array(
+
+            $fields = array(
                 array(
-					'name' => __('id', 'licensehub'),
-				),
+                    'name' => __('id', 'licensehub'),
+                ),
                 array(
-					'name' => __('product_id', 'licensehub'),
-				),
+                    'name' => __('product_id', 'licensehub'),
+                ),
                 array(
-					'name' => __('version', 'licensehub'),
+                    'name' => __('version', 'licensehub'),
                     'button' => 'edit'
-				),
+                ),
                 array(
-					'name' => __('changelog', 'licensehub'),
-				),
+                    'name' => __('changelog', 'licensehub'),
+                ),
                 array(
-					'name' => __('created_at', 'licensehub'),
-				),
+                    'name' => __('created_at', 'licensehub'),
+                ),
                 array(
-					'name' => __('updated_at', 'licensehub'),
-				),
+                    'name' => __('updated_at', 'licensehub'),
+                ),
                 array(
                     'name' => __('edit', 'licensehub'),
                     'button' => true,
@@ -96,14 +97,14 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Releases_Page' ) ) {
 
             wp_add_inline_script(
                 'lchb-releases-script',
-                'window.lchb_releases = ' . wp_json_encode( 
+                'window.lchb_releases = ' . wp_json_encode(
                     array(
                         'logo'      => LCHB_IMG . '/tadamus-logo.png',
                         'releases'  => $releases,
                         'products'  => $products,
                         'fields'    => $fields,
                         'nonce'     => wp_create_nonce( 'lchb_releases' )
-                    ) 
+                    )
                 ) . ';',
                 'before'
             );

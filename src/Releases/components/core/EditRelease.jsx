@@ -1,16 +1,16 @@
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 import {
-	HeadingTwo,
-	useForms,
 	Button,
-	removeQueryParameter,
 	FormGroup,
-	Label,
-	Input,
 	FormStatus,
+	HeadingTwo,
+	Input,
+	Label,
+	removeQueryParameter,
+	Textarea,
+	useForms,
 } from '@global';
-import { Textarea } from '@global/index';
 
 export const EditRelease = ({ releaseID }) => {
 	const getReleaseByID = (id) =>
@@ -29,7 +29,6 @@ export const EditRelease = ({ releaseID }) => {
 			releaseID,
 			window.lchb_releases.nonce,
 		);
-
 		removeQueryParameter('id');
 
 		if (response.success) location.reload();

@@ -94,28 +94,28 @@ export const useForms = (defaultValues) => {
 
 		let attachmentID = false;
 
-		try {
-			if (!formData.fileUpload) return;
+		if (formData.fileUpload) {
+			try {
+				const formObj = new FormData();
+				formObj.append('action', 'lchb_create_release');
+				formObj.append('nonce', nonce);
+				formObj.append('file', formData.fileUpload);
 
-			const formObj = new FormData();
-			formObj.append('action', 'lchb_create_release');
-			formObj.append('nonce', nonce);
-			formObj.append('file', formData.fileUpload);
+				const fileReq = await fetch(ajaxUrl, {
+					method: 'POST',
+					body: formObj,
+				});
 
-			const fileReq = await fetch(ajaxUrl, {
-				method: 'POST',
-				body: formObj,
-			});
+				if (!fileReq.ok) throw Error(__('Error uploading file', 'licensehub'));
 
-			if (!fileReq.ok) throw Error(__('Error uploading file', 'licensehub'));
+				const fileRes = await fileReq.json();
 
-			const fileRes = await fileReq.json();
+				if (!fileRes.success) throw Error(fileRes.data.message);
 
-			if (!fileRes.success) throw Error(fileRes.data.message);
-
-			attachmentID = fileRes.data.attachment_id;
-		} catch (e) {
-			setError(e.message, 'file-upload');
+				attachmentID = fileRes.data.attachment_id;
+			} catch (e) {
+				setError(e.message, 'file-upload');
+			}
 		}
 
 		try {

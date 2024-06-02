@@ -227,13 +227,13 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
                 return false;
             }
 
-            $object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s ORDER BY `version` DESC LIMIT 1', (new Release())->generate_table_name(), $this->id ) );
+            $object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s ORDER BY `version` DESC LIMIT 1', ( new Release() )->generate_table_name(), $this->id ) );
 
             if ( empty( $object ) ) {
                 return false;
             }
 
-            return new Release($object->id);
+            return new Release( $object->id );
         }
 
         /**

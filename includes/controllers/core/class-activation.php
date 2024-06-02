@@ -8,7 +8,6 @@
 namespace LicenseHub\Includes\Controller\Core;
 
 use LicenseHub\Includes\Model\API_Key;
-use LicenseHub\Includes\Model\Download_Link;
 use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
 use LicenseHub\Includes\Model\Release;
@@ -42,7 +41,6 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Activation' ) ) {
 			( new API_Key() )->init();
 			( new License_Key() )->init();
 			( new Release() )->init();
-			( new Download_Link() )->init();
 		}
 
 		/**

@@ -18,11 +18,7 @@ Create releases for the products and allow people to generate download links (ei
   - [x] Add a changelog
 - [x] Edit a release
 - [x] Delete a release
-- [ ] Generate public download links
-- [ ] Generate private download links
-  - [ ] Account based
-  - [ ] Time expiration based
-  - [ ] IP based
+- [ ] Display attachment URL
 
 ## Licenses
 
