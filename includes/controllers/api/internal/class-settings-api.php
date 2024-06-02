@@ -24,7 +24,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Settings_API')
 				'/general',
 				array(
 					'methods'             => 'POST',
-					'callback'            => array( $this, 'save_settings' ),
+					'callback'            => array( $this, 'save' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},
@@ -42,7 +42,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Settings_API')
 		 * @return void
 		 * @throws Exception A regular exception.
 		 */
-		public function save_settings( WP_REST_Request $request ): void {
+		public function save( WP_REST_Request $request ): void {
 			$params = $request->get_params();
 			$params = json_decode($params[0]);
 

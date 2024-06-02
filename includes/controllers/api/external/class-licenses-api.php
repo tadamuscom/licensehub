@@ -29,7 +29,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Licenses_API')
                     '/validate',
                     array(
                         'methods'  => 'POST',
-                        'callback' => array( $this, 'validate_license' ),
+                        'callback' => array( $this, 'validate' ),
                     )
                 );
 
@@ -38,7 +38,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Licenses_API')
                     '/create',
                     array(
                         'methods'  => 'POST',
-                        'callback' => array( $this, 'create_license' ),
+                        'callback' => array( $this, 'create' ),
                     )
                 );
 			}
@@ -54,7 +54,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Licenses_API')
 		 * @return void
 		 * @throws Exception A regular exception.
 		 */
-		public function validate_license( WP_REST_Request $request ): void {
+		public function validate( WP_REST_Request $request ): void {
 			$key = $request->get_param( 'key' );
 
 			if ( empty( $key ) ){
@@ -85,33 +85,33 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Licenses_API')
 		 * @return void
 		 * @throws Exception A regular exception.
 		 */
-		public function create_license( WP_REST_Request $request ): void {
+		public function create( WP_REST_Request $request ): void {
 			if ( ! API_Helper::auth( $request ) ) {
 				wp_send_json_error( API_Helper::$error_text );
 				return;
 			}
 
-			if ( $this->validate_new_license( $request ) ) {
-				$product_id = $request->get_param( 'product_id' );
+			if ( ! $this->validation( $request ) ) {
+                wp_send_json_error( API_Helper::$error_text );
+            }
 
-				$license = new License_Key();
-				$license->generate();
-				$license->product_id = (int) sanitize_text_field( $product_id );
-				$license->user_id    = API_Helper::$user->ID;
-				$license->status     = License_Key::$active_status;
-				$license->save();
+            $product_id = $request->get_param( 'product_id' );
 
-				wp_send_json_success(
-					array(
-						'id'         => $license->id,
-						'key'        => $license->license_key,
-						'created_at' => $license->created_at,
-						'expires_at' => $license->expires_at,
-					)
-				);
-			} else {
-				wp_send_json_error( API_Helper::$error_text );
-			}
+            $license = new License_Key();
+            $license->generate();
+            $license->product_id = (int) sanitize_text_field( $product_id );
+            $license->user_id    = API_Helper::$user->ID;
+            $license->status     = License_Key::$active_status;
+            $license->save();
+
+            wp_send_json_success(
+                array(
+                    'id'         => $license->id,
+                    'key'        => $license->license_key,
+                    'created_at' => $license->created_at,
+                    'expires_at' => $license->expires_at,
+                )
+            );
 		}
 
 		/**
@@ -123,7 +123,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Licenses_API')
 		 *
 		 * @return bool
 		 */
-		private function validate_new_license( WP_REST_Request $request ): bool {
+		private function validation( WP_REST_Request $request ): bool {
 			$product_id = $request->get_param( 'product_id' );
 
 			if ( ! $product_id ) {

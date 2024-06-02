@@ -22,25 +22,27 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Products_API')
 		public function routes(): void {
 			$settings = new Settings();
 			
-			if ($settings->is_enabled('rest')){
-                register_rest_route(
-                    API_Helper::generate_prefix('products'),
-                    '/retrieve',
-                    array(
-                        'methods'  => 'GET',
-                        'callback' => array( $this, 'retrieve_product' ),
-                    )
-                );
+			if ( ! $settings->is_enabled( 'rest' ) ) {
+                return;
+            }
 
-                register_rest_route(
-                    API_Helper::generate_prefix('products'),
-                    '/create',
-                    array(
-                        'methods'  => 'POST',
-                        'callback' => array( $this, 'create_product' ),
-                    )
-                );
-			}
+            register_rest_route(
+                API_Helper::generate_prefix('products'),
+                '/retrieve',
+                array(
+                    'methods'  => 'GET',
+                    'callback' => array( $this, 'list' ),
+                )
+            );
+
+            register_rest_route(
+                API_Helper::generate_prefix('products'),
+                '/create',
+                array(
+                    'methods'  => 'POST',
+                    'callback' => array( $this, 'create_product' ),
+                )
+            );
 		}
 
 		/**
@@ -53,27 +55,26 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Products_API')
 		 * @return void
 		 * @throws Exception A regular exception.
 		 */
-		public function retrieve_product( WP_REST_Request $request ): void {
+		public function list( WP_REST_Request $request ): void {
 			if ( ! API_Helper::auth( $request ) ) {
 				wp_send_json_error( API_Helper::$error_text );
 				return;
 			}
 
-			if ( $this->validate_existing_product( $request ) ) {
-				$product = new Product( $request->get_param( 'product_id' ) );
+			if ( ! $this->validate_existing( $request ) ) {
+                wp_send_json_error( API_Helper::$error_text );
+            }
 
-				wp_send_json_success(
-					array(
-						'id'         => $product->id,
-						'name'       => $product->name,
-						'status'     => $product->status,
-						'created_at' => $product->created_at,
-					)
-				);
+            $product = new Product( $request->get_param( 'product_id' ) );
 
-			} else {
-				wp_send_json_error( API_Helper::$error_text );
-			}
+            wp_send_json_success(
+                array(
+                    'id'         => $product->id,
+                    'name'       => $product->name,
+                    'status'     => $product->status,
+                    'created_at' => $product->created_at,
+                )
+            );
 		}
 
 		/**
@@ -92,24 +93,24 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Products_API')
 				return;
 			}
 
-			if ( $this->validate_new_product( $request ) ) {
-				$product          = new Product();
-				$product->name    = sanitize_text_field( $request->get_param( 'name' ) );
-				$product->status  = Product::$active_status;
-				$product->user_id = API_Helper::$user->ID;
-				$product->save();
+			if ( ! $this->validate_new( $request ) ) {
+                wp_send_json_error( API_Helper::$error_text );
+            }
 
-				wp_send_json_success(
-					array(
-						'id'         => $product->id,
-						'name'       => $product->name,
-						'status'     => $product->status,
-						'created_at' => $product->created_at,
-					)
-				);
-			} else {
-				wp_send_json_error( API_Helper::$error_text );
-			}
+            $product          = new Product();
+            $product->name    = sanitize_text_field( $request->get_param( 'name' ) );
+            $product->status  = Product::$active_status;
+            $product->user_id = API_Helper::$user->ID;
+            $product->save();
+
+            wp_send_json_success(
+                array(
+                    'id'         => $product->id,
+                    'name'       => $product->name,
+                    'status'     => $product->status,
+                    'created_at' => $product->created_at,
+                )
+            );
 		}
 
 		/**
@@ -121,7 +122,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Products_API')
 		 *
 		 * @return bool
 		 */
-		private function validate_existing_product( WP_REST_Request $request ): bool {
+		private function validate_existing( WP_REST_Request $request ): bool {
 			$id = $request->get_param( 'product_id' );
 
 			if ( ! $id ) {
@@ -151,7 +152,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Products_API')
 		 *
 		 * @return bool
 		 */
-		private function validate_new_product( WP_REST_Request $request ): bool {
+		private function validate_new( WP_REST_Request $request ): bool {
 			if ( ! $request->get_param( 'name' ) ) {
 				API_Helper::$error_text = 'Please provide a name for the product';
 				return false;

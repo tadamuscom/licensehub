@@ -25,7 +25,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 				'/new-api-key',
 				array(
 					'methods'             => 'POST',
-					'callback'            => array( $this, 'add_new_api_key' ),
+					'callback'            => array( $this, 'create' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},
@@ -37,7 +37,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 				'/delete-api-key',
 				array(
 					'methods'             => 'DELETE',
-					'callback'            => array( $this, 'delete_api_key' ),
+					'callback'            => array( $this, 'delete' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},
@@ -49,7 +49,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 				'/update-api-key',
 				array(
 					'methods'             => 'PUT',
-					'callback'            => array( $this, 'update_api_key' ),
+					'callback'            => array( $this, 'update' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},
@@ -67,7 +67,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 		 * @return void
 		 * @throws Exception A regular exception.
 		 */
-		public function add_new_api_key( WP_REST_Request $request ): void {
+		public function create( WP_REST_Request $request ): void {
 			$params = $request->get_params();
 			$params = json_decode($params[0]);
 
@@ -117,7 +117,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 		 *
 		 * @return void
 		 */
-		public function delete_api_key( WP_REST_Request $request ): void {
+		public function delete( WP_REST_Request $request ): void {
 			$params = $request->get_params();
 
 			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_api_keys' ) ) {
@@ -145,7 +145,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 		/**
 		 * @throws Exception
 		 */
-		public function update_api_key(WP_REST_Request $request ): void {
+		public function update(WP_REST_Request $request ): void {
 			$params = $request->get_params();
 
 			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_api_keys' ) ) {

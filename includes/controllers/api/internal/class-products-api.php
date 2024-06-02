@@ -24,7 +24,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 				'/new-product',
 				array(
 					'methods'             => 'POST',
-					'callback'            => array( $this, 'add_new_product' ),
+					'callback'            => array( $this, 'create' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},
@@ -36,7 +36,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 				'/delete-product',
 				array(
 					'methods'             => 'DELETE',
-					'callback'            => array( $this, 'delete_product' ),
+					'callback'            => array( $this, 'delete' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},
@@ -48,7 +48,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 				'/update-product',
 				array(
 					'methods'             => 'PUT',
-					'callback'            => array( $this, 'update_product' ),
+					'callback'            => array( $this, 'update' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},
@@ -60,7 +60,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 				'/get-product/(?P<id>\d+)',
 				array(
 					'methods'             => 'GET',
-					'callback'            => array( $this, 'get_product' ),
+					'callback'            => array( $this, 'retrieve' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},
@@ -72,7 +72,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
                 '/(?P<id>\d+)/get-releases', 
                 array(
                     'methods' => 'GET',
-                    'callback' => array($this, 'get_releases'),
+                    'callback' => array($this, 'releases'),
                     'permission_callback' => function () {
                         return current_user_can('manage_options');
                     }
@@ -88,7 +88,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 		 *
 		 * @return void
 		 */
-		public function add_new_product( WP_REST_Request $request ): void {
+		public function create( WP_REST_Request $request ): void {
 			$params = $request->get_params();
 			$params = json_decode($params[0]);
 
@@ -120,7 +120,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 		 *
 		 * @return void
 		 */
-		public function delete_product( WP_REST_Request $request ): void {
+		public function delete( WP_REST_Request $request ): void {
 			$params = $request->get_params();
 
 			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_products' ) ) {
@@ -145,7 +145,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
 		 * @param WP_REST_Request $request The request object.
 		 * @return void
 		 */
-		public function update_product( WP_REST_Request $request ): void {
+		public function update( WP_REST_Request $request ): void {
 			$params = $request->get_params();
             $params = json_decode($params[0], true);
 
@@ -183,7 +183,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
          * @param WP_REST_Request $request
          * @return void
          */
-        public function get_product( WP_REST_Request $request ): void {
+        public function retrieve( WP_REST_Request $request ): void {
             $params = $request->get_url_params();
             $product = new Product( $params['id'] );
 
@@ -202,7 +202,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Products_API')
          * @param WP_REST_Request $request
          * @return void
          */
-        public function get_releases( WP_REST_Request $request ): void {
+        public function releases( WP_REST_Request $request ): void {
             $params = $request->get_url_params();
             $product = new Product( $params['id'] );
 
