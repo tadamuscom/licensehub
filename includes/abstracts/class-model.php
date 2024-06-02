@@ -226,12 +226,20 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 
 			if ( empty( $this->id ) || ! $this->exists( $this->id ) ) {
 				if ( $this->validation() ) {
+                    do_action( 'lchb-before-create-' . get_class( $this ), $this );
+
 					$wpdb->insert( $this->generate_table_name(), $data );
+
+                    do_action( 'lchb-after-create-' . get_class( $this ), $this );
 				} else {
 					wp_die( esc_attr( $this->error ) );
 				}
 			} elseif ( $this->validation( true ) ) {
-					$wpdb->update( $this->generate_table_name(), $data, array( 'id' => $this->id ) );
+                do_action( 'lchb-before-update-' . get_class( $this ), $this );
+
+                $wpdb->update( $this->generate_table_name(), $data, array( 'id' => $this->id ) );
+                
+                do_action( 'lchb-after-update-' . get_class( $this ), $this );
 			} else {
 				wp_die( esc_attr( $this->error ) );
 			}

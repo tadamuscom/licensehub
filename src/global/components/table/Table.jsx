@@ -1,3 +1,4 @@
+import { doAction } from '@wordpress/hooks';
 import { TableHeader, TableRow } from '@global';
 
 /**
@@ -28,6 +29,7 @@ export const Table = ({
 	return (
 		<table
 			className={className ? defaultClasses + ' ' + className : defaultClasses}>
+			{doAction('lchb-table-before-head')}
 			<thead>
 				<tr>
 					{headers.map((header, index) => (
@@ -35,7 +37,9 @@ export const Table = ({
 					))}
 				</tr>
 			</thead>
+			{doAction('lchb-table-after-head')}
 			<tbody>
+				{doAction('lchb-table-before-body')}
 				{rows.map((row, index) => (
 					<TableRow
 						columns={row}
@@ -46,6 +50,7 @@ export const Table = ({
 						{...props}
 					/>
 				))}
+				{doAction('lchb-table-after-body')}
 			</tbody>
 		</table>
 	);
