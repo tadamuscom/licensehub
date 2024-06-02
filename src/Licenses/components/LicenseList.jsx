@@ -36,7 +36,7 @@ export const LicenseList = () => {
 
 		await toast.promise(
 			apiFetch({
-				path: '/licensehub/v1/delete-license-key',
+				path: '/licensehub/v1/licenses/delete-license-key',
 				method: 'DELETE',
 				data: {
 					nonce: window.lchb_license_keys.nonce,

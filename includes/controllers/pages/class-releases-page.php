@@ -80,6 +80,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Releases_Page' ) ) {
                     'button' => 'edit'
                 ),
                 array(
+                    'name' => __('attachment_id', 'licensehub'),
+                ),
+                array(
                     'name' => __('changelog', 'licensehub'),
                 ),
                 array(

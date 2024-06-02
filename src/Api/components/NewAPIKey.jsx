@@ -32,7 +32,7 @@ export const NewAPIKey = () => {
 		e.preventDefault();
 
 		const response = await post(
-			'/licensehub/v1/api-key/new-api-key',
+			'/licensehub/v1/api-keys/new-api-key',
 			window.lchb_api_keys.nonce,
 		);
 

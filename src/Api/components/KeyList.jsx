@@ -21,7 +21,7 @@ export const KeyList = () => {
 	const handleBlur = (event) => {
 		updateColumn(
 			event,
-			'/licensehub/v1/update-api-key',
+			'/licensehub/v1/api-keys/update-api-key',
 			window.lchb_api_keys.nonce,
 			{
 				pending: __('API key is updating...', 'licensehub'),
@@ -36,7 +36,7 @@ export const KeyList = () => {
 
 		await toast.promise(
 			apiFetch({
-				path: '/licensehub/v1/delete-api-key',
+				path: '/licensehub/v1/api-keys/delete-api-key',
 				method: 'DELETE',
 				data: {
 					nonce: window.lchb_api_keys.nonce,
