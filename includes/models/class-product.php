@@ -186,68 +186,67 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 			return false;
 		}
 
-        /**
-         * Return a list of releases or empty array if there are none
-         * 
-         * @since 1.0.0
-         *
-         * @return array
-         */
-        public function releases(): array {
-            global $wpdb;
+		/**
+		 * Return a list of releases or empty array if there are none
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return array
+		 */
+		public function releases(): array {
+			global $wpdb;
 
-            if ( ! $this->exists( $this->id ) ) {
-                return array();
-            }
+			if ( ! $this->exists( $this->id ) ) {
+				return array();
+			}
 
-            $object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s', (new Release())->generate_table_name(), $this->id ) );
+			$object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s', ( new Release() )->generate_table_name(), $this->id ) );
 
-            if ( empty( $object ) ){
-                return array();
-            }
+			if ( empty( $object ) ) {
+				return array();
+			}
 
-            $returnable = array();
+			$returnable = array();
 
-            foreach ( $object as $release ) {
-                $returnable[] = new Release($release->id);
-            }
+			foreach ( $object as $release ) {
+				$returnable[] = new Release( $release->id );
+			}
 
-            return $returnable;
-        }
+			return $returnable;
+		}
 
-        /**
-         * Retrieve the latest release of the product
-         *
-         * @return Release|bool
-         */
-        public function last_release(): Release|bool {
-            global $wpdb;
+		/**
+		 * Retrieve the latest release of the product
+		 *
+		 * @return Release|bool
+		 */
+		public function last_release(): Release|bool {
+			global $wpdb;
 
-            if ( ! $this->exists( $this->id ) ) {
-                return false;
-            }
+			if ( ! $this->exists( $this->id ) ) {
+				return false;
+			}
 
-            $object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s ORDER BY `version` DESC LIMIT 1', ( new Release() )->generate_table_name(), $this->id ) );
+			$object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s ORDER BY `version` DESC LIMIT 1', ( new Release() )->generate_table_name(), $this->id ) );
 
-            if ( empty( $object ) ) {
-                return false;
-            }
+			if ( empty( $object ) ) {
+				return false;
+			}
 
-            return new Release( $object->id );
-        }
+			return new Release( $object->id );
+		}
 
-        /**
-         * Extend the parent destroy to also delete all releases of the product
-         *
-         * @return void
-         */
-        public function destroy(): void
-        {
-            global $wpdb;
+		/**
+		 * Extend the parent destroy to also delete all releases of the product
+		 *
+		 * @return void
+		 */
+		public function destroy(): void {
+			global $wpdb;
 
-            $wpdb->delete( (new Release())->generate_table_name(), array( 'product_id' => $this->id ) );
+			$wpdb->delete( ( new Release() )->generate_table_name(), array( 'product_id' => $this->id ) );
 
-            parent::destroy();
-        }
+			parent::destroy();
+		}
 	}
 }

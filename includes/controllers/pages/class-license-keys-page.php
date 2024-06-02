@@ -24,7 +24,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' )
 		/**
 		 * License_Keys_Page constructor.
 		 */
-		public function __construct(){
+		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 		}
 
@@ -35,12 +35,11 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' )
 		 *
 		 * @return void
 		 */
-		public function menu(): void
-		{
+		public function menu(): void {
 			add_submenu_page(
 				'licensehub',
-				__('License Hub - License Keys', 'licensehub'),
-				__('License Keys', 'licensehub'),
+				__( 'License Hub - License Keys', 'licensehub' ),
+				__( 'License Keys', 'licensehub' ),
 				'manage_options',
 				'licensehub-licenses',
 				array( $this, 'callback' )
@@ -56,7 +55,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' )
 		 */
 		public function callback(): void {
 			$asset_manager = new Asset_Manager();
-			$asset_meta = Asset_Manager::get_asset_meta(
+			$asset_meta    = Asset_Manager::get_asset_meta(
 				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-licenses.php' )
 			);
 
@@ -73,57 +72,57 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' )
 				$asset_meta['version']
 			);
 
-			$product_instance 		= new Product();
-			$products         		= $product_instance->get_all();
-			$users 								= get_users();
+			$product_instance     = new Product();
+			$products             = $product_instance->get_all();
+			$users                = get_users();
 			$license_key_instance = new License_Key();
 			$license_keys         = $license_key_instance->get_all();
 			$fields               = array(
 				array(
-					'name' => 'id',
+					'name'     => 'id',
 					'editable' => false,
 				),
 				array(
-					'name' => 'license_key',
+					'name'     => 'license_key',
 					'editable' => false,
-					'hidden' => true,
+					'hidden'   => true,
 				),
 				array(
-					'name' => 'status',
+					'name'     => 'status',
 					'editable' => true,
 				),
 				array(
-					'name' => 'user_id',
+					'name'     => 'user_id',
 					'editable' => true,
 				),
 				array(
-					'name' => 'product_id',
+					'name'     => 'product_id',
 					'editable' => false,
 				),
 				array(
-					'name' => 'created_at',
+					'name'     => 'created_at',
 					'editable' => false,
 				),
 				array(
-					'name' => 'expires_at',
+					'name'     => 'expires_at',
 					'editable' => true,
 				),
 			);
 
-            wp_add_inline_script(
-                'lchb-license-keys-script',
-                'window.lchb_license_keys = ' . wp_json_encode(
-                    array(
-                        'logo'     => LCHB_IMG . '/tadamus-logo.png',
-                        'nonce'    => wp_create_nonce( 'lchb_license_keys' ),
-                        'keys'     => $license_keys,
-                        'products' => $products,
-                        'users'    => $users,
-                        'fields'   => $fields,
-				    )
-                ), 
-                'before'
-            );
+			wp_add_inline_script(
+				'lchb-license-keys-script',
+				'window.lchb_license_keys = ' . wp_json_encode(
+					array(
+						'logo'     => LCHB_IMG . '/tadamus-logo.png',
+						'nonce'    => wp_create_nonce( 'lchb_license_keys' ),
+						'keys'     => $license_keys,
+						'products' => $products,
+						'users'    => $users,
+						'fields'   => $fields,
+					)
+				),
+				'before'
+			);
 
 			echo '<div id="license-keys-root"></div>';
 		}

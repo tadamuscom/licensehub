@@ -13,15 +13,26 @@ use LicenseHub\Includes\Helper\API_Helper;
 use LicenseHub\Includes\Model\API_Key;
 use WP_REST_Request;
 
-if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API') ){
-	class API_Keys_API{
+if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\API_Keys_API' ) ) {
+	/**
+	 * Holds the API Keys API class
+	 */
+	class API_Keys_API {
+		/**
+		 * Constructor
+		 */
 		public function __construct() {
 			add_action( 'rest_api_init', array( $this, 'routes' ) );
 		}
 
-        public function routes(): void {
+		/**
+		 * Register the routes
+		 *
+		 * @return void
+		 */
+		public function routes(): void {
 			register_rest_route(
-				API_Helper::generate_prefix('api-keys'),
+				API_Helper::generate_prefix( 'api-keys' ),
 				'/new-api-key',
 				array(
 					'methods'             => 'POST',
@@ -33,7 +44,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 			);
 
 			register_rest_route(
-				API_Helper::generate_prefix('api-keys'),
+				API_Helper::generate_prefix( 'api-keys' ),
 				'/delete-api-key',
 				array(
 					'methods'             => 'DELETE',
@@ -45,7 +56,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 			);
 
 			register_rest_route(
-				API_Helper::generate_prefix('api-keys'),
+				API_Helper::generate_prefix( 'api-keys' ),
 				'/update-api-key',
 				array(
 					'methods'             => 'PUT',
@@ -69,7 +80,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 		 */
 		public function create( WP_REST_Request $request ): void {
 			$params = $request->get_params();
-			$params = json_decode($params[0]);
+			$params = json_decode( $params[0] );
 
 			if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_api_keys' ) ) {
 				if ( empty( $params->user ) ) {
@@ -82,6 +93,7 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 					return;
 				}
 
+                // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				if ( empty( $params->expiresAt ) ) {
 					wp_send_json_error(
 						array(
@@ -97,6 +109,8 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 				$key->status     = API_Key::$active_status;
 				$key->user_id    = (int) sanitize_text_field( $params->user );
 				$key->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
+
+                // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				$key->expires_at = ( DateTime::createFromFormat( 'Y-m-d', $params->expiresAt )->format( LCHB_TIME_FORMAT ) );
 				$key->save();
 
@@ -143,13 +157,18 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\API_Keys_API')
 		}
 
 		/**
-		 * @throws Exception
+		 * Update the API Key
+		 *
+		 * @param WP_REST_Request $request The request object.
+		 *
+		 * @throws Exception - A regular exception.
+		 * @return void
 		 */
-		public function update(WP_REST_Request $request ): void {
+		public function update( WP_REST_Request $request ): void {
 			$params = $request->get_params();
 
 			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_api_keys' ) ) {
-				API_Helper::update_model_field($params, API_Key::class);
+				API_Helper::update_model_field( $params, API_Key::class );
 			}
 		}
 	}

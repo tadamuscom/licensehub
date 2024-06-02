@@ -54,7 +54,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 			'user_id'    => array( 'required', 'numeric' ),
 			'created_at' => array( 'required', 'date' ),
 			'expires_at' => array( 'required', 'date' ),
-			'meta'		 => array( 'serialized' ),
+			'meta'       => array( 'serialized' ),
 		);
 
 		/**

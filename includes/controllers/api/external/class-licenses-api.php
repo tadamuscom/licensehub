@@ -14,33 +14,44 @@ use LicenseHub\Includes\Model\License_Key;
 use LicenseHub\Includes\Model\Product;
 use WP_REST_Request;
 
-if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Licenses_API') ){
-	class Licenses_API{
+if ( ! class_exists( '\LicenseHub\Includes\Controller\API\External\Licenses_API' ) ) {
+	/**
+	 * Holds the Licenses_API class
+	 */
+	class Licenses_API {
+		/**
+		 * Constructor
+		 */
 		public function __construct() {
 			add_action( 'rest_api_init', array( $this, 'routes' ) );
 		}
 
+		/**
+		 * Register the routes
+		 *
+		 * @return void
+		 */
 		public function routes(): void {
 			$settings = new Settings();
 
-			if ($settings->is_enabled('rest')){
-                register_rest_route(
-                    API_Helper::generate_prefix('licenses'),
-                    '/validate',
-                    array(
-                        'methods'  => 'POST',
-                        'callback' => array( $this, 'validate' ),
-                    )
-                );
+			if ( $settings->is_enabled( 'rest' ) ) {
+				register_rest_route(
+					API_Helper::generate_prefix( 'licenses' ),
+					'/validate',
+					array(
+						'methods'  => 'POST',
+						'callback' => array( $this, 'validate' ),
+					)
+				);
 
-                register_rest_route(
-                    API_Helper::generate_prefix('licenses'),
-                    '/create',
-                    array(
-                        'methods'  => 'POST',
-                        'callback' => array( $this, 'create' ),
-                    )
-                );
+				register_rest_route(
+					API_Helper::generate_prefix( 'licenses' ),
+					'/create',
+					array(
+						'methods'  => 'POST',
+						'callback' => array( $this, 'create' ),
+					)
+				);
 			}
 		}
 
@@ -57,10 +68,12 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Licenses_API')
 		public function validate( WP_REST_Request $request ): void {
 			$key = $request->get_param( 'key' );
 
-			if ( empty( $key ) ){
-				wp_send_json_error( array(
-					'message' => __( 'License key cannot be empty', 'licensehub' )
-				) );
+			if ( empty( $key ) ) {
+				wp_send_json_error(
+					array(
+						'message' => __( 'License key cannot be empty', 'licensehub' ),
+					)
+				);
 
 				return;
 			}
@@ -92,26 +105,26 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Licenses_API')
 			}
 
 			if ( ! $this->validation( $request ) ) {
-                wp_send_json_error( API_Helper::$error_text );
-            }
+				wp_send_json_error( API_Helper::$error_text );
+			}
 
-            $product_id = $request->get_param( 'product_id' );
+			$product_id = $request->get_param( 'product_id' );
 
-            $license = new License_Key();
-            $license->generate();
-            $license->product_id = (int) sanitize_text_field( $product_id );
-            $license->user_id    = API_Helper::$user->ID;
-            $license->status     = License_Key::$active_status;
-            $license->save();
+			$license = new License_Key();
+			$license->generate();
+			$license->product_id = (int) sanitize_text_field( $product_id );
+			$license->user_id    = API_Helper::$user->ID;
+			$license->status     = License_Key::$active_status;
+			$license->save();
 
-            wp_send_json_success(
-                array(
-                    'id'         => $license->id,
-                    'key'        => $license->license_key,
-                    'created_at' => $license->created_at,
-                    'expires_at' => $license->expires_at,
-                )
-            );
+			wp_send_json_success(
+				array(
+					'id'         => $license->id,
+					'key'        => $license->license_key,
+					'created_at' => $license->created_at,
+					'expires_at' => $license->expires_at,
+				)
+			);
 		}
 
 		/**
@@ -127,17 +140,17 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\External\Licenses_API')
 			$product_id = $request->get_param( 'product_id' );
 
 			if ( ! $product_id ) {
-				API_Helper::$error_text = __('No product_id has been passed. Please pass a valid product_id', 'licensehub');
+				API_Helper::$error_text = __( 'No product_id has been passed. Please pass a valid product_id', 'licensehub' );
 				return false;
 			}
 
 			if ( ! is_int( $product_id ) ) {
-				API_Helper::$error_text = __('The product_id must be an integer', 'licensehub');
+				API_Helper::$error_text = __( 'The product_id must be an integer', 'licensehub' );
 				return false;
 			}
 
 			if ( ! ( new Product() )->exists( $product_id ) ) {
-				API_Helper::$error_text = __('The product does not exist', 'licensehub');
+				API_Helper::$error_text = __( 'The product does not exist', 'licensehub' );
 				return false;
 			}
 

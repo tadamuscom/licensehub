@@ -75,7 +75,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 			$this->edit       = $edit;
 			$this->returnable = true;
 
-			if( 'meta' !== $field ){
+			if ( 'meta' !== $field ) {
 				$this->validate();
 			}
 		}

@@ -12,24 +12,35 @@ use LicenseHub\Includes\Model\Product;
 use LicenseHub\Includes\Model\Release;
 use WP_REST_Request;
 
-if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Releases_API') ){
-	class Releases_API{
+if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Releases_API' ) ) {
+	/**
+	 * Holds the Releases_API class
+	 */
+	class Releases_API {
+		/**
+		 * Constructor
+		 */
 		public function __construct() {
 			add_action( 'rest_api_init', array( $this, 'routes' ) );
 		}
 
-        public function routes(): void {
-            register_rest_route(
-				API_Helper::generate_prefix('releases'),
+		/**
+		 * Register the routes
+		 *
+		 * @return void
+		 */
+		public function routes(): void {
+			register_rest_route(
+				API_Helper::generate_prefix( 'releases' ),
 				'/new-release',
 				array(
-					'methods'             => 'POST',
-					'callback'            => array( $this, 'create' ),
+					'methods'  => 'POST',
+					'callback' => array( $this, 'create' ),
 				)
 			);
 
-            register_rest_route(
-                API_Helper::generate_prefix('releases'),
+			register_rest_route(
+				API_Helper::generate_prefix( 'releases' ),
 				'/delete-release',
 				array(
 					'methods'             => 'DELETE',
@@ -40,8 +51,8 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Releases_API')
 				)
 			);
 
-            register_rest_route(
-				API_Helper::generate_prefix('releases'),
+			register_rest_route(
+				API_Helper::generate_prefix( 'releases' ),
 				'/update-release',
 				array(
 					'methods'             => 'PUT',
@@ -53,54 +64,77 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Releases_API')
 			);
 		}
 
+		/**
+		 * Create a new release
+		 *
+		 * @param WP_REST_Request $request The request object.
+		 *
+		 * @return void
+		 */
 		public function create( WP_REST_Request $request ): void {
-            $params = $request->get_params();
-            $params = json_decode($params[0]);
+			$params = $request->get_params();
+			$params = json_decode( $params[0] );
 
-            if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_releases' ) ) {
-                $version = sanitize_text_field( $params->version );
-                $change_log = sanitize_text_field( $params->changeLog );
-                $product_id = sanitize_text_field( $params->productID );
-                $attachment_id = sanitize_text_field( $params->attachmentID );
+			if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_releases' ) ) {
+				$version = sanitize_text_field( $params->version );
 
-                if ( empty( $version ) ) {
-                    wp_send_json_error(
-                        array( 'message' => __( 'Version cannot be empty', 'licensehub' ) ) );
+                // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$change_log = sanitize_text_field( $params->changeLog );
 
-                    return;
-                }
+                // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$product_id = sanitize_text_field( $params->productID );
 
-                $product = new Product($params->productID);
-                $release = $product->last_release();
+                // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$attachment_id = sanitize_text_field( $params->attachmentID );
 
-                if ( $release && version_compare($release->version, $version, '>=') ) {
-                    wp_send_json_error( array( 'message' => __( 'The version must be greater than the last release', 'licensehub' ) ) );
-                }
+				if ( empty( $version ) ) {
+					wp_send_json_error(
+						array( 'message' => __( 'Version cannot be empty', 'licensehub' ) )
+					);
 
-                if ( empty( $change_log ) ) {
-                    wp_send_json_error(
-                        array( 'message' => __( 'Change log cannot be empty', 'licensehub' ) ) );
+					return;
+				}
 
-                    return;
-                }
+                // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$product = new Product( $params->productID );
+				$release = $product->last_release();
 
-                $release = new Release();
-                $release->product_id = $product_id;
-                $release->changelog = $change_log;
-                $release->version = $version;
+				if ( $release && version_compare( $release->version, $version, '>=' ) ) {
+					wp_send_json_error( array( 'message' => __( 'The version must be greater than the last release', 'licensehub' ) ) );
+				}
 
-                if ( ! empty( $attachment_id ) ) {
-                    $release->attachment_id = (int) $attachment_id;
-                }
+				if ( empty( $change_log ) ) {
+					wp_send_json_error(
+						array( 'message' => __( 'Change log cannot be empty', 'licensehub' ) )
+					);
 
-                $release->save();
+					return;
+				}
 
-                wp_send_json_success( array( 'message' => __( 'The product was saved!', 'licensehub' ) ) );
-            }
-        }
+				$release             = new Release();
+				$release->product_id = $product_id;
+				$release->changelog  = $change_log;
+				$release->version    = $version;
 
-        public function delete( WP_REST_Request $request ): void {
-            $params = $request->get_params();
+				if ( ! empty( $attachment_id ) ) {
+					$release->attachment_id = (int) $attachment_id;
+				}
+
+				$release->save();
+
+				wp_send_json_success( array( 'message' => __( 'The product was saved!', 'licensehub' ) ) );
+			}
+		}
+
+		/**
+		 * Delete a release
+		 *
+		 * @param WP_REST_Request $request The request object.
+		 *
+		 * @return void
+		 */
+		public function delete( WP_REST_Request $request ): void {
+			$params = $request->get_params();
 
 			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_releases' ) ) {
 				if ( empty( $params['id'] ) ) {
@@ -114,55 +148,62 @@ if ( ! class_exists('\LicenseHub\Includes\Controller\API\Internal\Releases_API')
 
 				wp_send_json_success( array( 'message' => __( 'Release Deleted!', 'licensehub' ) ) );
 			}
-        }
+		}
 
-        public function update( WP_REST_Request $request ): void {
-            $params = $request->get_params();
-            $params = json_decode($params[0], true);
+		/**
+		 * Update a release
+		 *
+		 * @param WP_REST_Request $request The request object.
+		 *
+		 * @return void
+		 */
+		public function update( WP_REST_Request $request ): void {
+			$params = $request->get_params();
+			$params = json_decode( $params[0], true );
 
 			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_releases' ) ) {
-                $id = sanitize_text_field( $params['id'] );
-                $version = sanitize_text_field( $params['version'] );
-                $changelog = sanitize_text_field( $params['changelog'] );
-                
-                if ( empty( $id ) ){
-                    wp_send_json_error( array( 'message' => __( 'ID cannot be empty', 'licensehub' ) ) );
+				$id        = sanitize_text_field( $params['id'] );
+				$version   = sanitize_text_field( $params['version'] );
+				$changelog = sanitize_text_field( $params['changelog'] );
 
-                    return;
-                }
+				if ( empty( $id ) ) {
+					wp_send_json_error( array( 'message' => __( 'ID cannot be empty', 'licensehub' ) ) );
 
-                if ( empty( $version ) ){
-                    wp_send_json_error( array( 'message' => __( 'Version cannot be empty', 'licensehub' ) ) );
+					return;
+				}
 
-                    return;
-                }
+				if ( empty( $version ) ) {
+					wp_send_json_error( array( 'message' => __( 'Version cannot be empty', 'licensehub' ) ) );
 
-                if ( empty( $changelog ) ){
-                    wp_send_json_error( array( 'message' => __( 'Changelog cannot be empty', 'licensehub' ) ) );
+					return;
+				}
 
-                    return;
-                }
-                
-                $release = new Release($id);
-                $product = new Product($release->product_id);
+				if ( empty( $changelog ) ) {
+					wp_send_json_error( array( 'message' => __( 'Changelog cannot be empty', 'licensehub' ) ) );
 
-                if ( $release->id === 0 ) {
-                    wp_send_json_error( array( 'message' => __( 'Release not found', 'licensehub' ) ) );
-                }
+					return;
+				}
 
-                if ( $product->last_release() && ($product->last_release())->version !== $version  && version_compare(($product->last_release())->version, $version, '>=') ) {
-                    wp_send_json_error( array( 'message' => __( 'The version must be greater than the last release', 'licensehub' ) ) );
-                }
+				$release = new Release( $id );
+				$product = new Product( $release->product_id );
 
-                $release->version = $version;
-                $release->changelog = $changelog;
-                $release->save();
+				if ( 0 === $release->id ) {
+					wp_send_json_error( array( 'message' => __( 'Release not found', 'licensehub' ) ) );
+				}
 
-                wp_send_json_success(
-                    array( 'message' => __( 'Product updated!', 'licensehub' ) )
-                );
+				if ( $product->last_release() && ( $product->last_release() )->version !== $version && version_compare( ( $product->last_release() )->version, $version, '>=' ) ) {
+					wp_send_json_error( array( 'message' => __( 'The version must be greater than the last release', 'licensehub' ) ) );
+				}
+
+				$release->version   = $version;
+				$release->changelog = $changelog;
+				$release->save();
+
+				wp_send_json_success(
+					array( 'message' => __( 'Product updated!', 'licensehub' ) )
+				);
 			}
-        }
+		}
 	}
 
 	new Releases_API();

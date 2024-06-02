@@ -1,6 +1,8 @@
 <?php
 /**
  * Register the pages in the right order
+ *
+ * @package licensehub
  */
 
 use LicenseHub\Includes\Controller\Pages\API_Keys_Page;

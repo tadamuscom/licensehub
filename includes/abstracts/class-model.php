@@ -48,10 +48,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		 */
 		public function __construct( mixed $id = false ) {
 			if ( $id || $this->exists( $id ) ) {
-                return $this->load_by_id( $id );
-            }
+				$this->load_by_id( $id );
+			}
 
-            return $this->new();
+			$this->new();
 		}
 
 		/**
@@ -226,20 +226,20 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 
 			if ( empty( $this->id ) || ! $this->exists( $this->id ) ) {
 				if ( $this->validation() ) {
-                    do_action( 'lchb-before-create-' . get_class( $this ), $this );
+					do_action( 'lchb_before_create_' . get_class( $this ), $this );
 
 					$wpdb->insert( $this->generate_table_name(), $data );
 
-                    do_action( 'lchb-after-create-' . get_class( $this ), $this );
+					do_action( 'lchb_after_create_' . get_class( $this ), $this );
 				} else {
 					wp_die( esc_attr( $this->error ) );
 				}
 			} elseif ( $this->validation( true ) ) {
-                do_action( 'lchb-before-update-' . get_class( $this ), $this );
+				do_action( 'lchb_before_update_' . get_class( $this ), $this );
 
-                $wpdb->update( $this->generate_table_name(), $data, array( 'id' => $this->id ) );
-                
-                do_action( 'lchb-after-update-' . get_class( $this ), $this );
+				$wpdb->update( $this->generate_table_name(), $data, array( 'id' => $this->id ) );
+
+				do_action( 'lchb_after_update_' . get_class( $this ), $this );
 			} else {
 				wp_die( esc_attr( $this->error ) );
 			}
@@ -318,7 +318,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 				}
 
 				if ( is_array( $rules ) ) {
-					if ( in_array( 'string', $rules ) ) {
+					if ( in_array( 'string', $rules, true ) ) {
 						$this->{$field} = '';
 					} elseif ( in_array( 'integer', $rules, true ) ) {
 						$this->{$field} = 0;
@@ -326,7 +326,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 						$today = ( new DateTime() )->setTimestamp( time() );
 
 						$this->{$field} = $today->format( LCHB_TIME_FORMAT );
-					}elseif ( in_array( 'array', $rules, true )  ) {
+					} elseif ( in_array( 'array', $rules, true ) ) {
 						$this->{$field} = array();
 					} else {
 						$this->{$field} = null;

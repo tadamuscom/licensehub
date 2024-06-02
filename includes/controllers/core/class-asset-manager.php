@@ -11,11 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Asset_Manager' ) ){
+if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Asset_Manager' ) ) {
 	/**
 	 * Manage assets
 	 */
-	class Asset_Manager{
+	class Asset_Manager {
 		/**
 		 * Hold the names of the asset files and their hashes
 		 *
@@ -23,23 +23,26 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Asset_Manager' ) ){
 		 *
 		 * @var array The manifest of the assets.
 		 */
-		private array $asset_manifest = [];
+		private array $asset_manifest = array();
 
 		/**
 		 * Retrieve the asset options for the given path
 		 *
-		 * @param string $path
+		 * @param string $path The path to the asset.
 		 *
 		 * @return array
 		 */
-		public static function get_asset_meta(string $path): array {
-			return file_exists($path) ? require $path : array( 'dependencies' => array(), 'version' => LCHB_VERSION);
+		public static function get_asset_meta( string $path ): array {
+			return file_exists( $path ) ? require $path : array(
+				'dependencies' => array(),
+				'version'      => LCHB_VERSION,
+			);
 		}
 
 		/**
 		 * Construct the object
 		 */
-		public function __construct(){
+		public function __construct() {
 			$this->asset_manifest = $this->get_manifest();
 		}
 
@@ -48,16 +51,16 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Asset_Manager' ) ){
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $asset
+		 * @param string $asset The name of the asset.
 		 *
 		 * @return string
 		 */
 		public function get_asset( string $asset ): string {
-			if ( ! isset( $this->asset_manifest[$asset] ) ){
+			if ( ! isset( $this->asset_manifest[ $asset ] ) ) {
 				return '';
 			}
 
-			return $this->asset_manifest[$asset];
+			return $this->asset_manifest[ $asset ];
 		}
 
 		/**
@@ -68,7 +71,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Asset_Manager' ) ){
 		 * @return array
 		 */
 		private function get_manifest(): array {
-			return wp_json_file_decode( LCHB_PATH . '/public/build/manifest.json', ['associative' => true] );
+			return wp_json_file_decode( LCHB_PATH . '/public/build/manifest.json', array( 'associative' => true ) );
 		}
 	}
 }

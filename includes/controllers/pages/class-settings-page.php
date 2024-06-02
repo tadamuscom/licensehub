@@ -24,7 +24,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Settings_Page' ) ) {
 		/**
 		 * Settings_Page constructor.
 		 */
-		public function __construct(){
+		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 		}
 
@@ -35,12 +35,11 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Settings_Page' ) ) {
 		 *
 		 * @return void
 		 */
-		public function menu(): void
-		{
+		public function menu(): void {
 			add_submenu_page(
 				'licensehub',
-				__('License Hub - Settings', 'licensehub'),
-				__('Settings', 'licensehub'),
+				__( 'License Hub - Settings', 'licensehub' ),
+				__( 'Settings', 'licensehub' ),
 				'manage_options',
 				'licensehub-settings',
 				array( $this, 'callback' )
@@ -56,7 +55,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Settings_Page' ) ) {
 		 */
 		public function callback(): void {
 			$asset_manager = new Asset_Manager();
-			$asset_meta = Asset_Manager::get_asset_meta(
+			$asset_meta    = Asset_Manager::get_asset_meta(
 				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-settings.php' )
 			);
 
@@ -73,20 +72,19 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Settings_Page' ) ) {
 				$asset_meta['version']
 			);
 
-            wp_add_inline_script(
-                'lchb-settings-script',
-                'window.lchb_settings = ' . wp_json_encode( 
-                    array(
-                        'logo'                  => LCHB_IMG . '/tadamus-logo.png',
-                        'nonce'                 => wp_create_nonce( 'lchb_settings' ),
-                        'enable_rest_api'       => ( new Settings() )->is_enabled( 'rest' ),
-				    ) 
-                ) . ';',
-                'before'
-            );
+			wp_add_inline_script(
+				'lchb-settings-script',
+				'window.lchb_settings = ' . wp_json_encode(
+					array(
+						'logo'            => LCHB_IMG . '/tadamus-logo.png',
+						'nonce'           => wp_create_nonce( 'lchb_settings' ),
+						'enable_rest_api' => ( new Settings() )->is_enabled( 'rest' ),
+					)
+				) . ';',
+				'before'
+			);
 
 			echo '<div id="settings-root"></div>';
-
 		}
 	}
 }

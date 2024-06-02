@@ -18,8 +18,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 	/**
 	 * Model for API keys
 	 */
-	class Release extends Model implements Model_Blueprint
-	{
+	class Release extends Model implements Model_Blueprint {
+
 		/**
 		 * The name of the table
 		 *
@@ -34,12 +34,12 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 		 */
 		protected array $fields = array(
 			'product_id'    => array( 'required', 'integer' ),
-			'version'     	=> array( 'required', 'string', 'unique' ),
-			'changelog'    	=> array( 'string' ),
-			'created_at' 	=> array( 'required', 'date' ),
-			'updated_at' 	=> array( 'required', 'date' ),
-			'meta'			=> array( 'serialized' ),
-            'attachment_id' => array(),
+			'version'       => array( 'required', 'string', 'unique' ),
+			'changelog'     => array( 'string' ),
+			'created_at'    => array( 'required', 'date' ),
+			'updated_at'    => array( 'required', 'date' ),
+			'meta'          => array( 'serialized' ),
+			'attachment_id' => array(),
 		);
 
 		/**
@@ -91,12 +91,12 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 		 */
 		public mixed $meta = array();
 
-        /**
-         * The ID of the attachment
-         *
-         * @var mixed
-         */
-        public mixed $attachment_id = 0;
+		/**
+		 * The ID of the attachment
+		 *
+		 * @var mixed
+		 */
+		public mixed $attachment_id = 0;
 
 		/**
 		 * Init the database table
@@ -105,12 +105,11 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 		 *
 		 * @return void
 		 */
-		public function init(): void
-		{
+		public function init(): void {
 			if ( ! $this->table_exists( $this->table ) ) {
 				$this->create_table(
 					$this->generate_table_name( $this->table ),
-					"
+					'
                     id mediumint(9) NOT NULL AUTO_INCREMENT,
                     product_id mediumint(9) NOT NULL,
                     version varchar(255) NOT NULL,
@@ -120,7 +119,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
                     updated_at datetime NOT NULL,
                     meta TEXT,
                     PRIMARY KEY  (id)
-                "
+                '
 				);
 			}
 		}
