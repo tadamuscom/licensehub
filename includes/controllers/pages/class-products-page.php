@@ -111,11 +111,6 @@ if (!class_exists('\LicenseHub\Includes\Controller\Pages\Products_Page')) {
 				array(
 					'name' => __('created_at', 'licensehub'),
                 ),
-                array(
-                    'name' => __('add_a_release', 'licensehub'),
-                    'button' => true,
-                    'hidden' => true
-                ),
 			);
 
             wp_add_inline_script(
