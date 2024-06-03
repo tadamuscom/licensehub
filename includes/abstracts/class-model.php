@@ -49,6 +49,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		public function __construct( mixed $id = false ) {
 			if ( $id || $this->exists( $id ) ) {
 				$this->load_by_id( $id );
+
+                return;
 			}
 
 			$this->new();
