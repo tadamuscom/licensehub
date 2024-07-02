@@ -13,7 +13,7 @@ import { Textarea } from '@global/index';
 
 export const AddRelease = ({ productID }) => {
 	const [isForm, setIsForm] = useState(false);
-	const { loading, result, formData, changeFormValue, filePost } = useForms({
+	const { loading, result, formData, updateFormValue, filePost } = useForms({
 		productID,
 		version: '',
 		changeLog: '',
@@ -52,7 +52,7 @@ export const AddRelease = ({ productID }) => {
 						name="version"
 						value={formData.version}
 						result={result}
-						onChange={(e) => changeFormValue('version', e.target.value)}
+						onChange={(e) => updateFormValue('version', e.target.value)}
 						autoFocus={true}
 					/>
 				</FormGroup>
@@ -62,7 +62,7 @@ export const AddRelease = ({ productID }) => {
 						id="changelog"
 						name="changelog"
 						result={result}
-						onChange={(e) => changeFormValue('changeLog', e.target.value)}>
+						onChange={(e) => updateFormValue('changeLog', e.target.value)}>
 						{formData.changeLog}
 					</Textarea>
 				</FormGroup>
@@ -73,7 +73,7 @@ export const AddRelease = ({ productID }) => {
 						id="file-upload"
 						name="file-upload"
 						result={result}
-						onChange={(e) => changeFormValue('fileUpload', e.target.files[0])}
+						onChange={(e) => updateFormValue('fileUpload', e.target.files[0])}
 					/>
 				</FormGroup>
 				<FormGroup extraClass="tada-form-submit">

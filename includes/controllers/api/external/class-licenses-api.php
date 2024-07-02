@@ -41,6 +41,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\External\Licenses_API'
 					array(
 						'methods'  => 'POST',
 						'callback' => array( $this, 'validate' ),
+						'permission_callback' => '__return_true'
 					)
 				);
 
@@ -50,6 +51,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\External\Licenses_API'
 					array(
 						'methods'  => 'POST',
 						'callback' => array( $this, 'create' ),
+						'permission_callback' => '__return_true'
 					)
 				);
 			}

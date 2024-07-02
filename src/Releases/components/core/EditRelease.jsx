@@ -16,7 +16,7 @@ export const EditRelease = ({ releaseID }) => {
 	const getReleaseByID = (id) =>
 		window.lchb_releases.releases.find((release) => release.id === id);
 
-	const { loading, result, formData, changeFormValue, put } = useForms({
+	const { loading, result, formData, updateFormValue, put } = useForms({
 		version: getReleaseByID(releaseID).version,
 		changelog: getReleaseByID(releaseID).changelog,
 	});
@@ -63,7 +63,7 @@ export const EditRelease = ({ releaseID }) => {
 							name="version"
 							value={formData.version}
 							result={result}
-							onChange={(e) => changeFormValue('version', e.target.value)}
+							onChange={(e) => updateFormValue('version', e.target.value)}
 							autoFocus={true}
 						/>
 					</FormGroup>
@@ -73,7 +73,7 @@ export const EditRelease = ({ releaseID }) => {
 							id="changelog"
 							name="changelog"
 							result={result}
-							onChange={(e) => changeFormValue('changelog', e.target.value)}>
+							onChange={(e) => updateFormValue('changelog', e.target.value)}>
 							{formData.changelog}
 						</Textarea>
 					</FormGroup>

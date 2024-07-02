@@ -36,6 +36,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Releases_API'
 				array(
 					'methods'  => 'POST',
 					'callback' => array( $this, 'create' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
 				)
 			);
 

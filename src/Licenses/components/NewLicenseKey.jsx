@@ -13,7 +13,7 @@ import {
 } from '@global';
 
 export const NewLicenseKey = () => {
-	const { loading, result, formData, changeFormValue, post } = useForms({
+	const { loading, result, formData, updateFormValue, post } = useForms({
 		user: window.lchb_license_keys.users[0].data.ID,
 		product: window.lchb_license_keys.products[0].id,
 		expiresAt: '',
@@ -62,7 +62,7 @@ export const NewLicenseKey = () => {
 						options={users}
 						value={formData.user}
 						result={result}
-						onChange={(e) => changeFormValue('user', e.target.value)}
+						onChange={(e) => updateFormValue('user', e.target.value)}
 					/>
 				</FormGroup>
 				<FormGroup>
@@ -73,7 +73,7 @@ export const NewLicenseKey = () => {
 						options={products}
 						value={formData.product}
 						result={result}
-						onChange={(e) => changeFormValue('product', e.target.value)}
+						onChange={(e) => updateFormValue('product', e.target.value)}
 					/>
 				</FormGroup>
 				<FormGroup>
@@ -86,7 +86,7 @@ export const NewLicenseKey = () => {
 						name="lchb-expires-at"
 						value={formData.expiresAt}
 						result={result}
-						onChange={(e) => changeFormValue('expiresAt', e.target.value)}
+						onChange={(e) => updateFormValue('expiresAt', e.target.value)}
 					/>
 				</FormGroup>
 				<FormGroup extraClass="tada-form-submit">

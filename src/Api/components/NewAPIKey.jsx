@@ -13,7 +13,7 @@ import {
 } from '@global';
 
 export const NewAPIKey = () => {
-	const { loading, result, formData, changeFormValue, post } = useForms({
+	const { loading, result, formData, updateFormValue, post } = useForms({
 		user: window.lchb_api_keys.users[0].data.ID,
 		expiresAt: '',
 	});
@@ -50,7 +50,7 @@ export const NewAPIKey = () => {
 						name="lchb-user"
 						options={users}
 						value={formData.user}
-						onChange={(e) => changeFormValue('user', e.target.value)}
+						onChange={(e) => updateFormValue('user', e.target.value)}
 						result={result}
 					/>
 				</FormGroup>
@@ -63,7 +63,7 @@ export const NewAPIKey = () => {
 						id="lchb-expires-at"
 						name="lchb-expires-at"
 						value={formData.expiresAt}
-						onChange={(e) => changeFormValue('expiresAt', e.target.value)}
+						onChange={(e) => updateFormValue('expiresAt', e.target.value)}
 						result={result}
 					/>
 				</FormGroup>

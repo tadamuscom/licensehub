@@ -3,7 +3,7 @@ import { HeadingTwo, useForms } from '@global';
 import { ProductForm } from '@products/components/functional/ProductForm';
 
 export const NewProduct = () => {
-	const { loading, result, formData, changeFormValue, post } = useForms({
+	const { loading, result, formData, updateFormValue, post } = useForms({
 		name: '',
 	});
 
@@ -25,7 +25,7 @@ export const NewProduct = () => {
 				loading={loading}
 				result={result}
 				formData={formData}
-				changeFormValue={changeFormValue}
+				updateFormValue={updateFormValue}
 				handleSubmit={handleSubmit}
 			/>
 		</div>

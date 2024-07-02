@@ -9,7 +9,7 @@ export const EditProduct = ({ productID }) => {
 	const getProductByID = (id) =>
 		window.lchb_products.products.find((product) => product.id === id);
 
-	const { loading, result, formData, changeFormValue, put } = useForms({
+	const { loading, result, formData, updateFormValue, put } = useForms({
 		name: getProductByID(productID).name,
 	});
 
@@ -51,7 +51,7 @@ export const EditProduct = ({ productID }) => {
 					loading={loading}
 					result={result}
 					formData={formData}
-					changeFormValue={changeFormValue}
+					updateFormValue={updateFormValue}
 					handleSubmit={handleSubmit}
 				/>
 			</div>

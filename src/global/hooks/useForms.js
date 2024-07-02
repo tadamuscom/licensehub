@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
  * Custom hook to handle form submission
  *
  * @param defaultValues
- * @returns {{result: {field: string, type: string, message: string}, post: ((function(*, *): Promise<void>)|*), changeFormValue: changeFormValue, formData: unknown, loading: boolean}}
+ * @returns {{result: {field: string, type: string, message: string}, post: ((function(*, *): Promise<void>)|*), updateFormValue: updateFormValue, formData: unknown, loading: boolean}}
  */
 export const useForms = (defaultValues) => {
 	const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ export const useForms = (defaultValues) => {
 	 * @param key
 	 * @param value
 	 */
-	const changeFormValue = (key, value) => {
+	const updateFormValue = (key, value) => {
 		setFormData((prev) => ({
 			...prev,
 			[key]: value,
@@ -184,5 +184,5 @@ export const useForms = (defaultValues) => {
 		}
 	};
 
-	return { loading, result, formData, changeFormValue, post, filePost, put };
+	return { loading, result, formData, updateFormValue, post, filePost, put };
 };

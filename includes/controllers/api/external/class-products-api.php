@@ -43,7 +43,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\External\Products_API'
 				array(
 					'methods'  => 'GET',
 					'callback' => array( $this, 'list' ),
-				)
+					'permission_callback' => '__return_true'
+				),
 			);
 
 			register_rest_route(
@@ -52,6 +53,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\External\Products_API'
 				array(
 					'methods'  => 'POST',
 					'callback' => array( $this, 'create_product' ),
+					'permission_callback' => '__return_true'
 				)
 			);
 		}

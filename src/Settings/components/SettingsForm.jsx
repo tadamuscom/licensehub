@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { Button, CheckBox, FormGroup, FormStatus, useForms } from '@global';
 
 export const SettingsForm = () => {
-	const { loading, result, formData, changeFormValue, post } = useForms({
+	const { loading, result, formData, updateFormValue, post } = useForms({
 		enable_rest_api: window.lchb_settings.enable_rest_api,
 	});
 
@@ -19,7 +19,7 @@ export const SettingsForm = () => {
 				<CheckBox
 					label={__('Enable REST API', 'licensehub')}
 					checked={formData.enable_rest_api}
-					onChange={(e) => changeFormValue('enable_rest_api', e.target.checked)}
+					onChange={(e) => updateFormValue('enable_rest_api', e.target.checked)}
 				/>
 			</FormGroup>
 			<FormGroup>
