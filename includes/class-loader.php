@@ -21,9 +21,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Loader' ) ) {
 		/**
 		 * Calls all the sub methods that require the files
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function __construct() {
 			require_once LCHB_VENDOR . '/autoload.php';
@@ -39,11 +38,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Loader' ) ) {
 		/**
 		 * Requires all the PHP files in the given directory
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param string $dir The path of the directory.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function require_child_files_once( string $dir ): void {
 			foreach ( $this->get_files( $dir ) as $file ) {
@@ -54,11 +52,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Loader' ) ) {
 		/**
 		 * Loops through a directory and returns an array of PHP files
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $dir The directory.
 		 *
 		 * @return array
+		 * @since 1.0.0
 		 */
 		private function get_files( mixed $dir ): array {
 			$dir_object = new DirectoryIterator( $dir );

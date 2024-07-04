@@ -142,14 +142,13 @@ if ( ! class_exists( '\LicenseHub\Includes\Helper\API_Helper' ) ) {
 		/**
 		 * Update a model field
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param array  $params The parameters to update.
 		 * @param string $model The model to update.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
-		public static function update_model_field( $params, $model ): void {
+		public static function update_model_field( array $params, string $model ): void {
 			$id     = sanitize_text_field( $params['id'] );
 			$column = sanitize_text_field( $params['column'] );
 			$value  = sanitize_text_field( $params['value'] );

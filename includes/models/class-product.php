@@ -38,11 +38,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 		/**
 		 * Return a list of product IDs
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param int $user_id The ID of the user.
 		 *
 		 * @return array
+		 * @since 1.0.0
 		 */
 		public static function product_list_by_user_id( int $user_id ): array {
 			global $wpdb;
@@ -146,10 +145,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 		/**
 		 * Return the user object of the product owner
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return WP_User
 		 * @throws Exception A regular exception.
+		 * @since 1.0.0
 		 */
 		public function user(): WP_User {
 			if ( ! $this->exists( $this->id ) ) {
@@ -166,17 +164,17 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 		/**
 		 * Retrieve a meta value from the model
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param string $meta_name The name of the meta.
 		 *
 		 * @return mixed
+		 * @since 1.0.0
 		 */
 		public function get_meta( string $meta_name ): mixed {
 			global $wpdb;
 
 			$object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %s', $this->generate_table_name(), $this->id ) );
 
+			//phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
 			$meta = unserialize( $object->meta );
 
 			if ( isset( $meta[ $meta_name ] ) ) {
@@ -189,9 +187,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 		/**
 		 * Return a list of releases or empty array if there are none
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return array
+		 * @since 1.0.0
 		 */
 		public function releases(): array {
 			global $wpdb;

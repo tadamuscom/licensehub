@@ -41,9 +41,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\External\Products_API'
 				API_Helper::generate_prefix( 'products' ),
 				'/retrieve',
 				array(
-					'methods'  => 'GET',
-					'callback' => array( $this, 'list' ),
-					'permission_callback' => '__return_true'
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'list' ),
+					'permission_callback' => '__return_true',
 				),
 			);
 
@@ -51,9 +51,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\External\Products_API'
 				API_Helper::generate_prefix( 'products' ),
 				'/create',
 				array(
-					'methods'  => 'POST',
-					'callback' => array( $this, 'create_product' ),
-					'permission_callback' => '__return_true'
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'create_product' ),
+					'permission_callback' => '__return_true',
 				)
 			);
 		}

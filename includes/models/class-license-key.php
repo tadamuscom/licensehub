@@ -39,17 +39,16 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 		/**
 		 * Return a list of license keys based on the product ID
 		 *
-		 * @since 1.0.0
-		 *
-		 * @param int         $product_id   The ID of the product.
-		 * @param bool|string $status       The status of the product.
+		 * @param int         $product_id The ID of the product.
+		 * @param bool|string $status The status of the product.
 		 *
 		 * @return array
+		 * @since 1.0.0
 		 */
 		public static function get_all_by_product_id( int $product_id, bool|string $status = false ): array {
 			global $wpdb;
 
-			if ( $status && ! in_array( $status, array( self::$active_status, self::$inactive_status ) ) ) {
+			if ( $status && ! in_array( $status, array( self::$active_status, self::$inactive_status ), true ) ) {
 				return array();
 			}
 
@@ -72,17 +71,16 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 		/**
 		 * Return all license keys of a given user
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param int         $user_id The ID of the user.
-		 * @param bool|string $status  The status of the key.
+		 * @param bool|string $status The status of the key.
 		 *
 		 * @return array
+		 * @since 1.0.0
 		 */
 		public static function get_all_by_user_id( int $user_id, bool|string $status = false ): array {
 			global $wpdb;
 
-			if ( $status && ! in_array( $status, array( self::$active_status, self::$inactive_status ) ) ) {
+			if ( $status && ! in_array( $status, array( self::$active_status, self::$inactive_status ), true ) ) {
 				return array();
 			}
 
@@ -214,10 +212,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 		/**
 		 * Generate a license key
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
 		 * @throws Exception A regular exception.
+		 * @since 1.0.0
 		 */
 		public function generate(): void {
 			$key               = hash( 'sha256', uniqid( get_current_user_id() ) );
@@ -233,10 +230,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 		/**
 		 * Return the product for the license key
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return Product
 		 * @throws Exception A regular exception.
+		 * @since 1.0.0
 		 */
 		public function product(): Product {
 			if ( ! $this->exists( $this->id ) ) {
@@ -253,10 +249,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 		/**
 		 * Return the user object of the key owner
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return WP_User
 		 * @throws Exception A regular exception.
+		 * @since 1.0.0
 		 */
 		public function user(): WP_User {
 			if ( ! $this->exists( $this->id ) ) {

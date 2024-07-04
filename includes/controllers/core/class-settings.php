@@ -63,7 +63,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Settings' ) ) {
 		 *
 		 * @return mixed
 		 */
-		public function get( string $key ) {
+		public function get( string $key ): mixed {
 			return $this->raw_settings[ $key ];
 		}
 
@@ -75,7 +75,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Settings' ) ) {
 		 *
 		 * @return void
 		 */
-		public function set( string $key, $value ): void {
+		public function set( string $key, mixed $value ): void {
 			$this->raw_settings[ $key ] = $value;
 		}
 

@@ -30,9 +30,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\API_Keys_Page' ) ) {
 		/**
 		 * Add the menu item
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function menu(): void {
 			add_submenu_page(
@@ -48,9 +47,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\API_Keys_Page' ) ) {
 		/**
 		 * Callback for the page
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function callback(): void {
 			$asset_manager = new Asset_Manager();
@@ -68,7 +66,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\API_Keys_Page' ) ) {
 				'lchb-api-keys-script',
 				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-api.js' ),
 				$asset_meta['dependencies'],
-				$asset_meta['version']
+				$asset_meta['version'],
+				array( 'in_footer', true )
 			);
 
 			$users = get_users();

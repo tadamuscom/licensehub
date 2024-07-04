@@ -63,10 +63,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Construct the object
 		 *
-		 * @param mixed  $model      The model object.
-		 * @param string $field      The name of the field.
-		 * @param array  $options    The validation options.
-		 * @param bool   $edit       Weather the process is an edit or a create process.
+		 * @param mixed  $model The model object.
+		 * @param string $field The name of the field.
+		 * @param array  $options The validation options.
+		 * @param bool   $edit Weather the process is an edit or a create process.
 		 */
 		public function __construct( mixed $model, string $field, array $options, bool $edit = false ) {
 			$this->model      = $model;
@@ -83,9 +83,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Init the validation
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function validate(): void {
 			foreach ( $this->options as $option ) {
@@ -100,9 +99,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Return the result of the validation
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return bool
+		 * @since 1.0.0
 		 */
 		public function result(): bool {
 			return $this->returnable;
@@ -111,9 +109,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Get the errors if there is an error
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return string
+		 * @since 1.0.0
 		 */
 		public function get_error(): string {
 			if ( ! empty( $this->error ) ) {
@@ -126,11 +123,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Trigger an error
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param string $contents The contents of the error.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function trigger_error( string $contents ): void {
 			$this->returnable = false;
@@ -142,34 +138,40 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Decide which validation method to use
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param string $option The name of the option.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function individual_validation( string $option ): void {
 			switch ( $option ) {
 				case 'required':
 					$this->required( $this->model->{$this->field} );
+
 					return;
 				case 'serialized':
 					$this->serialized( $this->model->{$this->field} );
+
 					return;
 				case 'string':
 					$this->string( $this->model->{$this->field} );
+
 					return;
 				case 'integer':
 					$this->integer( $this->model->{$this->field} );
+
 					return;
 				case 'numeric':
 					$this->numeric( $this->model->{$this->field} );
+
 					return;
 				case 'date':
 					$this->date( $this->model->{$this->field} );
+
 					return;
 				case 'unique':
 					$this->unique( $this->model->{$this->field} );
+
 					return;
 			}
 		}
@@ -177,11 +179,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Check if the field exists
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $value The value.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function required( mixed $value ): void {
 			if ( empty( $value ) ) {
@@ -192,11 +193,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Check if the field is a string
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $value The value.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function string( mixed $value ): void {
 			if ( ! is_string( $value ) ) {
@@ -207,13 +207,13 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Check if the field is a serialized string
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $value The value.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function serialized( mixed $value ): void {
+			//phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
 			if ( ! empty( $value ) && ! unserialize( $value ) ) {
 				$this->trigger_error( 'must be a serialized object as a string' );
 			}
@@ -222,11 +222,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Check if the field is an integer
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $value The value.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function integer( mixed $value ): void {
 			if ( ! is_integer( (int) $value ) ) {
@@ -237,11 +236,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Check if the field is numeric
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $value The value.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function numeric( mixed $value ): void {
 			if ( ! is_numeric( $value ) ) {
@@ -252,11 +250,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Check if the field is a date
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $value The value.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function date( mixed $value ): void {
 			if ( ! DateTime::createFromFormat( LCHB_TIME_FORMAT, $value ) ) {
@@ -267,11 +264,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		/**
 		 * Check if the field value already exists in the database
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $value The value.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function unique( mixed $value ): void {
 			if ( ! $this->edit ) {

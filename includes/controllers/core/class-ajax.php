@@ -29,7 +29,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\AJAX' ) ) {
 		 * @return void
 		 */
 		public function hooks(): void {
-			add_action( 'wp_ajax_lchb_create_release', array( $this, 'upload_release' ) );
+			add_action( 'wp_ajax_wpui_create_release', array( $this, 'upload_release' ) );
 		}
 
 		/**
@@ -55,25 +55,25 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\AJAX' ) ) {
 			}
 
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$uploadedfile     = $_FILES['file'];
+			$uploaded_file    = $_FILES['file'];
 			$upload_overrides = array( 'test_form' => false );
-			$movefile         = wp_handle_upload( $uploadedfile, $upload_overrides );
+			$move_file        = wp_handle_upload( $uploaded_file, $upload_overrides );
 
-			if ( ! $movefile || isset( $movefile['error'] ) ) {
-				wp_send_json_error( array( 'message' => $movefile['error'] || __( 'File can\'t be uploaded', 'licensehub' ) ) );
+			if ( ! $move_file || isset( $movefile['error'] ) ) {
+				wp_send_json_error( array( 'message' => $move_file['error'] || __( 'File can\'t be uploaded', 'licensehub' ) ) );
 			}
 
-			$filetype = wp_check_filetype( basename( $movefile['file'] ), null );
+			$filetype = wp_check_filetype( basename( $move_file['file'] ), null );
 
 			$attachment = array(
-				'guid'           => $movefile['url'],
+				'guid'           => $move_file['url'],
 				'post_mime_type' => $filetype['type'],
-				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $movefile['file'] ) ),
+				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $move_file['file'] ) ),
 				'post_content'   => '',
 				'post_status'    => 'inherit',
 			);
 
-			$attach_id = wp_insert_attachment( $attachment, $movefile['file'] );
+			$attach_id = wp_insert_attachment( $attachment, $move_file['file'] );
 
 			wp_send_json_success( array( 'attachment_id' => $attach_id ) );
 		}

@@ -31,9 +31,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' )
 		/**
 		 * Add menu item
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function menu(): void {
 			add_submenu_page(
@@ -49,9 +48,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' )
 		/**
 		 * Callback for the page
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function callback(): void {
 			$asset_manager = new Asset_Manager();
@@ -69,7 +67,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' )
 				'lchb-license-keys-script',
 				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-licenses.js' ),
 				$asset_meta['dependencies'],
-				$asset_meta['version']
+				$asset_meta['version'],
+				array( 'in_footer', true )
 			);
 
 			$product_instance     = new Product();

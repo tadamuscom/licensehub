@@ -39,9 +39,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\External\Licenses_API'
 					API_Helper::generate_prefix( 'licenses' ),
 					'/validate',
 					array(
-						'methods'  => 'POST',
-						'callback' => array( $this, 'validate' ),
-						'permission_callback' => '__return_true'
+						'methods'             => 'POST',
+						'callback'            => array( $this, 'validate' ),
+						'permission_callback' => '__return_true',
 					)
 				);
 
@@ -49,9 +49,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\External\Licenses_API'
 					API_Helper::generate_prefix( 'licenses' ),
 					'/create',
 					array(
-						'methods'  => 'POST',
-						'callback' => array( $this, 'create' ),
-						'permission_callback' => '__return_true'
+						'methods'             => 'POST',
+						'callback'            => array( $this, 'create' ),
+						'permission_callback' => '__return_true',
 					)
 				);
 			}

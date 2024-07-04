@@ -34,8 +34,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Releases_API'
 				API_Helper::generate_prefix( 'releases' ),
 				'/new-release',
 				array(
-					'methods'  => 'POST',
-					'callback' => array( $this, 'create' ),
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'create' ),
 					'permission_callback' => function () {
 						return current_user_can( 'manage_options' );
 					},

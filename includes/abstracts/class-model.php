@@ -50,7 +50,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 			if ( $id || $this->exists( $id ) ) {
 				$this->load_by_id( $id );
 
-                return;
+				return;
 			}
 
 			$this->new();
@@ -83,17 +83,16 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Check if the current model exists
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $id The ID of the object.
 		 *
 		 * @return bool
+		 * @since 1.0.0
 		 */
 		public function exists( mixed $id ): bool {
 			global $wpdb;
 
 			if ( $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id=%s;', $this->generate_table_name( $this->table ), $id ) ) ) {
-					return true;
+				return true;
 			}
 
 			return false;
@@ -102,11 +101,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Load the model by its ID
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $id The ID of the object.
 		 *
 		 * @return $this|false
+		 * @since 1.0.0
 		 */
 		public function load_by_id( mixed $id ): bool|static {
 			global $wpdb;
@@ -125,14 +123,13 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Load the model by a specific field
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param string $field The field.
 		 * @param mixed  $value The value.
 		 * @param bool   $failsafe Load or not.
 		 *
 		 * @return $this|false
 		 * @throws Exception Throw regular exception.
+		 * @since 1.0.0
 		 */
 		public function load_by_field( string $field, mixed $value, bool $failsafe = true ): bool|static {
 			$property = $this->fields[ $field ];
@@ -167,9 +164,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Return all the instances of the model
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return array
+		 * @since 1.0.0
 		 */
 		public function get_all(): array {
 			global $wpdb;
@@ -186,11 +182,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Return all the fields of the model
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param bool $meta Weather to add the meta fields to the object or not.
 		 *
 		 * @return array|string[]
+		 * @since 1.0.0
 		 */
 		public function get_fields( bool $meta = false ): array {
 			if ( isset( $this->fields ) ) {
@@ -217,9 +212,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Save the model to the database
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return $this|void
+		 * @since 1.0.0
 		 */
 		public function save() {
 			global $wpdb;
@@ -254,9 +248,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Delete the instance from the database
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function destroy(): void {
 			global $wpdb;
@@ -267,11 +260,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Check if the table exists
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param string $table_name The name of the SQL table.
 		 *
 		 * @return bool
+		 * @since 1.0.0
 		 */
 		protected function table_exists( string $table_name ): bool {
 			global $wpdb;
@@ -286,12 +278,11 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Create table for the model
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param string $table_name The name of the table.
 		 * @param string $fields The fields of the table.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		protected function create_table( string $table_name, string $fields ): void {
 			if ( ! $this->table_exists( $table_name ) ) {
@@ -309,9 +300,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Initiate a new empty model
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return $this
+		 * @since 1.0.0
 		 */
 		protected function new(): self {
 			foreach ( $this->fields as $field => $rules ) {
@@ -344,11 +334,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Validate the contents of the model
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param bool $edit Weather it is an edit process or a new process.
 		 *
 		 * @return bool
+		 * @since 1.0.0
 		 */
 		private function validation( bool $edit = false ): bool {
 			foreach ( $this->fields as $field => $options ) {
@@ -379,11 +368,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Feed the model data to the object
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param mixed $object The object.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		private function object_format( mixed $object ): void {
 			$fields = $this->get_fields();
@@ -406,9 +394,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Format the data as an array
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return array
+		 * @since 1.0.0
 		 */
 		private function array_format(): array {
 			$returnable = array();
