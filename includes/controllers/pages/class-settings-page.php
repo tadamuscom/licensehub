@@ -52,25 +52,23 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Settings_Page' ) ) {
 		 * @since 1.0.0
 		 */
 		public function callback(): void {
-			$asset_manager = new Asset_Manager();
-			$asset_meta    = Asset_Manager::get_asset_meta(
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-settings.php' )
+			$asset_meta = Asset_Manager::get_asset_meta(
+				LCHB_PATH . '/public/build/licensehub-settings.asset.php'
 			);
 
 			wp_enqueue_style(
 				'lchb-settings-style',
-				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-settings.css' ),
+				LCHB_URL . 'public/build/licensehub-settings.css',
 				array(),
 				LCHB_VERSION
 			);
 			wp_enqueue_script(
 				'lchb-settings-script',
-				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-settings.js' ),
+				LCHB_URL . 'public/build/licensehub-settings.js',
 				$asset_meta['dependencies'],
 				$asset_meta['version'],
 				array( 'in_footer', true )
 			);
-
 			wp_add_inline_script(
 				'lchb-settings-script',
 				'window.lchb_settings = ' . wp_json_encode(

@@ -51,20 +51,19 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\API_Keys_Page' ) ) {
 		 * @since 1.0.0
 		 */
 		public function callback(): void {
-			$asset_manager = new Asset_Manager();
-			$asset_meta    = Asset_Manager::get_asset_meta(
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-api.php' )
+			$asset_meta = Asset_Manager::get_asset_meta(
+				LCHB_PATH . '/public/build/licensehub-api.asset.php'
 			);
 
 			wp_enqueue_style(
 				'lchb-api-keys-style',
-				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-api.css' ),
+				LCHB_URL . 'public/build/licensehub-api.css',
 				array(),
 				LCHB_VERSION
 			);
 			wp_enqueue_script(
 				'lchb-api-keys-script',
-				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-api.js' ),
+				LCHB_URL . 'public/build/licensehub-api.js',
 				$asset_meta['dependencies'],
 				$asset_meta['version'],
 				array( 'in_footer', true )

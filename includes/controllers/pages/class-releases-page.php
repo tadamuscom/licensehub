@@ -51,20 +51,19 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Releases_Page' ) ) {
 		 * @since 1.0.0
 		 */
 		public function callback(): void {
-			$asset_manager = new Asset_Manager();
-			$asset_meta    = Asset_Manager::get_asset_meta(
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-releases.php' )
+			$asset_meta = Asset_Manager::get_asset_meta(
+				LCHB_PATH . '/public/build/licensehub-releases.asset.php'
 			);
 
 			wp_enqueue_style(
 				'lchb-releases-style',
-				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-releases.css' ),
+				LCHB_URL . 'public/build/licensehub-releases.css',
 				array(),
 				LCHB_VERSION
 			);
 			wp_enqueue_script(
 				'lchb-releases-script',
-				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-releases.js' ),
+				LCHB_URL . 'public/build/licensehub-releases.js',
 				$asset_meta['dependencies'],
 				$asset_meta['version'],
 				array( 'in_footer', true )

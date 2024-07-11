@@ -17,15 +17,6 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Asset_Manager' ) ) {
 	 */
 	class Asset_Manager {
 		/**
-		 * Hold the names of the asset files and their hashes
-		 *
-		 * @since 1.0.0
-		 *
-		 * @var array The manifest of the assets.
-		 */
-		private array $asset_manifest = array();
-
-		/**
 		 * Retrieve the asset options for the given path
 		 *
 		 * @param string $path The path to the asset.
@@ -37,41 +28,6 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Asset_Manager' ) ) {
 				'dependencies' => array(),
 				'version'      => LCHB_VERSION,
 			);
-		}
-
-		/**
-		 * Construct the object
-		 */
-		public function __construct() {
-			$this->asset_manifest = $this->get_manifest();
-		}
-
-		/**
-		 * Retrieve the name and hash of the given asset
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $asset The name of the asset.
-		 *
-		 * @return string
-		 */
-		public function get_asset( string $asset ): string {
-			if ( ! isset( $this->asset_manifest[ $asset ] ) ) {
-				return '';
-			}
-
-			return $this->asset_manifest[ $asset ];
-		}
-
-		/**
-		 * Read the manifest file and retrieve the names and hashes
-		 *
-		 * @since 1.0.0
-		 *
-		 * @return array
-		 */
-		private function get_manifest(): array {
-			return wp_json_file_decode( LCHB_PATH . '/public/build/manifest.json', array( 'associative' => true ) );
 		}
 	}
 }

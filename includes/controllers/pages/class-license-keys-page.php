@@ -52,20 +52,19 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\License_Keys_Page' )
 		 * @since 1.0.0
 		 */
 		public function callback(): void {
-			$asset_manager = new Asset_Manager();
-			$asset_meta    = Asset_Manager::get_asset_meta(
-				LCHB_PATH . '/public/build/' . $asset_manager->get_asset( 'licensehub-licenses.php' )
+			$asset_meta = Asset_Manager::get_asset_meta(
+				LCHB_PATH . '/public/build/licensehub-licenses.asset.php'
 			);
 
 			wp_enqueue_style(
 				'lchb-license-keys-style',
-				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-licenses.css' ),
+				LCHB_URL . 'public/build/licensehub-licenses.css',
 				array(),
 				LCHB_VERSION
 			);
 			wp_enqueue_script(
 				'lchb-license-keys-script',
-				LCHB_URL . 'public/build/' . $asset_manager->get_asset( 'licensehub-licenses.js' ),
+				LCHB_URL . 'public/build/licensehub-licenses.js',
 				$asset_meta['dependencies'],
 				$asset_meta['version'],
 				array( 'in_footer', true )
