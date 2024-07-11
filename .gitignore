@@ -1,14 +1,7 @@
-*.sublime-project
-*.sublime-workspace
 composer.lock
 *.codekit
 .DS_Store
-*.idea
-.idea/vcs.xml
 **/node_modules
 **/package-lock.json
-.vscode/launch.json
-wp-fusion.code-workspace
 vendor/
 public/
-.vscode/
