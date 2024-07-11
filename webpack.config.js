@@ -1,27 +1,16 @@
 const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 const { resolve } = require('path');
-const path = require('path');
-const WebpackAssetsManifest = require('webpack-assets-manifest');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 module.exports = {
 	...defaultConfig,
-	devServer: {
-		...defaultConfig.devServer,
-		host: process.env.WP_DEVHOST || 'wordpress.test',
-	},
 	plugins: [
 		...defaultConfig.plugins,
 		new CaseSensitivePathsPlugin(),
 		new CleanWebpackPlugin(),
-		new WebpackAssetsManifest({
-			output: path.resolve(process.cwd(), 'public/build/manifest.json'),
-			publicPath: true,
-			writeToDisk: true,
-		}),
-		new MiniCSSExtractPlugin({ filename: '[name]-[chunkhash].css' }),
+		new MiniCSSExtractPlugin({ filename: '[name].css' }),
 	],
 	resolve: {
 		...defaultConfig.resolve,
@@ -44,7 +33,7 @@ module.exports = {
 		'licensehub-global': './src/global/index.js',
 	},
 	output: {
-		filename: '[name]-[chunkhash].js',
+		filename: '[name].js',
 		path: resolve(process.cwd(), 'public/build'),
 	},
 };
