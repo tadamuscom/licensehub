@@ -5,11 +5,8 @@
 		"build": "wp-scripts build",
 		"dev": "wp-scripts build",
 		"start": "wp-scripts start",
-		"start:hot": "npm run start -- --hot",
-		"watch": "npm run start",
 		"update-deps": "npx npm-check-updates -ut minor",
 		"env:refresh": "yes | wp-env destroy && wp-env start --update",
-		"env": "wp-env",
 		"lint:fix": "npx eslint --fix '**/*.{js,jsx}' && npx prettier --write .",
 		"lint:strict": "npx eslint '**/*.{js,jsx}' --max-warnings 0 && npx prettier --debug-check ."
 	},
@@ -56,8 +53,7 @@
 		"prettier": "^3.0.3",
 		"resolve-url-loader": "^5.0.0",
 		"semver": "^7.6.0",
-		"style-loader": "^3.3.3",
-		"webpack-dev-server": "^4.15.1"
+		"style-loader": "^3.3.3"
 	},
 	"engines": {
 		"node": "20"
