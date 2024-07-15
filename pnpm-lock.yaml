@@ -132,9 +132,6 @@ importers:
       style-loader:
         specifier: ^3.3.3
         version: 3.3.4(webpack@5.92.1(webpack-cli@5.1.4))
-      webpack-dev-server:
-        specifier: ^4.15.1
-        version: 4.15.2(webpack-cli@5.1.4)(webpack@5.92.1)
 
 packages:
 
