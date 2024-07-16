@@ -89,9 +89,8 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Products_Page' ) ) {
 				array( 'in_footer', true )
 			);
 
-			$product_instance = new Product();
-			$products         = $product_instance->get_all();
-			$fields           = array(
+			$products = ( new Product() )->get_all( false );
+			$fields   = array(
 				array(
 					'name' => __( 'id', 'licensehub' ),
 				),

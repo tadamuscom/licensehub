@@ -94,11 +94,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Products_API'
 		/**
 		 * Add a new product.
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function create( WP_REST_Request $request ): void {
 			$params = $request->get_params();
@@ -118,6 +117,20 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Products_API'
 				$product->status     = Product::$active_status;
 				$product->user_id    = get_current_user_id();
 				$product->created_at = ( new DateTime() )->format( LCHB_TIME_FORMAT );
+
+				/**
+				 * Filters the product before saving.
+				 *
+				 * Allows modification of the product data before it is saved to the database.
+				 * Make sure you don't save the product again. It gets saved after this filter.
+				 *
+				 * @param Product $product The product object.
+				 * @param object  $params The parameters passed to the API.
+				 *
+				 * @return Product|void Save method for the product.
+				 * @since 1.0.0
+				 */
+				$product = apply_filters( 'lchb_product_before_create', $product, $params );
 				$product->save();
 
 				wp_send_json_success( array( 'message' => __( 'The product was saved!', 'licensehub' ) ) );
@@ -127,11 +140,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Products_API'
 		/**
 		 * Delete a product
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function delete( WP_REST_Request $request ): void {
 			$params = $request->get_params();
@@ -153,10 +165,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Products_API'
 		/**
 		 * Update product
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param WP_REST_Request $request The request object.
+		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function update( WP_REST_Request $request ): void {
 			$params = $request->get_params();
@@ -191,10 +203,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Products_API'
 		/**
 		 * Retrieve a product
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param WP_REST_Request $request The request object.
+		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function retrieve( WP_REST_Request $request ): void {
 			$params  = $request->get_url_params();
@@ -210,10 +222,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Products_API'
 		/**
 		 * Retrieve the releases of a product
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param WP_REST_Request $request The request object.
+		 *
 		 * @return void
+		 * @since 1.0.0
 		 */
 		public function releases( WP_REST_Request $request ): void {
 			$params  = $request->get_url_params();

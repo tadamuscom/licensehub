@@ -1,7 +1,6 @@
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { addQueryParameter } from '@global';
-import { toastOptions } from '@global';
+import { addQueryParameter, toastOptions } from '@global';
 import classNames from 'classnames';
 import ContentEditable from 'react-contenteditable';
 import { toast } from 'react-toastify';
@@ -16,6 +15,7 @@ export const TableColumn = ({
 	setIsEdit,
 }) => {
 	const [columnData, setColumnData] = useState(() => {
+		if (!column) return false;
 		if (column.hidden) return '********';
 
 		return data.value;
@@ -29,11 +29,14 @@ export const TableColumn = ({
 	});
 
 	const isButton = useState(() => {
+		if (!column) return false;
 		if (editable) return false;
 		if (!column.button) return false;
 
 		return true;
 	});
+
+	if (!column) return false;
 
 	const handleChange = (event) => {
 		setColumnData(event.target.value);

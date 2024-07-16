@@ -1,6 +1,6 @@
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
-import { HeadingTwo, useForms, Button, removeQueryParameter } from '@global';
+import { Button, HeadingTwo, removeQueryParameter, useForms } from '@global';
 import { ProductForm } from '@products/components/functional/ProductForm';
 import { AddRelease } from '../functional/AddRelease';
 import { ReleaseList } from './ReleaseList';

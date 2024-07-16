@@ -164,16 +164,20 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Return all the instances of the model
 		 *
+		 * @param bool $ignore_meta Weather to ignore the meta fields or not.
+		 *
 		 * @return array
 		 * @since 1.0.0
 		 */
-		public function get_all(): array {
+		public function get_all( bool $ignore_meta = true ): array {
 			global $wpdb;
 
 			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i;', $this->generate_table_name() ) );
 
-			foreach ( $results as $result ) {
-				unset( $result->meta );
+			if ( $ignore_meta ) {
+				foreach ( $results as $result ) {
+					unset( $result->meta );
+				}
 			}
 
 			return $results;
@@ -381,8 +385,14 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 			}
 
 			foreach ( $fields as $field ) {
-				if ( 'meta' === $field ) {
+				if ( 'meta' === $field && empty( $object[0]->meta ) ) {
 					continue;
+				} else {
+					echo '<pre>';
+					var_dump( $object );
+					echo '</pre>';
+					die();
+					$this->meta = unserialize( $object[0]->meta );
 				}
 
 				if ( is_object( $object[0] ) ) {
@@ -406,8 +416,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 					continue;
 				}
 
-				if ( 'meta' === $field ) {
+				if ( 'meta' === $field && empty( $this->meta ) ) {
 					continue;
+				} elseif ( is_array( $this->meta ) ) {
+					$this->meta = serialize( $this->meta );
 				}
 
 				$returnable[ $field ] = $this->{$field};

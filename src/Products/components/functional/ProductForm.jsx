@@ -22,20 +22,7 @@ export const ProductForm = ({
 		'',
 		formData,
 		updateFormValue,
-	);
-
-	/**
-	 * Filter at the end of the product form
-	 *
-	 * @action licensehub.end-of-product-form
-	 * @param {object} formData - The formData object that holds all the form fields
-	 * @param {function} updateFormValue - Function to update the formData object with your data
-	 */
-	const endOfProductForm = applyFilters(
-		'licensehub.end-of-product-form',
-		'',
-		formData,
-		updateFormValue,
+		result,
 	);
 
 	/**
@@ -50,6 +37,22 @@ export const ProductForm = ({
 		'',
 		formData,
 		updateFormValue,
+		result,
+	);
+
+	/**
+	 * Filter at the end of the product form
+	 *
+	 * @action licensehub.end-of-product-form
+	 * @param {object} formData - The formData object that holds all the form fields
+	 * @param {function} updateFormValue - Function to update the formData object with your data
+	 */
+	const endOfProductForm = applyFilters(
+		'licensehub.end-of-product-form',
+		'',
+		formData,
+		updateFormValue,
+		result,
 	);
 
 	return (
