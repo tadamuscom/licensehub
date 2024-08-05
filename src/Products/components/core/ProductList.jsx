@@ -1,11 +1,13 @@
 import { __ } from '@wordpress/i18n';
-import { Table, HeadingTwo, useTables } from '@global';
+import { HeadingTwo, Table, useTables } from '@global';
 
 export const ProductList = ({ setIsEdit }) => {
 	const { rows, headers } = useTables(
 		window.lchb_products.products,
 		window.lchb_products.fields,
 	);
+
+	console.log(window.lchb_products.products_meta);
 
 	return (
 		<>

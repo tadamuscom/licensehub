@@ -149,10 +149,6 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 					$this->required( $this->model->{$this->field} );
 
 					return;
-				case 'serialized':
-					$this->serialized( $this->model->{$this->field} );
-
-					return;
 				case 'string':
 					$this->string( $this->model->{$this->field} );
 
@@ -201,21 +197,6 @@ if ( ! class_exists( '\LicenseHub\Includes\Lib\Validator' ) ) {
 		private function string( mixed $value ): void {
 			if ( ! is_string( $value ) ) {
 				$this->trigger_error( 'must be a string' );
-			}
-		}
-
-		/**
-		 * Check if the field is a serialized string
-		 *
-		 * @param mixed $value The value.
-		 *
-		 * @return void
-		 * @since 1.0.0
-		 */
-		private function serialized( mixed $value ): void {
-			//phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
-			if ( ! empty( $value ) && ! unserialize( $value ) ) {
-				$this->trigger_error( 'must be a serialized object as a string' );
 			}
 		}
 

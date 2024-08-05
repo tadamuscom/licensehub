@@ -54,7 +54,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 			'user_id'    => array( 'required', 'numeric' ),
 			'created_at' => array( 'required', 'date' ),
 			'expires_at' => array( 'required', 'date' ),
-			'meta'       => array( 'serialized' ),
+			'meta'       => array(),
 		);
 
 		/**
@@ -132,10 +132,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 		/**
 		 * Generate a new API key
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
 		 * @throws Exception A regular exception.
+		 * @since 1.0.0
+		 *
 		 */
 		public function generate(): void {
 			$key           = hash( 'sha256', uniqid( get_current_user_id() ) );
@@ -151,10 +151,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 		/**
 		 * Return the user object for the owner of the API Key
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return WP_User
 		 * @throws Exception A regular exception.
+		 * @since 1.0.0
+		 *
 		 */
 		public function user(): WP_User {
 			if ( ! $this->exists( $this->id ) ) {
@@ -171,10 +171,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 		/**
 		 * Save the API Key to the database
 		 *
-		 * @since 1.0.0
-		 *
 		 * @return void
 		 * @throws Exception A regular exception.
+		 * @since 1.0.0
+		 *
 		 */
 		public function save(): void {
 			if ( $this->load_by_field( 'user_id', $this->user_id, false ) ) {

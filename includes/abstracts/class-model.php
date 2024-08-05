@@ -387,12 +387,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 			foreach ( $fields as $field ) {
 				if ( 'meta' === $field && empty( $object[0]->meta ) ) {
 					continue;
+				} elseif ( is_string( $this->meta ) ) {
+					$this->meta = json_decode( $object[0]->meta );
 				} else {
-					echo '<pre>';
-					var_dump( $object );
-					echo '</pre>';
-					die();
-					$this->meta = unserialize( $object[0]->meta );
+					$this->meta = $object[0]->meta;
 				}
 
 				if ( is_object( $object[0] ) ) {
@@ -412,6 +410,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 			$fields     = $this->get_fields( true );
 
 			foreach ( $fields as $field ) {
+				// phpcs:ignore
 				if ( 0 == $field || 'id' === $field ) {
 					continue;
 				}
@@ -419,7 +418,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 				if ( 'meta' === $field && empty( $this->meta ) ) {
 					continue;
 				} elseif ( is_array( $this->meta ) ) {
-					$this->meta = serialize( $this->meta );
+					$this->meta = wp_json_encode( $this->meta );
 				}
 
 				$returnable[ $field ] = $this->{$field};

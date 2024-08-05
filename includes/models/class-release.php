@@ -38,7 +38,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 			'changelog'     => array( 'string' ),
 			'created_at'    => array( 'required', 'date' ),
 			'updated_at'    => array( 'required', 'date' ),
-			'meta'          => array( 'serialized' ),
+			'meta'          => array(),
 			'attachment_id' => array(),
 		);
 
@@ -101,9 +101,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 		/**
 		 * Init the database table
 		 *
+		 * @return void
 		 * @since 1.0.0
 		 *
-		 * @return void
 		 */
 		public function init(): void {
 			if ( ! $this->table_exists( $this->table ) ) {

@@ -119,7 +119,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 			'product_id'  => array( 'required', 'integer' ),
 			'created_at'  => array( 'required', 'date' ),
 			'expires_at'  => array( 'required', 'date' ),
-			'meta'        => array( 'serialized' ),
+			'meta'        => array(),
 		);
 
 		/**

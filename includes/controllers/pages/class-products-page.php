@@ -109,6 +109,17 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Products_Page' ) ) {
 				),
 			);
 
+			$products_meta = array();
+			foreach ( $products as $product ) {
+				$products_meta[] = array(
+					'id'   => $product->id,
+					'meta' => json_decode( $product->meta ),
+				);
+
+				// We unset it here because we don't want to expose the meta to the product table.
+				unset( $product->meta );
+			}
+
 			wp_add_inline_script(
 				'lchb-products-script',
 				'window.lchb_products = ' . wp_json_encode(
@@ -116,6 +127,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Products_Page' ) ) {
 						'logo'           => LCHB_IMG . '/tadamus-logo.png',
 						'nonce'          => wp_create_nonce( 'lchb_products' ),
 						'products'       => $products,
+						'products_meta'  => $products_meta,
 						'fields'         => $fields,
 						'releases_nonce' => wp_create_nonce( 'lchb_releases' ),
 						'releases_url'   => admin_url( 'admin.php?page=licensehub-releases' ),

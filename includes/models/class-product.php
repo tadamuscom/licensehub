@@ -75,7 +75,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 			'status'     => array( 'required', 'string' ),
 			'user_id'    => array( 'required', 'integer' ),
 			'created_at' => array( 'required', 'date' ),
-			'meta'       => array( 'serialized' ),
+			'meta'       => array(),
 		);
 
 		/**
@@ -173,9 +173,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 			global $wpdb;
 
 			$object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %s', $this->generate_table_name(), $this->id ) );
-
-			//phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
-			$meta = unserialize( $object->meta );
+			$meta   = json_decode( $object->meta );
 
 			if ( isset( $meta[ $meta_name ] ) ) {
 				return $meta[ $meta_name ];
