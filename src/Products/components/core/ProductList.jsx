@@ -7,8 +7,6 @@ export const ProductList = ({ setIsEdit }) => {
 		window.lchb_products.fields,
 	);
 
-	console.log(window.lchb_products.products_meta);
-
 	return (
 		<>
 			<HeadingTwo label={__('Products', 'licensehub')} />

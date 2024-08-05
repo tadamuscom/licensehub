@@ -113,7 +113,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Products_Page' ) ) {
 			foreach ( $products as $product ) {
 				$products_meta[] = array(
 					'id'   => $product->id,
-					'meta' => json_decode( $product->meta ),
+					'meta' => $product->meta ? json_decode( $product->meta ) : '',
 				);
 
 				// We unset it here because we don't want to expose the meta to the product table.

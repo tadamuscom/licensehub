@@ -172,11 +172,11 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Products_API'
 		 */
 		public function update( WP_REST_Request $request ): void {
 			$params = $request->get_params();
-			$params = json_decode( $params[0], true );
+			$params = json_decode( $params[0] );
 
-			if ( ! empty( $params['nonce'] ) && wp_verify_nonce( $params['nonce'], 'lchb_products' ) ) {
-				$id   = sanitize_text_field( $params['id'] );
-				$name = sanitize_text_field( $params['name'] );
+			if ( ! empty( $params->nonce ) && wp_verify_nonce( $params->nonce, 'lchb_products' ) ) {
+				$id   = sanitize_text_field( $params->id );
+				$name = sanitize_text_field( $params->name );
 
 				if ( empty( $id ) ) {
 					wp_send_json_error( array( 'message' => __( 'ID cannot be empty', 'licensehub' ) ) );
@@ -192,6 +192,20 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Products_API'
 
 				$product       = new Product( $id );
 				$product->name = $name;
+
+				/**
+				 * Filters the product before saving.
+				 *
+				 * Allows modification of the product data before it is saved to the database.
+				 * Make sure you don't save the product again. It gets saved after this filter.
+				 *
+				 * @param Product $product The product object.
+				 * @param object  $params The parameters passed to the API.
+				 *
+				 * @return Product|void Save method for the product.
+				 * @since 1.0.0
+				 */
+				$product = apply_filters( 'lchb_product_before_update', $product, $params );
 				$product->save();
 
 				wp_send_json_success(
