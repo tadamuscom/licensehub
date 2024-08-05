@@ -64,7 +64,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Settings' ) ) {
 		 * @return mixed
 		 */
 		public function get( string $key ): mixed {
-			return $this->raw_settings[ $key ];
+			return $this->raw_settings[ $key ] ?? false;
 		}
 
 		/**

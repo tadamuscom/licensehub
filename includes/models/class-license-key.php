@@ -88,9 +88,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 			$table      = ( new self() )->generate_table_name();
 
 			if ( $status ) {
-				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %s WHERE user_id = %s AND status = %s;', $table, $user_id, $status ) );
+				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %i WHERE user_id = %d AND status = %s;', $table, $user_id, $status ) );
 			} else {
-				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %s WHERE user_id = %s;', $table, $user_id ) );
+				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %i WHERE user_id = %d;', $table, $user_id ) );
 			}
 
 			foreach ( $results as $result ) {
@@ -105,7 +105,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 		 *
 		 * @var string
 		 */
-		protected string $table = 'license_keys';
+		public string $table = 'license_keys';
 
 		/**
 		 * The fields of the model

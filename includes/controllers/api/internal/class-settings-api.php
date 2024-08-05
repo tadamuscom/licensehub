@@ -46,12 +46,11 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Settings_API'
 		/**
 		 * Save the settings
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param WP_REST_Request $request The request object.
 		 *
 		 * @return void
 		 * @throws Exception A regular exception.
+		 * @since 1.0.0
 		 */
 		public function save( WP_REST_Request $request ): void {
 			$params = $request->get_params();
@@ -61,6 +60,20 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\API\Internal\Settings_API'
 				$settings = new Settings();
 
 				( true === $params->enable_rest_api ) ? $settings->set( 'rest', true ) : $settings->set( 'rest', false );
+
+				/**
+				 * Filters the settings before saving.
+				 *
+				 * Allows modification of the settings data before it is saved to the database.
+				 * Make sure you don't save the settings again. They get saved after this filter.
+				 *
+				 * @param Settings $product The product object.
+				 * @param object   $params The parameters passed to the API.
+				 *
+				 * @return Settings|void Save method for the product.
+				 * @since 1.0.0
+				 */
+				$settings = apply_filters( 'lchb_settings_before_save', $settings, $params );
 				$settings->save();
 
 				wp_send_json_success(
