@@ -120,20 +120,31 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Pages\Products_Page' ) ) {
 				unset( $product->meta );
 			}
 
+			/**
+			 * Filters the default values.
+			 *
+			 * @param array $default_values The current default values.
+			 *
+			 * @return array Update the default values.
+			 * @since 1.0.0
+			 */
+			$default_values = apply_filters(
+				'lchb_product_front_default_values',
+				array(
+					'logo'           => LCHB_IMG . '/tadamus-logo.png',
+					'nonce'          => wp_create_nonce( 'lchb_products' ),
+					'products'       => $products,
+					'products_meta'  => $products_meta,
+					'fields'         => $fields,
+					'releases_nonce' => wp_create_nonce( 'lchb_releases' ),
+					'releases_url'   => admin_url( 'admin.php?page=licensehub-releases' ),
+					'ajax_url'       => admin_url( 'admin-ajax.php' ),
+				)
+			);
+
 			wp_add_inline_script(
 				'lchb-products-script',
-				'window.lchb_products = ' . wp_json_encode(
-					array(
-						'logo'           => LCHB_IMG . '/tadamus-logo.png',
-						'nonce'          => wp_create_nonce( 'lchb_products' ),
-						'products'       => $products,
-						'products_meta'  => $products_meta,
-						'fields'         => $fields,
-						'releases_nonce' => wp_create_nonce( 'lchb_releases' ),
-						'releases_url'   => admin_url( 'admin.php?page=licensehub-releases' ),
-						'ajax_url'       => admin_url( 'admin-ajax.php' ),
-					)
-				),
+				'window.lchb_products = ' . wp_json_encode( $default_values ),
 				'before'
 			);
 
