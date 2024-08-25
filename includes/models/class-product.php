@@ -172,6 +172,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 		public function get_meta( string $meta_name ): mixed {
 			global $wpdb;
 
+			// phpcs:ignore
 			$object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %s', $this->generate_table_name(), $this->id ) );
 			$meta   = json_decode( $object->meta );
 
@@ -195,6 +196,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 				return array();
 			}
 
+			// phpcs:ignore
 			$object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s', ( new Release() )->generate_table_name(), $this->id ) );
 
 			if ( empty( $object ) ) {
@@ -222,6 +224,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 				return false;
 			}
 
+			// phpcs:ignore
 			$object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE product_id = %s ORDER BY `version` DESC LIMIT 1', ( new Release() )->generate_table_name(), $this->id ) );
 
 			if ( empty( $object ) ) {
@@ -239,6 +242,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 		public function destroy(): void {
 			global $wpdb;
 
+			// phpcs:ignore
 			$wpdb->delete( ( new Release() )->generate_table_name(), array( 'product_id' => $this->id ) );
 
 			parent::destroy();
