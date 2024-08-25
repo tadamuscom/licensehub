@@ -32,9 +32,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Deactivation' ) ) {
 		/**
 		 * Delete all tables and options
 		 *
+		 * @return void
 		 * @since 1.0.0
 		 *
-		 * @return void
 		 */
 		private function erase_all(): void {
 			$this->erase_tables();
@@ -44,9 +44,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Deactivation' ) ) {
 		/**
 		 * Delete all tables
 		 *
+		 * @return void
 		 * @since 1.0.0
 		 *
-		 * @return void
 		 */
 		private function erase_tables(): void {
 			$models = array(
@@ -63,9 +63,9 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Deactivation' ) ) {
 		/**
 		 * Delete all the options
 		 *
+		 * @return void
 		 * @since 1.0.0
 		 *
-		 * @return void
 		 */
 		private function erase_options(): void {
 			$options = array(
@@ -80,15 +80,16 @@ if ( ! class_exists( '\LicenseHub\Includes\Controller\Core\Deactivation' ) ) {
 		/**
 		 * Delete the table
 		 *
-		 * @since 1.0.0
-		 *
 		 * @param string $table_name The name of the table.
 		 *
 		 * @return void
+		 * @since 1.0.0
+		 *
 		 */
 		private function delete_table( string $table_name ): void {
 			global $wpdb;
 
+			//phpcs:ignore
 			$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %s', $table_name ) );
 		}
 	}

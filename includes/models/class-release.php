@@ -103,7 +103,6 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Release' ) ) {
 		 *
 		 * @return void
 		 * @since 1.0.0
-		 *
 		 */
 		public function init(): void {
 			if ( ! $this->table_exists( $this->table ) ) {

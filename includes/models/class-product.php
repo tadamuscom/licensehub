@@ -49,6 +49,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 			$returnable = array();
 			$table      = ( new self() )->generate_table_name();
 
+			//phpcs:ignore
 			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %s WHERE user_id = %s;', $table, $user_id ) );
 
 			foreach ( $results as $result ) {

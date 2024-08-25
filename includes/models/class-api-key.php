@@ -135,7 +135,6 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 		 * @return void
 		 * @throws Exception A regular exception.
 		 * @since 1.0.0
-		 *
 		 */
 		public function generate(): void {
 			$key           = hash( 'sha256', uniqid( get_current_user_id() ) );
@@ -154,7 +153,6 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 		 * @return WP_User
 		 * @throws Exception A regular exception.
 		 * @since 1.0.0
-		 *
 		 */
 		public function user(): WP_User {
 			if ( ! $this->exists( $this->id ) ) {
@@ -174,7 +172,6 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\API_Key' ) ) {
 		 * @return void
 		 * @throws Exception A regular exception.
 		 * @since 1.0.0
-		 *
 		 */
 		public function save(): void {
 			if ( $this->load_by_field( 'user_id', $this->user_id, false ) ) {

@@ -56,8 +56,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 			$table      = ( new self() )->generate_table_name();
 
 			if ( $status ) {
+				//phpcs:ignore
 				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %s WHERE product_id = %s AND status = %s;', $table, $product_id, $status ) );
 			} else {
+				//phpcs:ignore
 				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %s WHERE product_id = %s;', $table, $product_id ) );
 			}
 
@@ -88,8 +90,10 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 			$table      = ( new self() )->generate_table_name();
 
 			if ( $status ) {
+				//phpcs:ignore
 				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %i WHERE user_id = %d AND status = %s;', $table, $user_id, $status ) );
 			} else {
+				//phpcs:ignore
 				$results = $wpdb->get_results( $wpdb->prepare( 'SELECT id FROM %i WHERE user_id = %d;', $table, $user_id ) );
 			}
 
