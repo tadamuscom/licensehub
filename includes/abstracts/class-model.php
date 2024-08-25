@@ -91,6 +91,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		public function exists( mixed $id ): bool {
 			global $wpdb;
 
+			//phpcs:ignore
 			if ( $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id=%s;', $this->generate_table_name( $this->table ), $id ) ) ) {
 				return true;
 			}
@@ -150,6 +151,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 
 			global $wpdb;
 
+			//phpcs:ignore
 			$object = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE %i = %s;', $this->generate_table_name(), $field, $value ) );
 
 			if ( $object ) {
@@ -172,6 +174,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		public function get_all( bool $ignore_meta = true ): array {
 			global $wpdb;
 
+			//phpcs:ignore
 			$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i;', $this->generate_table_name() ) );
 
 			if ( $ignore_meta ) {
@@ -228,6 +231,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 				if ( $this->validation() ) {
 					do_action( 'lchb_before_create_' . get_class( $this ), $this );
 
+					//phpcs:ignore
 					$wpdb->insert( $this->generate_table_name(), $data );
 
 					do_action( 'lchb_after_create_' . get_class( $this ), $this );
@@ -237,6 +241,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 			} elseif ( $this->validation( true ) ) {
 				do_action( 'lchb_before_update_' . get_class( $this ), $this );
 
+				//phpcs:ignore
 				$wpdb->update( $this->generate_table_name(), $data, array( 'id' => $this->id ) );
 
 				do_action( 'lchb_after_update_' . get_class( $this ), $this );
@@ -258,6 +263,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		public function destroy(): void {
 			global $wpdb;
 
+			//phpcs:ignore
 			$wpdb->delete( $this->generate_table_name(), array( 'id' => $this->id ) );
 		}
 
@@ -272,6 +278,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		protected function table_exists( string $table_name ): bool {
 			global $wpdb;
 
+			//phpcs:ignore
 			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) ) ) === $table_name ) {
 				return true;
 			}
@@ -372,29 +379,29 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 		/**
 		 * Feed the model data to the object
 		 *
-		 * @param mixed $object The object.
+		 * @param mixed $model The object.
 		 *
 		 * @return void
 		 * @since 1.0.0
 		 */
-		private function object_format( mixed $object ): void {
+		private function object_format( mixed $model ): void {
 			$fields = $this->get_fields();
 
-			if ( is_object( $object[0] ) ) {
-				$this->id = $object[0]->id;
+			if ( is_object( $model[0] ) ) {
+				$this->id = $model[0]->id;
 			}
 
 			foreach ( $fields as $field ) {
-				if ( 'meta' === $field && empty( $object[0]->meta ) ) {
+				if ( 'meta' === $field && empty( $model[0]->meta ) ) {
 					continue;
 				} elseif ( is_string( $this->meta ) ) {
-					$this->meta = json_decode( $object[0]->meta );
+					$this->meta = json_decode( $model[0]->meta );
 				} else {
-					$this->meta = $object[0]->meta;
+					$this->meta = $model[0]->meta;
 				}
 
-				if ( is_object( $object[0] ) ) {
-					$this->{$field} = $object[0]->{$field};
+				if ( is_object( $model[0] ) ) {
+					$this->{$field} = $model[0]->{$field};
 				}
 			}
 		}
