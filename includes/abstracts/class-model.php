@@ -395,7 +395,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Abstract\Model' ) ) {
 				if ( 'meta' === $field && empty( $model[0]->meta ) ) {
 					continue;
 				} elseif ( is_string( $this->meta ) ) {
-					$this->meta = json_decode( $model[0]->meta );
+					$this->meta = json_decode( $model[0]->meta, true );
 				} else {
 					$this->meta = $model[0]->meta;
 				}

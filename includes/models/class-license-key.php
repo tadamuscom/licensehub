@@ -268,5 +268,19 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\License_Key' ) ) {
 
 			return get_user_by( 'id', $this->user_id );
 		}
+
+		/**
+		 * Add hook for generated license to the parent save
+		 *
+		 * @return License_Key
+		 * @since 1.0.0
+		 */
+		public function save(): License_Key {
+			parent::save();
+
+			do_action( 'lchb_license_key_generated', $this );
+
+			return $this;
+		}
 	}
 }

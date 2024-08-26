@@ -175,7 +175,7 @@ if ( ! class_exists( '\LicenseHub\Includes\Model\Product' ) ) {
 
 			// phpcs:ignore
 			$object = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %s', $this->generate_table_name(), $this->id ) );
-			$meta   = json_decode( $object->meta );
+			$meta   = json_decode( $object->meta, true );
 
 			if ( isset( $meta[ $meta_name ] ) ) {
 				return $meta[ $meta_name ];
