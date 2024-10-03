@@ -3,12 +3,10 @@
 	"description": "",
 	"type": "wordpress-plugin",
 	"require-dev": {
-		"johnpbloch/wordpress-core": "*",
-		"phpunit/phpunit": "^9.4",
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-		"phpcompatibility/phpcompatibility-wp": "*",
-		"wp-coding-standards/wpcs": "*",
-		"phpcsstandards/phpcsutils": "*"
+		"phpcompatibility/phpcompatibility-wp": "^2.1.5",
+		"wp-coding-standards/wpcs": "^3.1.0",
+		"phpcsstandards/phpcsutils": "^1.0.12"
 	},
 	"config": {
 		"allow-plugins": {

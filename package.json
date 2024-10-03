@@ -57,5 +57,9 @@
 	},
 	"engines": {
 		"node": "20"
-	}
+	},
+    "scripts": {
+        "phpcs": "./vendor/bin/phpcs --standard=WordPress --ignore=vendor/*,node_modules/* --extensions=php ./",
+		"phpcbf": "./vendor/bin/phpcbf --standard=WordPress --ignore=vendor/*,node_modules/* --extensions=php ./"
+    }
 }
